@@ -1,0 +1,10 @@
+OBJECTID	COLUMN	VALUE	
+0	project	[name:2|default:5|property:11|property:21|property:31|property:41|property:51|property:61|property:71|condition:81|condition:96|target:120|target:208|target:285|target:316|target:384|target:462|target:567|target:654|target:684|path:704|target:725]
+2	name	[libbun]
+5	default	[jar]
+704	path	[id:706|fileset:709]
+706	id	[pmd.classpath]
+709	fileset	[dir:711|include:714]
+711	dir	[${lib.pmd.dir}]
+714	include	[name:716]
+716	name	[*.jar]

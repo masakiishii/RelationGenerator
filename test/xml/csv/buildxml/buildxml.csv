@@ -1,0 +1,51 @@
+OBJECTID	COLUMN	VALUE	
+0	project	[name:2|default:5|property:11|property:21|property:31|property:41|property:51|property:61|property:71|condition:81|condition:96|target:120|target:208|target:285|target:316|target:384|target:462|target:567|target:654|target:684|path:704|target:725]
+2	name	[libbun]
+5	default	[jar]
+704	path	[id:706|fileset:709]
+706	id	[pmd.classpath]
+709	fileset	[dir:711|include:714]
+711	dir	[${lib.pmd.dir}]
+714	include	[name:716]
+716	name	[*.jar]
+----------------------------------
+
+
+
+tablename: condition
+-------------------------------
+OBJECTID	property	available	file	
+---------------------------------------
+81	[have.cobertura]	[file:88]	[${lib.cobertura.dir}]	
+96	[have.pmd]	[file:103]	[${lib.pmd.dir}]	
+
+
+tablename: property
+-------------------------------
+OBJECTID	name	value	location	
+---------------------------------------
+11	[BinaryName]	[peg4d]	null	
+21	[source_dir]	[src]	null	
+31	[build_dir]	[build]	null	
+41	[root_dir]	[.]	null	
+51	[jline_jar]	[ext/jline-1.0.jar]	null	
+61	[lib.cobertura.dir]	null	[/opt/java/cobertura]	
+71	[lib.pmd.dir]	null	[/opt/java/pmd]	
+
+
+tablename: target
+-------------------------------
+OBJECTID	name	mkdir	javac	dir	fork	srcdir	destdir	target	source	debug	debuglevel	includeantruntime	classpath	include	exclude	compilerarg	path	value	if	junit	forkmode	batchtest	formatter	location	fileset	todir	type	usefile	unless	
+---------------------------------------
+120	[build**/*.java**/*Test.java]	[dir:127]	[fork:134|srcdir:137|destdir:140|target:143|source:146|debug:149|debuglevel:152|includeantruntime:155|classpath:158|include:165|exclude:172|compilerarg:179|compilerarg:186]	[${build_dir}]	[true]	[${source_dir}]	[${build_dir}]	[name:122|mkdir:125|javac:1321.8]	[1.8]	[yes]	[lines,vars,source]	[false]	[path:160]	[name:167]	[name:174]	[value:181value:188]	[${jline_jar}]	[-Xlint:deprecation-Xlint:unchecked]	null	null	null	null	null	null	null	null	null	null	null	
+208	[jar**/*Test.classMain-Class]	null	null	[${build_dir}.]	null	null	null	[name:210|depends:213|jar:216]	null	null	null	null	null	null	[name:243]	null	null	[org.peg4d.Main]	null	null	null	null	null	null	[dir:223|includes:226dir:233|includes:236]	null	null	null	null	
+285	[clean]	null	null	[${build_dir}]	null	null	null	[name:287|delete:290|delete:297]	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	
+316	[pre-test**/*Test.java]	null	[fork:326|srcdir:329|destdir:332|target:335|source:338|debug:341|debuglevel:344|includeantruntime:347|classpath:350|classpath:357|classpath:364|include:371]	null	[true]	[${source_dir}]	[${build_dir}]	[name:318|depends:321|javac:3241.7]	[1.7]	[yes]	[lines,vars,source]	[false]	[path:352path:359path:366]	[name:373]	null	null	[java/ext/asm-all-4.0.jarjava/ext/junit-4.10.jar${jline_jar}]	null	null	null	null	null	null	null	null	null	null	null	null	
+384	[pre-coveragerun_coverage*.jar]	null	null	[${lib.cobertura.dir}${build_dir}]	null	null	null	[name:386|depends:389|if:392|property:395|delete:405|path:412|taskdef:433|cobertura-instrument:441]	null	null	null	null	null	[name:424]	null	null	[id:414|fileset:417]	null	[have.cobertura]	null	null	null	null	[true]	[dir:419|include:422dir:448|includes:451]	[${build_dir}/instrumented]	null	null	null	
+462	[run-test1*.jar**/*.jar**/*Test*]	[dir:472]	null	[${build_dir}/test-reports${lib.cobertura.dir}ext${build_dir}/instrumented]	[yes]	null	null	[name:464|if:467|mkdir:470|junit:477]	null	null	null	null	[location:487location:492fileset:497|fileset:510]	[name:504name:517name:540]	null	null	null	null	[run_coverage]	[fork:479|forkmode:482|classpath:485|classpath:490|classpath:495|batchtest:528|formatter:551]	[once]	[todir:530|fileset:533]	[type:553|usefile:556]	[${build_dir}/instrumented${build_dir}]	[dir:499|include:502dir:512|include:515dir:535|include:538]	[${build_dir}/test-reports]	[xml]	[true]	null	
+567	[run-test2**/*.jar**/*Test*]	[dir:577]	null	[${build_dir}/test-reportsext${build_dir}]	[yes]	null	null	[name:569|unless:572|mkdir:575|junit:582]	null	null	null	null	[location:592fileset:597]	[name:604name:627]	null	null	null	null	null	[fork:584|forkmode:587|classpath:590|classpath:595|batchtest:615|formatter:638]	[once]	[todir:617|fileset:620]	[type:640|usefile:643]	[${build_dir}]	[dir:599|include:602dir:622|include:625]	[${build_dir}/test-reports]	[xml]	[true]	[run_coverage]	
+654	[post-coverage]	null	null	[${source_dir}]	null	null	[build/coverage]	[name:656|if:659|cobertura-report:662]	null	null	null	null	null	null	null	null	null	null	[run_coverage]	null	null	null	null	null	[dir:672|includes:675]	null	null	null	null	
+684	[test]	null	null	null	null	null	null	[name:686|depends:689]	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	null	
+725	[pmdpmdjava**/*.java]	null	null	[${source_dir}]	null	null	null	[name:727|depends:730|taskdef:733|pmd:744]	null	null	null	null	null	[name:798]	null	null	null	null	null	null	null	null	[type:780|toFile:783]	null	[dir:793|include:796]	null	[xml]	null	null	
+
+

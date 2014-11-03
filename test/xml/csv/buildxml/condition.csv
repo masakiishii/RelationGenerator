@@ -1,0 +1,3 @@
+OBJECTID	property	available	file	
+81	[have.cobertura]	[file:88]	[${lib.cobertura.dir}]	
+96	[have.pmd]	[file:103]	[${lib.pmd.dir}]	
