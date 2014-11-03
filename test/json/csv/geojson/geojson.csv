@@ -1,0 +1,52 @@
+OBJECTID,COLUMN,VALUE,
+1,type,[FeatureCollection],
+4,metadata,[JSON:7],
+8,generated,[1405731420000],
+11,url,[http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson],
+14,title,[USGS All Earthquakes, Past Month],
+17,status,[200],
+20,api,[1.0.13],
+23,count,[8519],
+26,features,[JSON:32|JSON:161|JSON:281|JSON:401|JSON:521|JSON:650],
+33,type,[Feature],
+157,id,[ak11330799],
+162,type,[Feature],
+277,id,[nc72259936],
+282,type,[Feature],
+397,id,[nc72259921],
+402,type,[Feature],
+517,id,[ci15528185],
+522,type,[Feature],
+646,id,[ak11330792],
+651,type,[Feature],
+769,id,[uu60073932],
+772,bbox,[-179.9815|-62.2698|-3.4|179.9223|78.5196|619.4],
+----------------------------------
+
+
+
+tablename: geometry
+-------------------------------
+OBJECTID,type,coordinates,
+---------------------------------------
+142,[Point],[-140.2614|60.3167|9.9],
+262,[Point],[-122.821|38.8102|3.4],
+382,[Point],[-121.4103|37.1997|25.7],
+502,[Point],[-116.273|32.8955|8.86],
+631,[Point],[-143.1889|60.1363|11.7],
+754,[Point],[-112.256|40.7105|-0.5],
+
+
+tablename: properties
+-------------------------------
+OBJECTID,mag,place,time,updated,tz,url,detail,felt,cdi,mmi,alert,status,tsunami,sig,net,code,ids,sources,types,nst,dmin,rms,gap,magType,type,title,
+---------------------------------------
+36,[1.1],[90km NNW of Yakutat  Alaska],[1405729492000],[1405730657651],[-420],[http://earthquake.usgs.gov/earthquakes/eventpage/ak11330799],[http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ak11330799.geojson],[null],[null],[null],[null],[automatic],[null],[19],[ak],[11330799],[ ak11330799 ],[ ak ],[ general-link geoserve nearby-cities origin ],[null],[null],[1.09],[null],[ml],[earthquake],[M 1.1 - 90km NNW of Yakutat  Alaska],
+165,[0.9],[6km WNW of The Geysers  California],[1405729454700],[1405731126398],[-420],[http://earthquake.usgs.gov/earthquakes/eventpage/nc72259936],[http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/nc72259936.geojson],[null],[null],[null],[null],[AUTOMATIC],[null],[12],[nc],[72259936],[ nc72259936 ],[ nc ],[ general-link geoserve nearby-cities origin phase-data scitech-link ],[17],[0.00898315],[0.03],[104.4],[Md],[earthquake],[M 0.9 - 6km WNW of The Geysers  California],
+285,[1.4],[21km NE of San Martin  California],[1405728765900],[1405730525288],[-420],[http://earthquake.usgs.gov/earthquakes/eventpage/nc72259921],[http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/nc72259921.geojson],[null],[null],[null],[null],[AUTOMATIC],[null],[30],[nc],[72259921],[ nc72259921 ],[ nc ],[ general-link geoserve nearby-cities origin phase-data scitech-link ],[5],[0.10779783],[0.11],[158.4],[Md],[earthquake],[M 1.4 - 21km NE of San Martin  California],
+405,[1.58],[25km ENE of Pine Valley  California],[1405728719990],[1405729403130],[-420],[http://earthquake.usgs.gov/earthquakes/eventpage/ci15528185],[http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ci15528185.geojson],[null],[null],[null],[null],[automatic],[null],[38],[ci],[15528185],[ ci15528185 ],[ ci ],[ focal-mechanism general-link geoserve nearby-cities origin phase-data scitech-link ],[30],[0.02672],[0.27],[71],[ml],[earthquake],[M 1.6 - 25km ENE of Pine Valley  California],
+525,[1.8],[42km W of Cape Yakataga  Alaska],[1405728373000],[1405729384505],[-480],[http://earthquake.usgs.gov/earthquakes/eventpage/ak11330792],[http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ak11330792.geojson],[null],[null],[null],[null],[automatic],[null],[50],[ak],[11330792],[ ak11330792 ],[ ak ],[ general-link geoserve nearby-cities origin tectonic-summary ],[null],[null],[0.54],[null],[ml],[earthquake],[M 1.8 - 42km W of Cape Yakataga  Alaska],
+654,[1.6],[8km NNE of Stansbury park  Utah],[1403141257200],[1403191998207],[-360],[http://earthquake.usgs.gov/earthquakes/eventpage/uu60073932],[http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/uu60073932.geojson],[null],[null],[null],[null],[REVIEWED],[null],[39],[uu],[60073932],[ uu60073932 ],[ uu ],[ general-link geoserve nearby-cities origin tectonic-summary ],[null],[0.05389892],[0.13],[147.6],[Ml],[earthquake],[M 1.6 - 8km NNE of Stansbury park  Utah],
+
+
+----------------------------------------

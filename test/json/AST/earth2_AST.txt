@@ -1,0 +1,868 @@
+
+{#JSON
+ {#KeyValue
+  {#String 'type'}
+  {#String 'FeatureCollection'}
+ }
+ {#KeyValue
+  {#String 'metadata'}
+  {#JSON
+   {#KeyValue
+    {#String 'generated'}
+    {#Integer '1405731420000'}
+   }
+   {#KeyValue
+    {#String 'url'}
+    {#String 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson'}
+   }
+   {#KeyValue
+    {#String 'title'}
+    {#String 'USGS All Earthquakes, Past Month'}
+   }
+   {#KeyValue
+    {#String 'status'}
+    {#Integer '200'}
+   }
+   {#KeyValue
+    {#String 'api'}
+    {#String '1.0.13'}
+   }
+   {#KeyValue
+    {#String 'count'}
+    {#Integer '8519'}
+   }
+  }
+ }
+ {#KeyValue
+  {#String 'features'}
+  {#List
+   {#JSON
+    {#KeyValue
+     {#String 'type'}
+     {#String 'Feature'}
+    }
+    {#KeyValue
+     {#String 'properties'}
+     {#JSON
+      {#KeyValue
+       {#String 'mag'}
+       {#Float '1.1'}
+      }
+      {#KeyValue
+       {#String 'place'}
+       {#String '90km NNW of Yakutat, Alaska'}
+      }
+      {#KeyValue
+       {#String 'time'}
+       {#Integer '1405729492000'}
+      }
+      {#KeyValue
+       {#String 'updated'}
+       {#Integer '1405730657651'}
+      }
+      {#KeyValue
+       {#String 'tz'}
+       {#Integer '-420'}
+      }
+      {#KeyValue
+       {#String 'url'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/eventpage/ak11330799'}
+      }
+      {#KeyValue
+       {#String 'detail'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ak11330799.geojson'}
+      }
+      {#KeyValue
+       {#String 'felt'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'cdi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'mmi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'alert'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'status'}
+       {#String 'automatic'}
+      }
+      {#KeyValue
+       {#String 'tsunami'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'sig'}
+       {#Integer '19'}
+      }
+      {#KeyValue
+       {#String 'net'}
+       {#String 'ak'}
+      }
+      {#KeyValue
+       {#String 'code'}
+       {#String '11330799'}
+      }
+      {#KeyValue
+       {#String 'ids'}
+       {#String ',ak11330799,'}
+      }
+      {#KeyValue
+       {#String 'sources'}
+       {#String ',ak,'}
+      }
+      {#KeyValue
+       {#String 'types'}
+       {#String ',general-link,geoserve,nearby-cities,origin,'}
+      }
+      {#KeyValue
+       {#String 'nst'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'dmin'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'rms'}
+       {#Float '1.09'}
+      }
+      {#KeyValue
+       {#String 'gap'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'magType'}
+       {#String 'ml'}
+      }
+      {#KeyValue
+       {#String 'type'}
+       {#String 'earthquake'}
+      }
+      {#KeyValue
+       {#String 'title'}
+       {#String 'M 1.1 - 90km NNW of Yakutat, Alaska'}
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'geometry'}
+     {#JSON
+      {#KeyValue
+       {#String 'type'}
+       {#String 'Point'}
+      }
+      {#KeyValue
+       {#String 'coordinates'}
+       {#List
+        {#Float '-140.2614'}
+        {#Float '60.3167'}
+        {#Float '9.9'}
+       }
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'id'}
+     {#String 'ak11330799'}
+    }
+   }
+   {#JSON
+    {#KeyValue
+     {#String 'type'}
+     {#String 'Feature'}
+    }
+    {#KeyValue
+     {#String 'properties'}
+     {#JSON
+      {#KeyValue
+       {#String 'mag'}
+       {#Float '0.9'}
+      }
+      {#KeyValue
+       {#String 'place'}
+       {#String '6km WNW of The Geysers, California'}
+      }
+      {#KeyValue
+       {#String 'time'}
+       {#Integer '1405729454700'}
+      }
+      {#KeyValue
+       {#String 'updated'}
+       {#Integer '1405731126398'}
+      }
+      {#KeyValue
+       {#String 'tz'}
+       {#Integer '-420'}
+      }
+      {#KeyValue
+       {#String 'url'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/eventpage/nc72259936'}
+      }
+      {#KeyValue
+       {#String 'detail'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/nc72259936.geojson'}
+      }
+      {#KeyValue
+       {#String 'felt'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'cdi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'mmi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'alert'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'status'}
+       {#String 'AUTOMATIC'}
+      }
+      {#KeyValue
+       {#String 'tsunami'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'sig'}
+       {#Integer '12'}
+      }
+      {#KeyValue
+       {#String 'net'}
+       {#String 'nc'}
+      }
+      {#KeyValue
+       {#String 'code'}
+       {#String '72259936'}
+      }
+      {#KeyValue
+       {#String 'ids'}
+       {#String ',nc72259936,'}
+      }
+      {#KeyValue
+       {#String 'sources'}
+       {#String ',nc,'}
+      }
+      {#KeyValue
+       {#String 'types'}
+       {#String ',general-link,geoserve,nearby-cities,origin,phase-data,scitech-link,'}
+      }
+      {#KeyValue
+       {#String 'nst'}
+       {#Integer '17'}
+      }
+      {#KeyValue
+       {#String 'dmin'}
+       {#Float '0.00898315'}
+      }
+      {#KeyValue
+       {#String 'rms'}
+       {#Float '0.03'}
+      }
+      {#KeyValue
+       {#String 'gap'}
+       {#Float '104.4'}
+      }
+      {#KeyValue
+       {#String 'magType'}
+       {#String 'Md'}
+      }
+      {#KeyValue
+       {#String 'type'}
+       {#String 'earthquake'}
+      }
+      {#KeyValue
+       {#String 'title'}
+       {#String 'M 0.9 - 6km WNW of The Geysers, California'}
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'geometry'}
+     {#JSON
+      {#KeyValue
+       {#String 'type'}
+       {#String 'Point'}
+      }
+      {#KeyValue
+       {#String 'coordinates'}
+       {#List
+        {#Float '-122.821'}
+        {#Float '38.8102'}
+        {#Float '3.4'}
+       }
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'id'}
+     {#String 'nc72259936'}
+    }
+   }
+   {#JSON
+    {#KeyValue
+     {#String 'type'}
+     {#String 'Feature'}
+    }
+    {#KeyValue
+     {#String 'properties'}
+     {#JSON
+      {#KeyValue
+       {#String 'mag'}
+       {#Float '1.4'}
+      }
+      {#KeyValue
+       {#String 'place'}
+       {#String '21km NE of San Martin, California'}
+      }
+      {#KeyValue
+       {#String 'time'}
+       {#Integer '1405728765900'}
+      }
+      {#KeyValue
+       {#String 'updated'}
+       {#Integer '1405730525288'}
+      }
+      {#KeyValue
+       {#String 'tz'}
+       {#Integer '-420'}
+      }
+      {#KeyValue
+       {#String 'url'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/eventpage/nc72259921'}
+      }
+      {#KeyValue
+       {#String 'detail'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/nc72259921.geojson'}
+      }
+      {#KeyValue
+       {#String 'felt'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'cdi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'mmi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'alert'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'status'}
+       {#String 'AUTOMATIC'}
+      }
+      {#KeyValue
+       {#String 'tsunami'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'sig'}
+       {#Integer '30'}
+      }
+      {#KeyValue
+       {#String 'net'}
+       {#String 'nc'}
+      }
+      {#KeyValue
+       {#String 'code'}
+       {#String '72259921'}
+      }
+      {#KeyValue
+       {#String 'ids'}
+       {#String ',nc72259921,'}
+      }
+      {#KeyValue
+       {#String 'sources'}
+       {#String ',nc,'}
+      }
+      {#KeyValue
+       {#String 'types'}
+       {#String ',general-link,geoserve,nearby-cities,origin,phase-data,scitech-link,'}
+      }
+      {#KeyValue
+       {#String 'nst'}
+       {#Integer '5'}
+      }
+      {#KeyValue
+       {#String 'dmin'}
+       {#Float '0.10779783'}
+      }
+      {#KeyValue
+       {#String 'rms'}
+       {#Float '0.11'}
+      }
+      {#KeyValue
+       {#String 'gap'}
+       {#Float '158.4'}
+      }
+      {#KeyValue
+       {#String 'magType'}
+       {#String 'Md'}
+      }
+      {#KeyValue
+       {#String 'type'}
+       {#String 'earthquake'}
+      }
+      {#KeyValue
+       {#String 'title'}
+       {#String 'M 1.4 - 21km NE of San Martin, California'}
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'geometry'}
+     {#JSON
+      {#KeyValue
+       {#String 'type'}
+       {#String 'Point'}
+      }
+      {#KeyValue
+       {#String 'coordinates'}
+       {#List
+        {#Float '-121.4103'}
+        {#Float '37.1997'}
+        {#Float '25.7'}
+       }
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'id'}
+     {#String 'nc72259921'}
+    }
+   }
+   {#JSON
+    {#KeyValue
+     {#String 'type'}
+     {#String 'Feature'}
+    }
+    {#KeyValue
+     {#String 'properties'}
+     {#JSON
+      {#KeyValue
+       {#String 'mag'}
+       {#Float '1.58'}
+      }
+      {#KeyValue
+       {#String 'place'}
+       {#String '25km ENE of Pine Valley, California'}
+      }
+      {#KeyValue
+       {#String 'time'}
+       {#Integer '1405728719990'}
+      }
+      {#KeyValue
+       {#String 'updated'}
+       {#Integer '1405729403130'}
+      }
+      {#KeyValue
+       {#String 'tz'}
+       {#Integer '-420'}
+      }
+      {#KeyValue
+       {#String 'url'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/eventpage/ci15528185'}
+      }
+      {#KeyValue
+       {#String 'detail'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ci15528185.geojson'}
+      }
+      {#KeyValue
+       {#String 'felt'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'cdi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'mmi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'alert'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'status'}
+       {#String 'automatic'}
+      }
+      {#KeyValue
+       {#String 'tsunami'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'sig'}
+       {#Integer '38'}
+      }
+      {#KeyValue
+       {#String 'net'}
+       {#String 'ci'}
+      }
+      {#KeyValue
+       {#String 'code'}
+       {#String '15528185'}
+      }
+      {#KeyValue
+       {#String 'ids'}
+       {#String ',ci15528185,'}
+      }
+      {#KeyValue
+       {#String 'sources'}
+       {#String ',ci,'}
+      }
+      {#KeyValue
+       {#String 'types'}
+       {#String ',focal-mechanism,general-link,geoserve,nearby-cities,origin,phase-data,scitech-link,'}
+      }
+      {#KeyValue
+       {#String 'nst'}
+       {#Integer '30'}
+      }
+      {#KeyValue
+       {#String 'dmin'}
+       {#Float '0.02672'}
+      }
+      {#KeyValue
+       {#String 'rms'}
+       {#Float '0.27'}
+      }
+      {#KeyValue
+       {#String 'gap'}
+       {#Integer '71'}
+      }
+      {#KeyValue
+       {#String 'magType'}
+       {#String 'ml'}
+      }
+      {#KeyValue
+       {#String 'type'}
+       {#String 'earthquake'}
+      }
+      {#KeyValue
+       {#String 'title'}
+       {#String 'M 1.6 - 25km ENE of Pine Valley, California'}
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'geometry'}
+     {#JSON
+      {#KeyValue
+       {#String 'type'}
+       {#String 'Point'}
+      }
+      {#KeyValue
+       {#String 'coordinates'}
+       {#List
+        {#Float '-116.273'}
+        {#Float '32.8955'}
+        {#Float '8.86'}
+       }
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'id'}
+     {#String 'ci15528185'}
+    }
+   }
+   {#JSON
+    {#KeyValue
+     {#String 'type'}
+     {#String 'Feature'}
+    }
+    {#KeyValue
+     {#String 'properties'}
+     {#JSON
+      {#KeyValue
+       {#String 'mag'}
+       {#Float '1.8'}
+      }
+      {#KeyValue
+       {#String 'place'}
+       {#String '42km W of Cape Yakataga, Alaska'}
+      }
+      {#KeyValue
+       {#String 'time'}
+       {#Integer '1405728373000'}
+      }
+      {#KeyValue
+       {#String 'updated'}
+       {#Integer '1405729384505'}
+      }
+      {#KeyValue
+       {#String 'tz'}
+       {#Integer '-480'}
+      }
+      {#KeyValue
+       {#String 'url'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/eventpage/ak11330792'}
+      }
+      {#KeyValue
+       {#String 'detail'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ak11330792.geojson'}
+      }
+      {#KeyValue
+       {#String 'felt'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'cdi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'mmi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'alert'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'status'}
+       {#String 'automatic'}
+      }
+      {#KeyValue
+       {#String 'tsunami'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'sig'}
+       {#Integer '50'}
+      }
+      {#KeyValue
+       {#String 'net'}
+       {#String 'ak'}
+      }
+      {#KeyValue
+       {#String 'code'}
+       {#String '11330792'}
+      }
+      {#KeyValue
+       {#String 'ids'}
+       {#String ',ak11330792,'}
+      }
+      {#KeyValue
+       {#String 'sources'}
+       {#String ',ak,'}
+      }
+      {#KeyValue
+       {#String 'types'}
+       {#String ',general-link,geoserve,nearby-cities,origin,tectonic-summary,'}
+      }
+      {#KeyValue
+       {#String 'nst'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'dmin'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'rms'}
+       {#Float '0.54'}
+      }
+      {#KeyValue
+       {#String 'gap'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'magType'}
+       {#String 'ml'}
+      }
+      {#KeyValue
+       {#String 'type'}
+       {#String 'earthquake'}
+      }
+      {#KeyValue
+       {#String 'title'}
+       {#String 'M 1.8 - 42km W of Cape Yakataga, Alaska'}
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'geometry'}
+     {#JSON
+      {#KeyValue
+       {#String 'type'}
+       {#String 'Point'}
+      }
+      {#KeyValue
+       {#String 'coordinates'}
+       {#List
+        {#Float '-143.1889'}
+        {#Float '60.1363'}
+        {#Float '11.7'}
+       }
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'id'}
+     {#String 'ak11330792'}
+    }
+   }
+   {#JSON
+    {#KeyValue
+     {#String 'type'}
+     {#String 'Feature'}
+    }
+    {#KeyValue
+     {#String 'properties'}
+     {#JSON
+      {#KeyValue
+       {#String 'mag'}
+       {#Float '1.6'}
+      }
+      {#KeyValue
+       {#String 'place'}
+       {#String '8km NNE of Stansbury park, Utah'}
+      }
+      {#KeyValue
+       {#String 'time'}
+       {#Integer '1403141257200'}
+      }
+      {#KeyValue
+       {#String 'updated'}
+       {#Integer '1403191998207'}
+      }
+      {#KeyValue
+       {#String 'tz'}
+       {#Integer '-360'}
+      }
+      {#KeyValue
+       {#String 'url'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/eventpage/uu60073932'}
+      }
+      {#KeyValue
+       {#String 'detail'}
+       {#String 'http://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/uu60073932.geojson'}
+      }
+      {#KeyValue
+       {#String 'felt'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'cdi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'mmi'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'alert'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'status'}
+       {#String 'REVIEWED'}
+      }
+      {#KeyValue
+       {#String 'tsunami'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'sig'}
+       {#Integer '39'}
+      }
+      {#KeyValue
+       {#String 'net'}
+       {#String 'uu'}
+      }
+      {#KeyValue
+       {#String 'code'}
+       {#String '60073932'}
+      }
+      {#KeyValue
+       {#String 'ids'}
+       {#String ',uu60073932,'}
+      }
+      {#KeyValue
+       {#String 'sources'}
+       {#String ',uu,'}
+      }
+      {#KeyValue
+       {#String 'types'}
+       {#String ',general-link,geoserve,nearby-cities,origin,tectonic-summary,'}
+      }
+      {#KeyValue
+       {#String 'nst'}
+       {#Null 'null'}
+      }
+      {#KeyValue
+       {#String 'dmin'}
+       {#Float '0.05389892'}
+      }
+      {#KeyValue
+       {#String 'rms'}
+       {#Float '0.13'}
+      }
+      {#KeyValue
+       {#String 'gap'}
+       {#Float '147.6'}
+      }
+      {#KeyValue
+       {#String 'magType'}
+       {#String 'Ml'}
+      }
+      {#KeyValue
+       {#String 'type'}
+       {#String 'earthquake'}
+      }
+      {#KeyValue
+       {#String 'title'}
+       {#String 'M 1.6 - 8km NNE of Stansbury park, Utah'}
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'geometry'}
+     {#JSON
+      {#KeyValue
+       {#String 'type'}
+       {#String 'Point'}
+      }
+      {#KeyValue
+       {#String 'coordinates'}
+       {#List
+        {#Float '-112.256'}
+        {#Float '40.7105'}
+        {#Float '-0.5'}
+       }
+      }
+     }
+    }
+    {#KeyValue
+     {#String 'id'}
+     {#String 'uu60073932'}
+    }
+   }
+  }
+ }
+ {#KeyValue
+  {#String 'bbox'}
+  {#List
+   {#Float '-179.9815'}
+   {#Float '-62.2698'}
+   {#Float '-3.4'}
+   {#Float '179.9223'}
+   {#Float '78.5196'}
+   {#Float '619.4'}
+  }
+ }
+}
