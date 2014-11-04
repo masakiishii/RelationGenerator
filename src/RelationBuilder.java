@@ -3,13 +3,16 @@ package org.peg4d.data;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.peg4d.Grammar;
 import org.peg4d.ParsingObject;
 
 public class RelationBuilder {
+	private Grammar       peg          = null;
 	private ParsingObject root         = null;
 	private int           segmentidpos = 0;
 	private ArrayList<SubNodeDataSet> allsubnodesetlist = null;
-	public RelationBuilder(ParsingObject root) {
+	public RelationBuilder(Grammar peg, ParsingObject root) {
+		this.peg  = peg;
 		this.root = root;
 		this.segmentidpos++;
 		this.allsubnodesetlist = new ArrayList<SubNodeDataSet>();
