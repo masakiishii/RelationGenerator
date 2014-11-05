@@ -22,7 +22,8 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 		this.assumedTableNodeId = assumedTableId;
 	}
 	public SubNodeDataSet() {
-
+		this.assumedColumnSet   = new LinkedHashSet<String>();
+		this.finalColumnSet     = new LinkedHashSet<String>();
 	}
 
 	@Override

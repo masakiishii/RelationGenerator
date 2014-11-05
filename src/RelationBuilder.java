@@ -2,6 +2,7 @@ package org.peg4d.data;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 
 import org.peg4d.ParsingObject;
 
@@ -90,7 +91,9 @@ public class RelationBuilder {
 		}
 		else {
 			TreeTypeChecker checker = new TreeTypeChecker();
-			checker.check(this.root);
+			Map<String, SubNodeDataSet> definedschema = checker.check(this.root);
+			SchemaMatcher schemamatcher = new SchemaMatcher(definedschema);
+			schemamatcher.match(this.root);
 		}
 	}
 }

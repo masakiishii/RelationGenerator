@@ -5,19 +5,23 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
+
+import org.peg4d.ParsingObject;
 
 public class SchemaMatcher {
 	private Map<String, SubNodeDataSet>               schema    = null;
+	private Map<String, Set<String>>                  schemaset = null;
 	private Map<String, ArrayList<ArrayList<String>>> table     = null;
 	private CSVGenerator                              generator = null;
 	private RootTableBuilder                          builder   = null;
 	public SchemaMatcher(Map<String, SubNodeDataSet> schema) {
-		this.schema = schema;
-		this.initTable();
+		this.schema    = schema;
 		this.generator = new CSVGenerator();
 		this.builder   = new RootTableBuilder();
+		this.initTable();
 	}
-
+	
 	private void initTable() {
 		this.table = new HashMap<String, ArrayList<ArrayList<String>>>();
 		for(String column : this.schema.keySet()) {
@@ -158,7 +162,12 @@ public class SchemaMatcher {
 			}
 		}
 	}
-
+	
+	public void match(ParsingObject root) {
+		
+	}
+	
+	
 	public void match(LappingObject root) {
 		this.matching(root);
 		this.builder.build(root);

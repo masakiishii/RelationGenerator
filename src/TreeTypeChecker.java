@@ -8,9 +8,9 @@ import java.util.Set;
 import org.peg4d.ParsingObject;
 
 public class TreeTypeChecker {
-	private Map<String, Set<String>> treetype = null;
+	private Map<String, SubNodeDataSet> schema = null;
 	public TreeTypeChecker() {
-		treetype = new LinkedHashMap<String, Set<String>>();
+		schema = new LinkedHashMap<String, SubNodeDataSet>();
 	}
 	
 	public void checking(ParsingObject node) {
@@ -18,31 +18,22 @@ public class TreeTypeChecker {
 			return;
 		}
 		String parenttag = node.getTag().toString();
-		if(node.size() > 0 && !this.treetype.containsKey(parenttag)) {
+		if(node.size() > 0 && !this.schema.containsKey(parenttag)) {
 			Set<String> schemaset = new LinkedHashSet<String>();
+			SubNodeDataSet subnodedataset = new SubNodeDataSet();
 			for(int i = 0; i < node.size(); i++) {
 				schemaset.add(node.get(i).getTag().toString());
 			}
-			treetype.put(parenttag, schemaset);
+			subnodedataset.setFinalColumnSet(schemaset);
+			schema.put(parenttag, subnodedataset);
 		}
 		for(int i = 0; i < node.size(); i++) {
 			this.checking(node.get(i));
 		}
 	}
-	
-	public void check(ParsingObject root) {
+
+	public Map<String, SubNodeDataSet> check(ParsingObject root) {
 		this.checking(root);
-		for(String s : this.treetype.keySet()) {
-			System.out.println("parent tag: " + s);
-			Set<String> set = this.treetype.get(s);
-			System.out.println("------------------------------");
-			for(String tag : set) {
-				System.out.println("child tag: " + tag);
-			}
-			System.out.println();
-			System.out.println();
-			System.out.println();
-		}
-		System.out.println("------------------------------");
+		return this.schema;
 	}
 }
