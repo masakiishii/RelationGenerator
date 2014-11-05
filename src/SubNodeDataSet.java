@@ -1,7 +1,7 @@
 package org.peg4d.data;
 
 import java.util.Comparator;
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
@@ -17,13 +17,13 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 	public SubNodeDataSet(LappingObject subNode, String assumedTableName, int assumedTableId) {
 		this.subNode            = subNode;
 		this.assumedTableName   = assumedTableName;
-		this.assumedColumnSet   = new LinkedHashSet<String>();
-		this.finalColumnSet     = new LinkedHashSet<String>();
+		this.assumedColumnSet   = new TreeSet<String>();
+		this.finalColumnSet     = new TreeSet<String>();
 		this.assumedTableNodeId = assumedTableId;
 	}
 	public SubNodeDataSet() {
-		this.assumedColumnSet   = new LinkedHashSet<String>();
-		this.finalColumnSet     = new LinkedHashSet<String>();
+		this.assumedColumnSet   = new TreeSet<String>();
+		this.finalColumnSet     = new TreeSet<String>();
 	}
 
 	@Override

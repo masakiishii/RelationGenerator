@@ -80,19 +80,20 @@ public class RelationBuilder {
 	public void build(Boolean infer) {
 		LappingObject lappingrootnode = new LappingObject(this.root);
 		this.buildLappingTree(this.root, lappingrootnode);
+		Matcher matcher = null;
 		if(infer) {
 			this.collectAllSubNode(lappingrootnode);
 			SchemaNominator preschema = new SchemaNominator(this);
 			preschema.nominating();
 			SchemaDecider defineschema = new SchemaDecider(preschema, lappingrootnode);
 			Map<String, SubNodeDataSet> definedschema = defineschema.define();
-			SchemaMatcher schemamatcher = new SchemaMatcher(definedschema);
-			schemamatcher.match(lappingrootnode);
+			matcher = new SchemaMatcher(definedschema);
 		}
 		else {
 			TreeTypeChecker checker = new TreeTypeChecker();
 			Map<String, Set<String>> definedschema = checker.check(this.root);
-			//SchemaMatcher schemamatcher = new SchemaMatcher();
+			matcher = new FixedSchemaMatcher(definedschema);
 		}
+		matcher.match(lappingrootnode);
 	}
 }

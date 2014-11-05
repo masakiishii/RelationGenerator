@@ -2,9 +2,16 @@ package org.peg4d.data;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 
 
 public abstract class Matcher {
+
+	abstract public Set<String> getSchema(String tablename);
+
+	public Map<String, ArrayList<ArrayList<String>>> getTable() {
+		return null;
+	}
 
 	public String getColumnData(LappingObject subnode, LappingObject tablenode, String column) {
 		return null;
@@ -19,7 +26,6 @@ public abstract class Matcher {
 	}
 
 	public boolean isTableName(String value) {
-	
 		return false;
 	}
 

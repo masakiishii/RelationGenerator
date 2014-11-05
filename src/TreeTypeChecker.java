@@ -13,13 +13,14 @@ public class TreeTypeChecker {
 		schema = new LinkedHashMap<String, Set<String>>();
 	}
 	
-	public void checking(ParsingObject node) {
+	private void checking(ParsingObject node) {
 		if(node == null) {
 			return;
 		}
 		String parenttag = node.getTag().toString();
 		if(node.size() > 0 && !this.schema.containsKey(parenttag)) {
 			Set<String> schemaset = new LinkedHashSet<String>();
+			schemaset.add("OBJECTID");
 			for(int i = 0; i < node.size(); i++) {
 				schemaset.add(node.get(i).getTag().toString());
 			}
@@ -29,7 +30,7 @@ public class TreeTypeChecker {
 			this.checking(node.get(i));
 		}
 	}
-
+	
 	public Map<String, Set<String>> check(ParsingObject root) {
 		this.checking(root);
 		return this.schema;

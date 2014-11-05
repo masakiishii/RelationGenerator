@@ -2,7 +2,7 @@ package org.peg4d.data;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
+import java.util.TreeSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,13 +15,13 @@ public class SchemaNominator {
 	}
 
 	private Set<String> calcIntersection(Set<String> setX, Set<String> setY) {
-		Set<String> intersection = new LinkedHashSet<String>(setX);
+		Set<String> intersection = new TreeSet<String>(setX);
 		intersection.retainAll(setY);
 		return intersection;
 	}
 
 	private Set<String> calcUnion(Set<String> setX, Set<String> setY) {
-		Set<String> union = new LinkedHashSet<String>(setX);
+		Set<String> union = new TreeSet<String>(setX);
 		union.addAll(setY);
 		return union;
 	}

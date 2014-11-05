@@ -2,13 +2,14 @@ package org.peg4d.data;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 
 public class CSVGenerator {
 	public CSVGenerator() {
 
 	}
 
-	private void generateData(String tablename, SchemaMatcher matcher) {
+	private void generateData(String tablename, Matcher matcher) {
 		ArrayList<ArrayList<String>> datalist = matcher.getTable().get(tablename);
 		StringBuffer buffer = new StringBuffer();
 		for(int i = 0; i < datalist.size(); i++) {
@@ -24,10 +25,11 @@ public class CSVGenerator {
 		System.out.println();
 	}
 
-	private void generateColumns(String tablename, SchemaMatcher matcher) {
-		SubNodeDataSet columns  = matcher.getSchema().get(tablename);
-		StringBuffer   buffer   = new StringBuffer();
-		for(String column : columns.getFinalColumnSet()) {
+	private void generateColumns(String tablename, Matcher matcher) {
+		//SubNodeDataSet columns = matcher.getSchema().get(tablename);
+		Set<String> columns = matcher.getSchema(tablename);
+		StringBuffer   buffer  = new StringBuffer();
+		for(String column : columns) {
 			buffer.append(column);
 			//buffer.append(",");
 			buffer.append("\t");
@@ -36,7 +38,7 @@ public class CSVGenerator {
 		System.out.println("---------------------------------------");
 	}
 
-	public void generate(SchemaMatcher matcher) {
+	public void generate(Matcher matcher) {
 		Map<String, ArrayList<ArrayList<String>>> table = matcher.getTable();
 		for(String tablename : table.keySet()) {
 			System.out.println("tablename: " + tablename);

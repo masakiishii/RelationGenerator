@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 public class SchemaMatcher extends Matcher {
 	private Map<String, SubNodeDataSet>               schema    = null;
@@ -28,8 +29,11 @@ public class SchemaMatcher extends Matcher {
 	public Map<String, ArrayList<ArrayList<String>>> getTable() {
 		return this.table;
 	}
-	public Map<String, SubNodeDataSet> getSchema() {
-		return this.schema;
+//	public Map<String, SubNodeDataSet> getSchema() {
+//		return this.schema;
+//	}
+	public Set<String> getSchema(String tablename) {
+		return this.schema.get(tablename).getFinalColumnSet();
 	}
 	
 	@Override
