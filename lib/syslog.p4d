@@ -1,4 +1,4 @@
-// NEZ PEG4d format 
+// NEZ PEG4d format
 // Syslog format
 // http://peg4d.org/
 
@@ -10,15 +10,15 @@ Jul 25 00:36:36 konoha13.local coreaudiod[198]: Disabled automatic stack shots b
 File
  = { #Array (@Log)* }
 
-Log 
- = { #Log 
-     @{ MONTH    #Month      } ' ' 
+Log
+ = { #Log
+     @{ MONTH    #Month      } ' '
      @{ DAY      #Day        } ' '
      @{ TIME     #Time       } ' '
      @{ HOST     #Host       } ' '
      @{ PROCESS  #Name       } '['
      @{ PID      #ProcessId  } ']'
-     @Misc    @Level             ': '    
+     @Misc    @Level             ': '
      @{ DATA     #Data       } '\n'?
    }
 
@@ -46,13 +46,8 @@ Misc
  / { `` #Misc }
 
 Level
- = (' <' { (!'>' .)* #Level } '>') 
+ = (' <' { (!'>' .)* #Level } '>')
    / { `Unknown` #Level }
 
 DATA
  = (!('\n' (MONTH / !.)) .)*
-
-
-
-
-
