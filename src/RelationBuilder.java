@@ -78,9 +78,9 @@ public class RelationBuilder {
 	}
 
 	public void build(Boolean infer) {
+		LappingObject lappingrootnode = new LappingObject(this.root);
+		this.buildLappingTree(this.root, lappingrootnode);
 		if(infer) {
-			LappingObject lappingrootnode = new LappingObject(this.root);
-			this.buildLappingTree(this.root, lappingrootnode);
 			this.collectAllSubNode(lappingrootnode);
 			SchemaNominator preschema = new SchemaNominator(this);
 			preschema.nominating();
@@ -91,9 +91,8 @@ public class RelationBuilder {
 		}
 		else {
 			TreeTypeChecker checker = new TreeTypeChecker();
-			Map<String, SubNodeDataSet> definedschema = checker.check(this.root);
-			SchemaMatcher schemamatcher = new SchemaMatcher(definedschema);
-			schemamatcher.match(this.root);
+			Map<String, Set<String>> definedschema = checker.check(this.root);
+			//SchemaMatcher schemamatcher = new SchemaMatcher();
 		}
 	}
 }

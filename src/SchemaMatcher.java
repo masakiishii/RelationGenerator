@@ -5,13 +5,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 
-import org.peg4d.ParsingObject;
-
-public class SchemaMatcher {
+public class SchemaMatcher extends Matcher {
 	private Map<String, SubNodeDataSet>               schema    = null;
-	private Map<String, Set<String>>                  schemaset = null;
 	private Map<String, ArrayList<ArrayList<String>>> table     = null;
 	private CSVGenerator                              generator = null;
 	private RootTableBuilder                          builder   = null;
@@ -21,7 +17,7 @@ public class SchemaMatcher {
 		this.builder   = new RootTableBuilder();
 		this.initTable();
 	}
-	
+
 	private void initTable() {
 		this.table = new HashMap<String, ArrayList<ArrayList<String>>>();
 		for(String column : this.schema.keySet()) {
@@ -35,8 +31,9 @@ public class SchemaMatcher {
 	public Map<String, SubNodeDataSet> getSchema() {
 		return this.schema;
 	}
-
-	private String getColumnData(LappingObject subnode, LappingObject tablenode, String column) {
+	
+	@Override
+	public String getColumnData(LappingObject subnode, LappingObject tablenode, String column) {
 		if(subnode == null) {
 			return null;
 		}
@@ -106,8 +103,9 @@ public class SchemaMatcher {
 			return null;
 		}
 	}
-
-	private void getTupleData(LappingObject subnode, LappingObject tablenode, String tablename, SubNodeDataSet columns) {
+	
+	@Override
+	public void getTupleData(LappingObject subnode, LappingObject tablenode, String tablename, SubNodeDataSet columns) {
 		ArrayList<ArrayList<String>> tabledata = this.table.get(tablename);
 		ArrayList<String> columndata = new ArrayList<String>();
 		for(String column : columns.getFinalColumnSet()) {
@@ -123,18 +121,21 @@ public class SchemaMatcher {
 		tabledata.add(columndata);
 	}
 
-	private void getTupleListData(LappingObject subnode, LappingObject tablenode, String tablename, SubNodeDataSet columns) {
+	@Override
+	public void getTupleListData(LappingObject subnode, LappingObject tablenode, String tablename, SubNodeDataSet columns) {
 		LappingObject listnode = subnode.get(1);
 		for (int i = 0; i < listnode.size(); i++) {
 			this.getTupleData(listnode.get(i), tablenode, tablename, columns);
 		}
 	}
 
-	private boolean isTableName(String value) {
+	@Override
+	public boolean isTableName(String value) {
 		return this.schema.containsKey(value) ? true : false;
 	}
 
-	private void matching(LappingObject root) {
+	@Override
+	public void matching(LappingObject root) {
 		if(root == null) {
 			return;
 		}
@@ -163,11 +164,7 @@ public class SchemaMatcher {
 		}
 	}
 	
-	public void match(ParsingObject root) {
-		
-	}
-	
-	
+	@Override
 	public void match(LappingObject root) {
 		this.matching(root);
 		this.builder.build(root);
