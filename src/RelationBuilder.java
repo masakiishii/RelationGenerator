@@ -80,6 +80,8 @@ public class RelationBuilder {
 	}
 
 	public void build() {
+		PegSchemaGenerator psgenerator = new PegSchemaGenerator();
+		psgenerator.generate(this.peg);
 		LappingObject lappingrootnode = new LappingObject(this.root);
 		this.buildLappingTree(this.root, lappingrootnode);
 		this.collectAllSubNode(lappingrootnode);
