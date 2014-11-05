@@ -76,15 +76,21 @@ public class RelationBuilder {
 		lappingnode.getCoord().setRpos(this.segmentidpos++);
 	}
 
-	public void build() {
-		LappingObject lappingrootnode = new LappingObject(this.root);
-		this.buildLappingTree(this.root, lappingrootnode);
-		this.collectAllSubNode(lappingrootnode);
-		SchemaNominator preschema = new SchemaNominator(this);
-		preschema.nominating();
-		SchemaDecider defineschema = new SchemaDecider(preschema, lappingrootnode);
-		Map<String, SubNodeDataSet> definedschema = defineschema.define();
-		SchemaMatcher schemamatcher = new SchemaMatcher(definedschema);
-		schemamatcher.match(lappingrootnode);
+	public void build(Boolean infer) {
+		if(infer) {
+			LappingObject lappingrootnode = new LappingObject(this.root);
+			this.buildLappingTree(this.root, lappingrootnode);
+			this.collectAllSubNode(lappingrootnode);
+			SchemaNominator preschema = new SchemaNominator(this);
+			preschema.nominating();
+			SchemaDecider defineschema = new SchemaDecider(preschema, lappingrootnode);
+			Map<String, SubNodeDataSet> definedschema = defineschema.define();
+			SchemaMatcher schemamatcher = new SchemaMatcher(definedschema);
+			schemamatcher.match(lappingrootnode);
+		}
+		else {
+			TreeTypeChecker checker = new TreeTypeChecker();
+			checker.check(this.root);
+		}
 	}
 }
