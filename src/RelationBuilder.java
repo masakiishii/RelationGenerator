@@ -103,7 +103,7 @@ public class RelationBuilder {
 
 	private void buildFixedSchema(LappingObject lappingrootnode) {
 		TreeTypeChecker checker = new TreeTypeChecker();
-		Map<String, Set<String>> definedschema = checker.check(this.root);
+		Map<String, Set<String>> definedschema = checker.check(lappingrootnode);
 		Matcher matcher = new FixedSchemaMatcher(definedschema);
 		matcher.match(lappingrootnode);
 	}
