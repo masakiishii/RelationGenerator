@@ -29,30 +29,38 @@ public class RelationBuilder {
 		}
 	}
 
+	private void setAllSubNodeSetList(LappingObject node, String tablename, int id) {
+		SubNodeDataSet subnodeset = new SubNodeDataSet(node, tablename, id);
+		subnodeset.buildAssumedColumnSet();
+		if (subnodeset.getAssumedColumnSet().size() > 1) {
+			this.allsubnodesetlist.add(subnodeset);
+		}
+	}
+
+	private void collectListSubNode(LappingObject node) {
+		LappingObject assumedtablenode = node.getParent().get(0);
+		String tablename = assumedtablenode.getText();
+		for (int i = 0; i < node.size(); i++) {
+			this.setAllSubNodeSetList(node.get(i), tablename, assumedtablenode.getObjectId());
+		}
+	}
+
+	private void collectNormSubNode(LappingObject node) {
+		LappingObject assumedtablenode = node.get(0);
+		String tablename = assumedtablenode.getText();
+		if (!RelationBuilder.isNumber(tablename)) {
+			this.setAllSubNodeSetList(node, tablename, assumedtablenode.getObjectId());
+		}
+	}
+
 	private void collectAllSubNode(LappingObject node) {
 		if (node == null) {
 			return;
 		}
 		if (node.getTag().toString().equals("List")) {
-			LappingObject assumedtablenode = node.getParent().get(0);
-			String tablename = assumedtablenode.getText();
-			for (int i = 0; i < node.size(); i++) {
-				SubNodeDataSet subnodeset = new SubNodeDataSet(node.get(i), tablename, assumedtablenode.getObjectId());
-				subnodeset.buildAssumedColumnSet();
-				if (subnodeset.getAssumedColumnSet().size() > 1) {
-					this.allsubnodesetlist.add(subnodeset);
-				}
-			}
+			this.collectListSubNode(node);
 		} else if (node.size() != 0 && node.get(0).size() == 0) {
-			LappingObject assumedtablenode = node.get(0);
-			String value = assumedtablenode.getText();
-			if (!RelationBuilder.isNumber(value)) {
-				SubNodeDataSet subnodeset = new SubNodeDataSet(node, value, assumedtablenode.getObjectId());
-				subnodeset.buildAssumedColumnSet();
-				if (subnodeset.getAssumedColumnSet().size() > 1) {
-					this.allsubnodesetlist.add(subnodeset);
-				}
-			}
+			this.collectNormSubNode(node);
 		}
 		for (int i = 0; i < node.size(); i++) {
 			this.collectAllSubNode(node.get(i));
@@ -77,23 +85,36 @@ public class RelationBuilder {
 		lappingnode.getCoord().setRpos(this.segmentidpos++);
 	}
 
-	public void build(Boolean infer) {
+	private LappingObject preprocessing() {
 		LappingObject lappingrootnode = new LappingObject(this.root);
 		this.buildLappingTree(this.root, lappingrootnode);
-		Matcher matcher = null;
+		this.collectAllSubNode(lappingrootnode);
+		return lappingrootnode;
+	}
+
+	private void buildInferSchema(LappingObject lappingrootnode) {
+		SchemaNominator preschema = new SchemaNominator(this);
+		preschema.nominating();
+		SchemaDecider defineschema = new SchemaDecider(preschema, lappingrootnode);
+		Map<String, SubNodeDataSet> definedschema = defineschema.define();
+		Matcher matcher = new SchemaMatcher(definedschema);
+		matcher.match(lappingrootnode);
+	}
+
+	private void buildFixedSchema(LappingObject lappingrootnode) {
+		TreeTypeChecker checker = new TreeTypeChecker();
+		Map<String, Set<String>> definedschema = checker.check(this.root);
+		Matcher matcher = new FixedSchemaMatcher(definedschema);
+		matcher.match(lappingrootnode);
+	}
+
+	public void build(Boolean infer) {
+		LappingObject lappingrootnode = this.preprocessing();
 		if(infer) {
-			this.collectAllSubNode(lappingrootnode);
-			SchemaNominator preschema = new SchemaNominator(this);
-			preschema.nominating();
-			SchemaDecider defineschema = new SchemaDecider(preschema, lappingrootnode);
-			Map<String, SubNodeDataSet> definedschema = defineschema.define();
-			matcher = new SchemaMatcher(definedschema);
+			this.buildInferSchema(lappingrootnode);
 		}
 		else {
-			TreeTypeChecker checker = new TreeTypeChecker();
-			Map<String, Set<String>> definedschema = checker.check(this.root);
-			matcher = new FixedSchemaMatcher(definedschema);
+			this.buildFixedSchema(lappingrootnode);
 		}
-		matcher.match(lappingrootnode);
 	}
 }
