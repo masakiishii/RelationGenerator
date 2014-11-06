@@ -58,7 +58,7 @@ public class LappingObject {
 		this.visited = true;
 	}
 
-	public boolean visitedNode() {
+	public boolean isVisitedNode() {
 		return this.visited;
 	}
 
@@ -68,5 +68,9 @@ public class LappingObject {
 
 	public String getText() {
 		return this.node.getText();
+	}
+
+	public boolean isTerminal() {
+		return this.node.size() == 0;
 	}
 }

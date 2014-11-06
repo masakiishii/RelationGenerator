@@ -33,21 +33,30 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 		return p2.getRange() - p1.getRange();
 	}
 
-	public void buildAssumedColumnSet() {
-		if(this.subNode == null) {
-			return;
+	private boolean isTableNode(LappingObject node) {
+		return node.get(0).getObjectId() == this.assumedTableNodeId;
+	}
+
+	private boolean checkNodeRel(LappingObject node) {
+		return !node.isTerminal() && node.get(0).isTerminal();
+	}
+
+	private boolean isAssumedColumn(LappingObject node) {
+		return this.checkNodeRel(node) && !this.isTableNode(node);
+	}
+
+	private void setAssumedColumnSet(LappingObject node) {
+		if(this.isAssumedColumn(node)) {
+			this.assumedColumnSet.add(node.get(0).getText());
 		}
+	}
+
+	public void buildAssumedColumnSet() {
 		Queue<LappingObject> queue = new LinkedList<LappingObject>();
 		queue.offer(this.subNode);
 		while(!queue.isEmpty()) {
 			LappingObject node = queue.poll();
-			if(node.size() != 0 && node.get(0).size() == 0
-					&& node.get(0).getObjectId() != this.assumedTableNodeId) {
-				String value = node.get(0).getText();
-				if (!RelationBuilder.isNumber(value)) {
-					this.assumedColumnSet.add(value);
-				}
-			}
+			this.setAssumedColumnSet(node);
 			for(int index = 0; index < node.size(); index++) {
 				queue.offer(node.get(index));
 			}
@@ -57,9 +66,11 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 	public LappingObject getSubNode() {
 		return this.subNode;
 	}
+
 	public String getAssumedTableName() {
 		return this.assumedTableName;
 	}
+
 	public Set<String> getAssumedColumnSet() {
 		return this.assumedColumnSet;
 	}
@@ -71,12 +82,15 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 	public double getCoefficient() {
 		return this.Coefficient;
 	}
+
 	public void setFinalColumnSet(String headcolumn) {
 		this.finalColumnSet.add(headcolumn);
 	}
+
 	public void setFinalColumnSet(Set<String> set) {
 		this.finalColumnSet.addAll(set);
 	}
+
 	public Set<String> getFinalColumnSet() {
 		return this.finalColumnSet;
 	}

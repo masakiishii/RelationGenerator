@@ -73,10 +73,10 @@ public class RootTableBuilder {
 		if(node == null) {
 			return;
 		}
-		if(node.visitedNode()) {
+		if(node.isVisitedNode()) {
 			return;
 		}
-		if(node.size() == 0 && !node.visitedNode()) {
+		if(node.size() == 0 && !node.isVisitedNode()) {
 			this.setTableData(node);
 		}
 		for(int i = 0; i < node.size(); i++) {
