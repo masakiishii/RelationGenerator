@@ -1,0 +1,108 @@
+File
+	= TopLevel
+
+TopLevel
+	= Lines
+
+EOT
+	= !.
+
+WS
+	= [ \t\n\r]*
+
+LETTER
+	= [a-zA-Z]
+
+NONE
+	= "-"
+
+BL
+	= '['
+
+BR
+	= ']'
+
+DQ
+	= '"'
+
+DOT
+	= "."
+
+Lines
+	= { (@Line)+ #lines } EOT
+
+Line
+	= { WS @Ip WS @IdentD WS @UsrID WS @Time WS @Access WS @Status WS @Size WS (@Refer WS @Ua WS)? #line }
+
+Ip
+	= IPv4Address
+//	/ IPv6Address
+
+IPv4Address
+	= { DECOCTET "." DECOCTET "." DECOCTET "." DECOCTET #ip }
+
+DECOCTET
+	= "1" DIGIT*2 // 100-199
+	/ "2" [0-4] DIGIT // 200-249
+	/ "25" [0-5] // 250-255
+	/ [1-9] DIGIT // 10-99
+	/ DIGIT
+
+IdentD
+	= { NONE #identd }
+
+UsrID
+	= { NONE #usrid }
+
+Time
+	= BL { @Day "/" @Month "/" @Year ":" @Hour ":" @Minute ":" @Second WS @Zone #time } BR
+	/ { NONE #time }
+
+Day
+	= { DIGIT*2 #day }
+
+Month
+	= { LETTER*3 #month }
+
+Year
+	= { DIGIT*4 #year }
+
+Hour
+	= { DIGIT*2 #hour }
+
+Minute
+	= { DIGIT*2 #minute }
+
+Second
+	= { DIGIT*2 #second }
+
+Zone
+	= { ( "+"	/ "-") DIGIT*4 #zone }
+
+Access
+	= { DQ @Method WS @Url WS @Protocol DQ #access }
+
+Method
+	= { (!" " .)+ #method }
+
+Url
+	= { (!" " .)+ #url }
+
+Protocol
+	= { (!DQ .)+ #protocol}
+
+Status
+	= { ( [0-9]+
+	/ NONE
+	) #status }
+
+Size
+	= { ( [0-9]+
+	/ NONE
+	) #size }
+
+Refer
+	= DQ { (!DQ .)+ #refer } DQ
+
+Ua
+	= DQ { (!DQ .)+ #ua } DQ
