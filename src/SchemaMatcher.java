@@ -60,7 +60,12 @@ public class SchemaMatcher extends Matcher {
 						if(sibling.getTag().toString().equals("List")) { //FIXME
 							for (int j = 0; j < sibling.size(); j++) {
 								sibling.get(j).visited();
-								sbuf.append(sibling.get(j).getText().toString());
+								if(sibling.get(j).isTerminal()) {
+									sbuf.append(sibling.get(j).getText().toString());
+								}
+								else {
+									//for error_1104.json file
+								}
 								if (j != sibling.size() - 1) {
 									sbuf.append("|");
 								}

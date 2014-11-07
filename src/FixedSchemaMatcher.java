@@ -73,15 +73,19 @@ public class FixedSchemaMatcher extends Matcher {
 		return false;
 	}
 
+	private void checkTargetNode(LappingObject node) {
+		String tablename = node.getTag().toString();
+		if(this.table.containsKey(tablename)) {
+			this.getTupleData(node, tablename);
+		}
+	}
+
 	@Override
 	public void matching(LappingObject node) {
 		if(node == null) {
 			return;
 		}
-		String tablename = node.getTag().toString();
-		if(this.table.containsKey(tablename)) {
-			this.getTupleData(node, tablename);
-		}
+		this.checkTargetNode(node);
 		for(int i = 0; i < node.size(); i++) {
 			this.matching(node.get(i));
 		}
