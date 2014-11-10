@@ -64,53 +64,78 @@ public class SchemaNominator {
 		return Coordinate.checkLtpos(parentpoint, subnodepoint) && Coordinate.checkRtpos(parentpoint, subnodepoint);
 	}
 
-	private void removing(ArrayList<SubNodeDataSet> list, ArrayList<SubNodeDataSet> removelist) {
+	private void removing(ArrayList<SubNodeDataSet> list, Coordinate parentpoint, Coordinate subnodepoint, int pos) {
+		if (this.isSubNode(parentpoint, subnodepoint)) {
+			list.remove(pos);
+		}
+	}
+	
+	private void removeSubNodeinRemoveList(ArrayList<SubNodeDataSet> list, ArrayList<SubNodeDataSet> removelist) {
 		for (int i = 0; i < removelist.size(); i++) {
 			Coordinate parentpoint = removelist.get(i).getSubNode().getCoord();
 			for (int j = list.size() - 1; j >= 0; j--) {
 				Coordinate subnodepoint = list.get(j).getSubNode().getCoord();
-				if (this.isSubNode(parentpoint, subnodepoint)) {
-					list.remove(j);
-				}
+				this.removing(list, parentpoint, subnodepoint, j);
 			}
 		}
 		removelist.clear();
 	}
 
-	private void filtering(ArrayList<SubNodeDataSet> list) {
+	private void removeSubNodeinList(ArrayList<SubNodeDataSet> list, int pos) {
+		Coordinate parentpoint = list.get(pos).getSubNode().getCoord();
+		for (int i = list.size() - 1; i >= 0; i--) {
+			Coordinate subnodepoint = list.get(i).getSubNode().getCoord();
+			this.removing(list, parentpoint, subnodepoint, i);
+		}
+	}
+	
+	private int removeList(ArrayList<SubNodeDataSet> list, ArrayList<SubNodeDataSet> removelist, int pos) {
+		if (list.size() > 2) {
+			removelist.add(list.get(pos));
+			list.remove(pos);
+			return pos - 1;
+		}
+		return pos;
+	}
+	
+	private void checkSubNodeinList(ArrayList<SubNodeDataSet> list, int i, boolean flag) {
+		if (flag) {
+			this.removeSubNodeinList(list, i);
+			flag = false;
+		}
+	}
+	
+	private void calcSetRelation(ArrayList<SubNodeDataSet> list, int i, int j, boolean flag) {
+		Set<String> setX = list.get(i).getAssumedColumnSet();
+		Set<String> setY = list.get(j).getAssumedColumnSet();
+		String setXname  = list.get(i).getAssumedTableName();
+		double coefficient = this.calculatiingCoefficient(setX, setY);
+		if (this.checkThreshhold(coefficient)) {
+			this.nominateSchema(setXname, list.get(i), list.get(j), coefficient);
+			this.checkSubNodeinList(list, i, flag);
+		}
+	}
+	
+	private ArrayList<SubNodeDataSet> collectRemoveList(ArrayList<SubNodeDataSet> list, int i) {
 		ArrayList<SubNodeDataSet> removelist = new ArrayList<SubNodeDataSet>();
-		for(int i = 0; i < list.size(); i++) {
-			boolean flag = true;
-			for(int j = i + 1; j < list.size(); j++) {
-				
-				Set<String> setX = list.get(i).getAssumedColumnSet();
-				Set<String> setY = list.get(j).getAssumedColumnSet();
-				String setXname  = list.get(i).getAssumedTableName();
-				String setYname  = list.get(j).getAssumedTableName();
-				if (this.isTargetSet(setX, setY, setXname, setYname)) {
-					double coefficient = this.calculatiingCoefficient(setX, setY);
-					if (this.checkThreshhold(coefficient)) {
-						this.nominateSchema(setXname, list.get(i), list.get(j), coefficient);
-						if (flag) {
-							Coordinate parentpoint = list.get(i).getSubNode().getCoord();
-							for (int k = list.size() - 1; k >= 0; k--) {
-								Coordinate subnodepoint = list.get(k).getSubNode().getCoord();
-								if (this.isSubNode(parentpoint, subnodepoint)) {
-									list.remove(k);
-								}
-							}
-							flag = false;
-						}
-					}
-					if (list.size() > 2) {
-						removelist.add(list.get(j));
-						list.remove(j);
-						j = j - 1;
-					}
-				}
-				
+		boolean flag = true;
+		for(int j = i + 1; j < list.size(); j++) {
+			Set<String> setX = list.get(i).getAssumedColumnSet();
+			Set<String> setY = list.get(j).getAssumedColumnSet();
+			String setXname  = list.get(i).getAssumedTableName();
+			String setYname  = list.get(j).getAssumedTableName();
+			if (this.isTargetSet(setX, setY, setXname, setYname)) {
+				this.calcSetRelation(list, i, j, flag);
+				j = this.removeList(list, removelist, j);
 			}
-			this.removing(list, removelist);
+		}
+		return removelist;
+	}
+
+	private void filtering(ArrayList<SubNodeDataSet> list) {
+		for(int i = 0; i < list.size(); i++) {
+			ArrayList<SubNodeDataSet> removelist = this.collectRemoveList(list, i);
+			this.removeSubNodeinRemoveList(list, removelist);
 		}
 	}
 
