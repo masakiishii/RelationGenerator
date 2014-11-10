@@ -15,9 +15,6 @@ public class SchemaTypeChecker {
 	}
 
 	private ArrayList<int[]> getParsingObjectDomainList(LappingObject root, SubNodeDataSet subnodedatasetX) {
-		if(root == null) {
-			return null;
-		}
 		ArrayList<int[]> domainlist = new ArrayList<int[]>();
 		String tablename = subnodedatasetX.getAssumedTableName();
 		Queue<LappingObject> queue = new LinkedList<LappingObject>();
@@ -49,8 +46,7 @@ public class SchemaTypeChecker {
 		return false;
 	}
 
-	public boolean check(LappingObject root, SubNodeDataSet subnodedatasetX,
-			SubNodeDataSet subnodedatasetY) {
+	public boolean check(LappingObject root, SubNodeDataSet subnodedatasetX, SubNodeDataSet subnodedatasetY) {
 		ArrayList<int[]> list = this.getParsingObjectDomainList(root, subnodedatasetX);
 		return this.inList(list, subnodedatasetY);
 	}

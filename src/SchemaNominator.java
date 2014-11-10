@@ -52,27 +52,50 @@ public class SchemaNominator {
 		return this.schema;
 	}
 
-	public void nominating() {
-		ArrayList<SubNodeDataSet> list = this.relationbuilder.getSubNodeDataSetList();
-		list.sort(new SubNodeDataSet());
+	private boolean isTargetSet(Set<String> setX, Set<String> setY, String setXname, String setYname) {
+		return setXname.equals(setYname) && setX.size() > 0 && setY.size() > 0;
+	}
+
+	private boolean checkThreshhold(double coefficient) {
+		return coefficient > 0.5 && coefficient <= 1.0;
+	}
+
+	private boolean isSubNode(Coordinate parentpoint, Coordinate subnodepoint) {
+		return Coordinate.checkLtpos(parentpoint, subnodepoint) && Coordinate.checkRtpos(parentpoint, subnodepoint);
+	}
+
+	private void removing(ArrayList<SubNodeDataSet> list, ArrayList<SubNodeDataSet> removelist) {
+		for (int i = 0; i < removelist.size(); i++) {
+			Coordinate parentpoint = removelist.get(i).getSubNode().getCoord();
+			for (int j = list.size() - 1; j >= 0; j--) {
+				Coordinate subnodepoint = list.get(j).getSubNode().getCoord();
+				if (this.isSubNode(parentpoint, subnodepoint)) {
+					list.remove(j);
+				}
+			}
+		}
+		removelist.clear();
+	}
+
+	private void filtering(ArrayList<SubNodeDataSet> list) {
 		ArrayList<SubNodeDataSet> removelist = new ArrayList<SubNodeDataSet>();
 		for(int i = 0; i < list.size(); i++) {
 			boolean flag = true;
 			for(int j = i + 1; j < list.size(); j++) {
+				
 				Set<String> setX = list.get(i).getAssumedColumnSet();
 				Set<String> setY = list.get(j).getAssumedColumnSet();
 				String setXname  = list.get(i).getAssumedTableName();
 				String setYname  = list.get(j).getAssumedTableName();
-				if (setXname.equals(setYname) && setX.size() > 0 && setY.size() > 0) {
+				if (this.isTargetSet(setX, setY, setXname, setYname)) {
 					double coefficient = this.calculatiingCoefficient(setX, setY);
-					if (coefficient > 0.5 && coefficient <= 1.0) {
+					if (this.checkThreshhold(coefficient)) {
 						this.nominateSchema(setXname, list.get(i), list.get(j), coefficient);
 						if (flag) {
 							Coordinate parentpoint = list.get(i).getSubNode().getCoord();
 							for (int k = list.size() - 1; k >= 0; k--) {
 								Coordinate subnodepoint = list.get(k).getSubNode().getCoord();
-								if (parentpoint.getLtpos() < subnodepoint.getLtpos() 
-										&& subnodepoint.getRtpos() < parentpoint.getRtpos()) {
+								if (this.isSubNode(parentpoint, subnodepoint)) {
 									list.remove(k);
 								}
 							}
@@ -85,18 +108,15 @@ public class SchemaNominator {
 						j = j - 1;
 					}
 				}
+				
 			}
-			for (int j = 0; j < removelist.size(); j++) {
-				Coordinate parentpoint = removelist.get(j).getSubNode().getCoord();
-				for (int k = list.size() - 1; k >= 0; k--) {
-					Coordinate subnodepoint = list.get(k).getSubNode().getCoord();
-					if (parentpoint.getLtpos() < subnodepoint.getLtpos()
-							&& subnodepoint.getRtpos() < parentpoint.getRtpos()) {
-						list.remove(k);
-					}
-				}
-			}
-			removelist.clear();
+			this.removing(list, removelist);
 		}
+	}
+
+	public void nominating() {
+		ArrayList<SubNodeDataSet> list = this.relationbuilder.getSubNodeDataSetList();
+		list.sort(new SubNodeDataSet());
+		this.filtering(list);
 	}
 }
