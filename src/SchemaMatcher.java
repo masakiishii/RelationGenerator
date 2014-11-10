@@ -64,7 +64,12 @@ public class SchemaMatcher extends Matcher {
 									sbuf.append(sibling.get(j).getText().toString());
 								}
 								else {
-									//for error_1104.json file
+									LappingObject grandchild = sibling.get(0);
+									for(int k = 0; k < grandchild.size(); k++) {
+										sbuf.append(grandchild.get(k).get(0).getText());
+										sbuf.append(":");
+										sbuf.append(grandchild.get(k).getObjectId());
+									}
 								}
 								if (j != sibling.size() - 1) {
 									sbuf.append("|");
