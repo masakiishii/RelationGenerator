@@ -29,80 +29,88 @@ public class SchemaMatcher extends Matcher {
 	public Map<String, ArrayList<ArrayList<String>>> getTable() {
 		return this.table;
 	}
-//	public Map<String, SubNodeDataSet> getSchema() {
-//		return this.schema;
-//	}
+
 	public Set<String> getSchema(String tablename) {
 		return this.schema.get(tablename).getFinalColumnSet();
 	}
-	
+
+	private void matchingSubNode(LappingObject node, StringBuffer sbuf) {
+		node.visited();
+		LappingObject parent = node.getParent();
+		for(int i = 1; i < parent.size(); i++) {
+			LappingObject sibling = parent.get(i);
+			sibling.visited();
+			if(sibling.size() == 0) {
+				String data = sibling.getText().toString();
+				sbuf.append(data.replace("\n", "\\n").replace("\t", "\\t"));
+			}
+			else {
+				if(sibling.getTag().toString().equals("List")) { //FIXME
+					for (int j = 0; j < sibling.size(); j++) {
+						sibling.get(j).visited();
+						if(sibling.get(j).isTerminal()) {
+							sbuf.append(sibling.get(j).getText().toString());
+						}
+						else {
+							LappingObject grandchild = sibling.get(0);
+							for(int k = 0; k < grandchild.size(); k++) {
+								sbuf.append(grandchild.get(k).get(0).getText());
+								sbuf.append(":");
+								sbuf.append(grandchild.get(k).getObjectId());
+							}
+						}
+						if (j != sibling.size() - 1) {
+							sbuf.append("|");
+						}
+					}
+				}
+				else {
+					sibling.get(0).visited();
+					String data = "";
+					if (sibling.get(0).size() == 0) {
+						data = sibling.get(0).getText().toString();
+						sbuf.append(data.replace("\n", "\\n").replace("\t", "\\t"));
+						sbuf.append(":");
+						sbuf.append(sibling.getObjectId());
+					} else {
+						for (int j = 0; j < sibling.size(); j++) {
+							LappingObject grandchild = sibling.get(j);
+							if (grandchild.get(0).size() == 0) {
+								sbuf.append(grandchild.get(0).getText().toString());
+								sbuf.append(":");
+								sbuf.append(grandchild.getObjectId());
+							}
+							if (j != sibling.size() - 1) {
+								sbuf.append("|");
+							}
+						}
+					}
+				}
+			}
+			if(i != parent.size() - 1) {
+				sbuf.append("|");
+			}
+		}
+	}
+
+	private String getColumnString(StringBuffer sbuf) {
+		if(sbuf.length() > 0) {
+			return "[" + sbuf.toString() + "]";
+		}
+		else {
+			return null;
+		}	
+	}
+
 	@Override
 	public String getColumnData(LappingObject subnode, LappingObject tablenode, String column) {
-		if(subnode == null) {
-			return null;
-		}
 		Queue<LappingObject> queue = new LinkedList<LappingObject>();
-		queue.offer(subnode);
 		StringBuffer sbuf = new StringBuffer();
+		queue.offer(subnode);
 		while(!queue.isEmpty()) {
 			LappingObject node = queue.poll();
 			if(node.getText().toString().equals(column)) {
-				node.visited();
-				LappingObject parent = node.getParent();
-				for(int i = 1; i < parent.size(); i++) {
-					LappingObject sibling = parent.get(i);
-					sibling.visited();
-					if(sibling.size() == 0) {
-						String data = sibling.getText().toString();
-						sbuf.append(data.replace("\n", "\\n").replace("\t", "\\t"));
-					}
-					else {
-						if(sibling.getTag().toString().equals("List")) { //FIXME
-							for (int j = 0; j < sibling.size(); j++) {
-								sibling.get(j).visited();
-								if(sibling.get(j).isTerminal()) {
-									sbuf.append(sibling.get(j).getText().toString());
-								}
-								else {
-									LappingObject grandchild = sibling.get(0);
-									for(int k = 0; k < grandchild.size(); k++) {
-										sbuf.append(grandchild.get(k).get(0).getText());
-										sbuf.append(":");
-										sbuf.append(grandchild.get(k).getObjectId());
-									}
-								}
-								if (j != sibling.size() - 1) {
-									sbuf.append("|");
-								}
-							}
-						}
-						else {
-							sibling.get(0).visited();
-							String data = "";
-							if (sibling.get(0).size() == 0) {
-								data = sibling.get(0).getText().toString();
-								sbuf.append(data.replace("\n", "\\n").replace("\t", "\\t"));
-								sbuf.append(":");
-								sbuf.append(sibling.getObjectId());
-							} else {
-								for (int j = 0; j < sibling.size(); j++) {
-									LappingObject grandchild = sibling.get(j);
-									if (grandchild.get(0).size() == 0) {
-										sbuf.append(grandchild.get(0).getText().toString());
-										sbuf.append(":");
-										sbuf.append(grandchild.getObjectId());
-									}
-									if (j != sibling.size() - 1) {
-										sbuf.append("|");
-									}
-								}
-							}
-						}
-					}
-					if(i != parent.size() - 1) {
-						sbuf.append("|");
-					}
-				}
+				this.matchingSubNode(node, sbuf);
 			}
 			for(int index = 0; index < node.size(); index++) {
 				if(!node.equals(tablenode)) {
@@ -110,11 +118,16 @@ public class SchemaMatcher extends Matcher {
 				}
 			}
 		}
-		if(sbuf.length() > 0) {
-			return "[" + sbuf.toString() + "]";
+		return this.getColumnString(sbuf);
+	}
+
+	private void getFieldData(String column, ArrayList<String> columndata, LappingObject subnode, LappingObject tablenode) {
+		if(column.equals("OBJECTID")) {
+			columndata.add(String.valueOf(subnode.getObjectId()));
 		}
 		else {
-			return null;
+			String data = this.getColumnData(subnode, tablenode, column);
+			columndata.add(data);
 		}
 	}
 	
@@ -123,14 +136,7 @@ public class SchemaMatcher extends Matcher {
 		ArrayList<ArrayList<String>> tabledata = this.table.get(tablename);
 		ArrayList<String> columndata = new ArrayList<String>();
 		for(String column : columns.getFinalColumnSet()) {
-			if(column.equals("OBJECTID")) {
-				columndata.add(String.valueOf(subnode.getObjectId()));
-				continue;
-			}
-			else {
-				String data = this.getColumnData(subnode, tablenode, column);
-				columndata.add(data);
-			}
+			this.getFieldData(column, columndata, subnode, tablenode);
 		}
 		tabledata.add(columndata);
 	}
@@ -150,26 +156,23 @@ public class SchemaMatcher extends Matcher {
 
 	@Override
 	public void matching(LappingObject root) {
-		if(root == null) {
-			return;
-		}
 		Queue<LappingObject> queue = new LinkedList<LappingObject>();
 		queue.offer(root);
 		while(!queue.isEmpty()) {
 			LappingObject parent = queue.poll();
-			if(parent.size() == 0) {
+			if(parent.isTerminal()) {
 				continue;
 			}
 			LappingObject child = parent.get(0);
-			if(child.size() == 0 && this.isTableName(child.getText().toString())) {
+			if(child.isTerminal() && this.isTableName(child.getText())) {
 				child.visited();
-				String tablename = child.getText().toString();
+				parent.visited();
+				String tablename = child.getText();
 				if (parent.get(1).getTag().toString().equals("List")) {
 					this.getTupleListData(parent, child, tablename, this.schema.get(tablename));
 				} else {
 					this.getTupleData(parent, child, tablename, this.schema.get(tablename));
 				}
-				parent.visited();
 				continue;
 			}
 			for(int index = 0; index < parent.size(); index++) {
