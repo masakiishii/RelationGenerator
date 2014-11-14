@@ -12,11 +12,13 @@ public class LappingObject {
 	private LappingObject AST[]    = null;
 	private LappingObject parent   = null;
 	private String        value    = null;
+	private int           size     = -1;
 
 	public LappingObject(ParsingObject node) {
 		this.objectId = idCount++;
 		this.node     = node;
 		this.coord    = new Coordinate();
+		this.size     = node.size();
 	}
 
 	public ParsingObject getParsingObject() {
@@ -45,6 +47,7 @@ public class LappingObject {
 
 	public void setAST(LappingObject[] AST) {
 		this.AST = AST;
+
 	}
 
 	public LappingObject get(int index) {
@@ -52,7 +55,7 @@ public class LappingObject {
 	}
 
 	public int size() {
-		return this.node.size();
+		return this.size;
 	}
 
 	public void visited() {
@@ -75,6 +78,6 @@ public class LappingObject {
 	}
 
 	public boolean isTerminal() {
-		return this.node.size() == 0;
+		return this.size == 0;
 	}
 }

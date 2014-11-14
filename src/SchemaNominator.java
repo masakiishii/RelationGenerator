@@ -139,9 +139,5 @@ public class SchemaNominator {
 		ArrayList<SubNodeDataSet> list = this.relationbuilder.getSubNodeDataSetList();
 		list.sort(new SubNodeDataSet());
 		this.filtering(list);
-		for(String tablename : this.schema.keySet()) {
-			System.out.println(this.schema.get(tablename).getAssumedTableName());
-		}
-		System.out.println("---------------------------");
 	}
 }
