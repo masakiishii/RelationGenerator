@@ -108,19 +108,6 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-//	interface Colom {
-//		ArrayList<String> getKeys();
-//		ArrayList<Integer> getParentOids();
-//	}
-//	class SingleColom implements Colom {
-//		String key;
-//		int parentOid;
-//	}
-//	class ListColom implements Colom {
-//		String []key;
-//		int []parentOid;
-//	}
-
 	private void matchingSubNode(LappingObject node, StringBuffer sbuf) {
 		node.visited();
 		LappingObject parent = node.getParent();
