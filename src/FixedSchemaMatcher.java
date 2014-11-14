@@ -39,7 +39,7 @@ public class FixedSchemaMatcher extends Matcher {
 	public String getColumnData(LappingObject subnode, String column) {
 		for(int i = 0; i < subnode.size(); i++) {
 			LappingObject child = subnode.get(i);
-			if(child.size() > 0) {
+			if(!child.isTerminal()) {
 				continue;
 			}
 			if(child.getTag().toString().equals(column)) {
@@ -69,7 +69,6 @@ public class FixedSchemaMatcher extends Matcher {
 
 	@Override
 	public boolean isTableName(String value) {
-	
 		return false;
 	}
 

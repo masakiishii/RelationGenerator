@@ -16,7 +16,6 @@ public class CSVGenerator {
 			ArrayList<String> line = datalist.get(i);
 			for(int j = 0; j < line.size(); j++) {
 				buffer.append(line.get(j));
-				//buffer.append(",");
 				buffer.append("\t");
 			}
 			buffer.append("\n");
@@ -26,12 +25,10 @@ public class CSVGenerator {
 	}
 
 	private void generateColumns(String tablename, Matcher matcher) {
-		//SubNodeDataSet columns = matcher.getSchema().get(tablename);
-		Set<String> columns = matcher.getSchema(tablename);
-		StringBuffer   buffer  = new StringBuffer();
+		Set<String>  columns = matcher.getSchema(tablename);
+		StringBuffer buffer  = new StringBuffer();
 		for(String column : columns) {
 			buffer.append(column);
-			//buffer.append(",");
 			buffer.append("\t");
 		}
 		System.out.println(buffer.toString());

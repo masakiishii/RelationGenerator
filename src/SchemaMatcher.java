@@ -108,6 +108,19 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
+//	interface Colom {
+//		ArrayList<String> getKeys();
+//		ArrayList<Integer> getParentOids();
+//	}
+//	class SingleColom implements Colom {
+//		String key;
+//		int parentOid;
+//	}
+//	class ListColom implements Colom {
+//		String []key;
+//		int []parentOid;
+//	}
+
 	private void matchingSubNode(LappingObject node, StringBuffer sbuf) {
 		node.visited();
 		LappingObject parent = node.getParent();
@@ -119,24 +132,23 @@ public class SchemaMatcher extends Matcher {
 	}
 
 	private String getColumnString(StringBuffer sbuf) {
-		if(sbuf.length() > 0) {
-			return "[" + sbuf.toString() + "]";
+		return sbuf.length() > 0 ? sbuf.toString() : null;
+	}
+
+	private void checkMatchingSubNode(LappingObject node, String column, StringBuffer sbuf) {
+		if(node.getText().equals(column)) {
+			this.matchingSubNode(node, sbuf);
 		}
-		else {
-			return null;
-		}	
 	}
 
 	@Override
 	public String getColumnData(LappingObject subnode, LappingObject tablenode, String column) {
-		Queue<LappingObject> queue = new LinkedList<LappingObject>();
 		StringBuffer sbuf = new StringBuffer();
+		Queue<LappingObject> queue = new LinkedList<LappingObject>();
 		queue.offer(subnode);
 		while(!queue.isEmpty()) {
 			LappingObject node = queue.poll();
-			if(node.getText().toString().equals(column)) {
-				this.matchingSubNode(node, sbuf);
-			}
+			this.checkMatchingSubNode(node, column, sbuf);
 			for(int index = 0; index < node.size(); index++) {
 				if(!node.equals(tablenode)) {
 					queue.offer(node.get(index));
