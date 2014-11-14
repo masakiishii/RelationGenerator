@@ -11,6 +11,7 @@ public class LappingObject {
 	private boolean       visited  = false;
 	private LappingObject AST[]    = null;
 	private LappingObject parent   = null;
+	private String        value    = null;
 
 	public LappingObject(ParsingObject node) {
 		this.objectId = idCount++;
@@ -67,7 +68,10 @@ public class LappingObject {
 	}
 
 	public String getText() {
-		return this.node.getText();
+		if(this.value == null) {
+			this.value = this.node.getText();
+		}
+		return this.value;
 	}
 
 	public boolean isTerminal() {
