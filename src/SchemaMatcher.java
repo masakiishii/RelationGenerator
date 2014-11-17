@@ -34,12 +34,6 @@ public class SchemaMatcher extends Matcher {
 		return this.schema.get(tablename).getFinalColumnSet();
 	}
 
-	private void insertDelimiter(LappingObject node, StringBuffer sbuf, int index) {
-		if (index != node.size() - 1) {
-			sbuf.append("|");
-		}
-	}
-
 	private String escapeData(String data) {
 		return data.replace("\n", "\\n").replace("\t", "\\t");
 	}

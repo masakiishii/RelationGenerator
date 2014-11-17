@@ -34,12 +34,21 @@ public class FixedSchemaMatcher extends Matcher {
 	public Map<String, Set<String>> getSchema() {
 		return this.schema;
 	}
-	
+
+	@Override
+	public void insertDelimiter(LappingObject node, StringBuffer sbuf, int index) {
+		if (sbuf.length() > 0) {
+			sbuf.append("|");
+		}
+	}
 
 	public String getColumnData(LappingObject subnode, String column) {
+		StringBuffer sbuf = new StringBuffer();
 		for(int i = 0; i < subnode.size(); i++) {
 			LappingObject child = subnode.get(i);
-			if(!child.isTerminal()) {
+			if(!child.isTerminal() && child.getTag().toString().equals(column)) {
+				this.insertDelimiter(child, sbuf, i);
+				sbuf.append(child.getTag().toString() + ":" + child.getObjectId());
 				continue;
 			}
 			if(child.getTag().toString().equals(column)) {
@@ -47,7 +56,7 @@ public class FixedSchemaMatcher extends Matcher {
 				return child.getText();
 			}
 		}
-		return null;
+		return sbuf.length() > 0 ? sbuf.toString() : null;
 	}
 
 	public void getTupleData(LappingObject subnode, String tablename) {

@@ -9,6 +9,12 @@ public abstract class Matcher {
 
 	abstract public Set<String> getSchema(String tablename);
 
+	public void insertDelimiter(LappingObject node, StringBuffer sbuf, int index) {
+		if (index != node.size() - 1) {
+			sbuf.append("|");
+		}
+	}
+
 	public Map<String, ArrayList<ArrayList<String>>> getTable() {
 		return null;
 	}
