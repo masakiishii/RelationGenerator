@@ -1,29 +1,52 @@
 #!/bin/bash
 
-OUTPUTFILE=benchtime.txt
+#--- Command OPTION
+RELOPTION=--relation:infer
+
+#--- Output File
 TMPFILE=tmp.txt
+OUTPUTFILE=benchtime.txt
 OUTPUTCSV=benchtime.csv
 
+#--- Input  File
+array_for_10=("xmark_1M.xml")
+
+# array_for_10=("xmark_1M.xml" "xmark_2M.xml" "xmark_5M.xml"
+#     "xmark_10M.xml" "xmark_20M.xml")
+
+array_only_1=("xmark_50M.xml")
+
+# array_only_1=("xmark_50M.xml" "xmark_100M.xml" "xmark_200M.xml"
+#     "xmark_500M.xml" "xmark_1G.xml")
+
+#--- Reference Directory
 XMARKDIR=../../RelationGenerator/test/xml/src/xmark/
 
-# array={"xmark_1M.xml" "xmark_2M.xml" "xmark_5M.xml" "xmark_10M.xml"
-#     "xmark_20M.xml" "xmark_50M.xml" "xmark_100M.xml" "xmark_200M.xml"
-#     "xmark_500M.xml" "xmark_1G.xml" "xmark_2G.xml" "xmark_10G.xml" }
-array=("xmark_1M.xml" "xmark_2M.xml")
 
+#-------------- Generate CSV Data
+: > ${TMPFILE}
+: > ${OUTPUTCSV}
 
-echo "" > ${TMPFILE}
-echo "" > ${OUTPUTCSV}
-
-
-for file in ${array[@]}
+for file in ${array_for_10[@]}
 do
-    echo "" > ${OUTPUTFILE}
+    : > ${OUTPUTFILE}
+    : > ${TMPFILE}
     for i in {0..10}
     do
-	(time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d ${XMARKDIR}${f} > /dev/null) 2>> ${OUTPUTFILE}
+	(time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
     done
-    grep "real" ${OUTPUTFILE} | awk '{print $2}' >  ${TMPFILE}
+    echo ${file} >> ${TMPFILE}
+    grep "real" ${OUTPUTFILE} | awk '{print $2}' >>  ${TMPFILE}
+    awk -F\n -v ORS=',' '{print}' ${TMPFILE} >> ${OUTPUTCSV} && echo -e "" >> ${OUTPUTCSV}
+done
+
+for file in ${array_only_1}
+do
+    : > ${OUTPUTFILE}
+    : > ${TMPFILE}
+    (time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
+    echo ${file} >> ${TMPFILE}
+    grep "real" ${OUTPUTFILE} | awk '{print $2}' >>  ${TMPFILE}
     awk -F\n -v ORS=',' '{print}' ${TMPFILE} >> ${OUTPUTCSV} && echo -e "" >> ${OUTPUTCSV}
 done
 
