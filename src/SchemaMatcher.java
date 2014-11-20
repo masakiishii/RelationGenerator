@@ -38,20 +38,20 @@ public class SchemaMatcher extends Matcher {
 		return data.replace("\n", "\\n").replace("\t", "\\t");
 	}
 
-	private void appendNonTermnialData(LappingObject node, int index, StringBuffer sbuf) {
+	private void appendNonTermnialData(WrapperObject node, int index, StringBuffer sbuf) {
 		sbuf.append(this.escapeData(node.get(index).getText()));
 		sbuf.append(":");
 		sbuf.append(node.getObjectId());
 	}
 
-	private void appendNonTerminalListData(LappingObject node, StringBuffer sbuf) {
-		LappingObject child = node.get(0);
+	private void appendNonTerminalListData(WrapperObject node, StringBuffer sbuf) {
+		WrapperObject child = node.get(0);
 		for(int i = 0; i < child.size(); i++) {
 			this.appendNonTermnialData(child.get(i), 0, sbuf);
 		}
 	}
 
-	private void getListData(LappingObject node, StringBuffer sbuf) {
+	private void getListData(WrapperObject node, StringBuffer sbuf) {
 		for (int i = 0; i < node.size(); i++) {
 			node.get(i).visited();
 			if(node.get(i).isTerminal()) {
@@ -64,9 +64,9 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private void getSiblListData(LappingObject node, StringBuffer sbuf) {
+	private void getSiblListData(WrapperObject node, StringBuffer sbuf) {
 		for (int i = 0; i < node.size(); i++) {
-			LappingObject child = node.get(i);
+			WrapperObject child = node.get(i);
 			if (child.get(0).isTerminal()) {
 				this.appendNonTermnialData(child, 0, sbuf);
 			}
@@ -74,7 +74,7 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private void getSiblData(LappingObject node, StringBuffer sbuf) {
+	private void getSiblData(WrapperObject node, StringBuffer sbuf) {
 		node.get(0).visited();
 		if (node.get(0).isTerminal()) {
 			this.appendNonTermnialData(node, 0, sbuf);
@@ -83,7 +83,7 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private void travaseSubTree(LappingObject node, StringBuffer sbuf) {
+	private void travaseSubTree(WrapperObject node, StringBuffer sbuf) {
 		if(node.getTag().toString().equals("List")) { //FIXME
 			this.getListData(node, sbuf);
 		}
@@ -92,7 +92,7 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private void checkingSubNodeType(LappingObject node, StringBuffer sbuf) {
+	private void checkingSubNodeType(WrapperObject node, StringBuffer sbuf) {
 		node.visited();
 		if(node.isTerminal()) {
 			sbuf.append(this.escapeData(node.getText()));
@@ -102,11 +102,11 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private void matchingSubNode(LappingObject node, StringBuffer sbuf) {
+	private void matchingSubNode(WrapperObject node, StringBuffer sbuf) {
 		node.visited();
-		LappingObject parent = node.getParent();
+		WrapperObject parent = node.getParent();
 		for(int i = 1; i < parent.size(); i++) {
-			LappingObject sibling = parent.get(i);
+			WrapperObject sibling = parent.get(i);
 			this.checkingSubNodeType(sibling, sbuf);
 			this.insertDelimiter(parent, sbuf, i);
 		}
@@ -116,19 +116,19 @@ public class SchemaMatcher extends Matcher {
 		return sbuf.length() > 0 ? sbuf.toString() : null;
 	}
 
-	private void checkMatchingSubNode(LappingObject node, String column, StringBuffer sbuf) {
+	private void checkMatchingSubNode(WrapperObject node, String column, StringBuffer sbuf) {
 		if(node.getText().equals(column)) {
 			this.matchingSubNode(node, sbuf);
 		}
 	}
 
 	@Override
-	public String getColumnData(LappingObject subnode, LappingObject tablenode, String column) {
+	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column) {
 		StringBuffer sbuf = new StringBuffer();
-		Queue<LappingObject> queue = new LinkedList<LappingObject>();
+		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(subnode);
 		while(!queue.isEmpty()) {
-			LappingObject node = queue.poll();
+			WrapperObject node = queue.poll();
 			this.checkMatchingSubNode(node, column, sbuf);
 			for(int index = 0; index < node.size(); index++) {
 				if(!node.equals(tablenode)) {
@@ -139,7 +139,7 @@ public class SchemaMatcher extends Matcher {
 		return this.getColumnString(sbuf);
 	}
 
-	private void getFieldData(String column, ArrayList<String> columndata, LappingObject subnode, LappingObject tablenode) {
+	private void getFieldData(String column, ArrayList<String> columndata, WrapperObject subnode, WrapperObject tablenode) {
 		if(column.equals("OBJECTID")) {
 			columndata.add(String.valueOf(subnode.getObjectId()));
 		}
@@ -150,7 +150,7 @@ public class SchemaMatcher extends Matcher {
 	}
 
 	@Override
-	public void getTupleData(LappingObject subnode, LappingObject tablenode, String tablename, SubNodeDataSet columns) {
+	public void getTupleData(WrapperObject subnode, WrapperObject tablenode, String tablename, SubNodeDataSet columns) {
 		ArrayList<ArrayList<String>> tabledata = this.table.get(tablename);
 		ArrayList<String> columndata = new ArrayList<String>();
 		for(String column : columns.getFinalColumnSet()) {
@@ -160,8 +160,8 @@ public class SchemaMatcher extends Matcher {
 	}
 
 	@Override
-	public void getTupleListData(LappingObject subnode, LappingObject tablenode, String tablename, SubNodeDataSet columns) {
-		LappingObject listnode = subnode.get(1);
+	public void getTupleListData(WrapperObject subnode, WrapperObject tablenode, String tablename, SubNodeDataSet columns) {
+		WrapperObject listnode = subnode.get(1);
 		for (int i = 0; i < listnode.size(); i++) {
 			this.getTupleData(listnode.get(i), tablenode, tablename, columns);
 		}
@@ -172,7 +172,7 @@ public class SchemaMatcher extends Matcher {
 		return this.schema.containsKey(value) ? true : false;
 	}
 
-	private void checkTreeType(LappingObject parent, LappingObject child) {
+	private void checkTreeType(WrapperObject parent, WrapperObject child) {
 		child.visited();
 		parent.visited();
 		String tablename = child.getText();
@@ -184,15 +184,15 @@ public class SchemaMatcher extends Matcher {
 	}
 
 	@Override
-	public void matching(LappingObject root) {
-		Queue<LappingObject> queue = new LinkedList<LappingObject>();
+	public void matching(WrapperObject root) {
+		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(root);
 		while(!queue.isEmpty()) {
-			LappingObject parent = queue.poll();
+			WrapperObject parent = queue.poll();
 			if(parent.isTerminal()) {
 				continue;
 			}
-			LappingObject child = parent.get(0);
+			WrapperObject child = parent.get(0);
 			if(child.isTerminal() && this.isTableName(child.getText())) {
 				this.checkTreeType(parent, child);
 				continue;
@@ -204,7 +204,7 @@ public class SchemaMatcher extends Matcher {
 	}
 
 	@Override
-	public void match(LappingObject root) {
+	public void match(WrapperObject root) {
 		this.matching(root);
 		this.builder.build(root);
 		this.generator.generate(this);

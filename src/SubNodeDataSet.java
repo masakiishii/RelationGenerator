@@ -7,14 +7,14 @@ import java.util.Queue;
 import java.util.Set;
 
 public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
-	private LappingObject subNode            = null;
+	private WrapperObject subNode            = null;
 	private String        assumedTableName   = null;
 	private Set<String>   assumedColumnSet   = null;
 	private Set<String>   finalColumnSet     = null;
 	private int           assumedTableNodeId = -1;
 	private double        Coefficient        = -1;
 
-	public SubNodeDataSet(LappingObject subNode, String assumedTableName, int assumedTableId) {
+	public SubNodeDataSet(WrapperObject subNode, String assumedTableName, int assumedTableId) {
 		this.subNode            = subNode;
 		this.assumedTableName   = assumedTableName;
 		this.assumedColumnSet   = new LinkedHashSet<String>();
@@ -33,29 +33,29 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 		return p2.getRange() - p1.getRange();
 	}
 
-	private boolean isTableNode(LappingObject node) {
+	private boolean isTableNode(WrapperObject node) {
 		return node.get(0).getObjectId() == this.assumedTableNodeId;
 	}
 
-	private boolean checkNodeRel(LappingObject node) {
+	private boolean checkNodeRel(WrapperObject node) {
 		return !node.isTerminal() && node.get(0).isTerminal();
 	}
 
-	private boolean isAssumedColumn(LappingObject node) {
+	private boolean isAssumedColumn(WrapperObject node) {
 		return this.checkNodeRel(node) && !this.isTableNode(node);
 	}
 
-	private void setAssumedColumnSet(LappingObject node) {
+	private void setAssumedColumnSet(WrapperObject node) {
 		if(this.isAssumedColumn(node)) {
 			this.assumedColumnSet.add(node.get(0).getText());
 		}
 	}
 
 	public void buildAssumedColumnSet() {
-		Queue<LappingObject> queue = new LinkedList<LappingObject>();
+		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(this.subNode);
 		while(!queue.isEmpty()) {
-			LappingObject node = queue.poll();
+			WrapperObject node = queue.poll();
 			this.setAssumedColumnSet(node);
 			for(int index = 0; index < node.size(); index++) {
 				queue.offer(node.get(index));
@@ -63,7 +63,7 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 		}
 	}
 
-	public LappingObject getSubNode() {
+	public WrapperObject getSubNode() {
 		return this.subNode;
 	}
 

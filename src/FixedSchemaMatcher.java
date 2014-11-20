@@ -36,16 +36,16 @@ public class FixedSchemaMatcher extends Matcher {
 	}
 
 	@Override
-	public void insertDelimiter(LappingObject node, StringBuffer sbuf, int index) {
+	public void insertDelimiter(WrapperObject node, StringBuffer sbuf, int index) {
 		if (sbuf.length() > 0) {
 			sbuf.append("|");
 		}
 	}
 
-	public String getColumnData(LappingObject subnode, String column) {
+	public String getColumnData(WrapperObject subnode, String column) {
 		StringBuffer sbuf = new StringBuffer();
 		for(int i = 0; i < subnode.size(); i++) {
-			LappingObject child = subnode.get(i);
+			WrapperObject child = subnode.get(i);
 			if(!child.isTerminal() && child.getTag().toString().equals(column)) {
 				this.insertDelimiter(child, sbuf, i);
 				sbuf.append(child.getTag().toString() + ":" + child.getObjectId());
@@ -59,7 +59,7 @@ public class FixedSchemaMatcher extends Matcher {
 		return sbuf.length() > 0 ? sbuf.toString() : null;
 	}
 
-	public void getTupleData(LappingObject subnode, String tablename) {
+	public void getTupleData(WrapperObject subnode, String tablename) {
 		ArrayList<ArrayList<String>> tabledata = this.table.get(tablename);
 		ArrayList<String> columndata = new ArrayList<String>();
 		Set<String> columns = this.schema.get(tablename);
@@ -81,7 +81,7 @@ public class FixedSchemaMatcher extends Matcher {
 		return false;
 	}
 
-	private void checkTargetNode(LappingObject node) {
+	private void checkTargetNode(WrapperObject node) {
 		String tablename = node.getTag().toString();
 		if(this.table.containsKey(tablename)) {
 			this.getTupleData(node, tablename);
@@ -89,7 +89,7 @@ public class FixedSchemaMatcher extends Matcher {
 	}
 
 	@Override
-	public void matching(LappingObject node) {
+	public void matching(WrapperObject node) {
 		if(node == null) {
 			return;
 		}
@@ -100,7 +100,7 @@ public class FixedSchemaMatcher extends Matcher {
 	}
 
 	@Override
-	public void match(LappingObject root) {
+	public void match(WrapperObject root) {
 		this.matching(root);
 		this.builder.build(root);
 		this.generator.generate(this);

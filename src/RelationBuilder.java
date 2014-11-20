@@ -29,7 +29,7 @@ public class RelationBuilder {
 		}
 	}
 
-	private void setAllSubNodeSetList(LappingObject node, String tablename, int id) {
+	private void setAllSubNodeSetList(WrapperObject node, String tablename, int id) {
 		SubNodeDataSet subnodeset = new SubNodeDataSet(node, tablename, id);
 		subnodeset.buildAssumedColumnSet();
 		if (subnodeset.getAssumedColumnSet().size() > 1) {
@@ -37,23 +37,23 @@ public class RelationBuilder {
 		}
 	}
 
-	private void collectListSubNode(LappingObject node) {
-		LappingObject assumedtablenode = node.getParent().get(0);
+	private void collectListSubNode(WrapperObject node) {
+		WrapperObject assumedtablenode = node.getParent().get(0);
 		String tablename = assumedtablenode.getText();
 		for (int i = 0; i < node.size(); i++) {
 			this.setAllSubNodeSetList(node.get(i), tablename, assumedtablenode.getObjectId());
 		}
 	}
 
-	private void collectNormSubNode(LappingObject node) {
-		LappingObject assumedtablenode = node.get(0);
+	private void collectNormSubNode(WrapperObject node) {
+		WrapperObject assumedtablenode = node.get(0);
 		String tablename = assumedtablenode.getText();
 		if (!RelationBuilder.isNumber(tablename)) {
 			this.setAllSubNodeSetList(node, tablename, assumedtablenode.getObjectId());
 		}
 	}
 
-	private void collectAllSubNode(LappingObject node) {
+	private void collectAllSubNode(WrapperObject node) {
 		if (node == null) {
 			return;
 		}
@@ -67,16 +67,16 @@ public class RelationBuilder {
 		}
 	}
 
-	private void buildLappingTree(ParsingObject node, LappingObject lappingnode) {
+	private void buildLappingTree(ParsingObject node, WrapperObject lappingnode) {
 		if (node == null) {
 			return;
 		}
 		lappingnode.getCoord().setLpos(this.segmentidpos++);
 		int size = node.size();
 		if (size > 0) {
-			LappingObject[] AST = new LappingObject[size];
+			WrapperObject[] AST = new WrapperObject[size];
 			for (int i = 0; i < node.size(); i++) {
-				AST[i] = new LappingObject(node.get(i));
+				AST[i] = new WrapperObject(node.get(i));
 				AST[i].setParent(lappingnode);
 				this.buildLappingTree(node.get(i), AST[i]);
 			}
@@ -85,14 +85,14 @@ public class RelationBuilder {
 		lappingnode.getCoord().setRpos(this.segmentidpos++);
 	}
 
-	private LappingObject preprocessing() {
-		LappingObject lappingrootnode = new LappingObject(this.root);
+	private WrapperObject preprocessing() {
+		WrapperObject lappingrootnode = new WrapperObject(this.root);
 		this.buildLappingTree(this.root, lappingrootnode);
 		this.collectAllSubNode(lappingrootnode);
 		return lappingrootnode;
 	}
 
-	private void buildInferSchema(LappingObject lappingrootnode) {
+	private void buildInferSchema(WrapperObject lappingrootnode) {
 		SchemaNominator preschema = new SchemaNominator(this);
 		preschema.nominating();
 		SchemaDecider defineschema = new SchemaDecider(preschema, lappingrootnode);
@@ -101,7 +101,7 @@ public class RelationBuilder {
 		matcher.match(lappingrootnode);
 	}
 
-	private void buildFixedSchema(LappingObject lappingrootnode) {
+	private void buildFixedSchema(WrapperObject lappingrootnode) {
 		TreeTypeChecker checker = new TreeTypeChecker();
 		Map<String, Set<String>> definedschema = checker.check(lappingrootnode);
 		Matcher matcher = new FixedSchemaMatcher(definedschema);
@@ -109,7 +109,7 @@ public class RelationBuilder {
 	}
 
 	public void build(Boolean infer) {
-		LappingObject lappingrootnode = this.preprocessing();
+		WrapperObject lappingrootnode = this.preprocessing();
 		if(infer) {
 			this.buildInferSchema(lappingrootnode);
 		}

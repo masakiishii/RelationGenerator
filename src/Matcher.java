@@ -9,7 +9,7 @@ public abstract class Matcher {
 
 	abstract public Set<String> getSchema(String tablename);
 
-	public void insertDelimiter(LappingObject node, StringBuffer sbuf, int index) {
+	public void insertDelimiter(WrapperObject node, StringBuffer sbuf, int index) {
 		if (index != node.size() - 1) {
 			sbuf.append("|");
 		}
@@ -19,15 +19,15 @@ public abstract class Matcher {
 		return null;
 	}
 
-	public String getColumnData(LappingObject subnode, LappingObject tablenode, String column) {
+	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column) {
 		return null;
 	}
 
-	public void getTupleData(LappingObject subnode, LappingObject tablenode, String tablename, SubNodeDataSet columns) {
+	public void getTupleData(WrapperObject subnode, WrapperObject tablenode, String tablename, SubNodeDataSet columns) {
 
 	}
 
-	public void getTupleListData(LappingObject subnode, LappingObject tablenode, String tablename, SubNodeDataSet columns) {
+	public void getTupleListData(WrapperObject subnode, WrapperObject tablenode, String tablename, SubNodeDataSet columns) {
 
 	}
 
@@ -35,11 +35,11 @@ public abstract class Matcher {
 		return false;
 	}
 
-	public void matching(LappingObject root) {
+	public void matching(WrapperObject root) {
 		
 	}
 
-	public void match(LappingObject root) {
+	public void match(WrapperObject root) {
 		
 	}
 }

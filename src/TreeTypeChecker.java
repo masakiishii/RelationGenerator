@@ -12,11 +12,11 @@ public class TreeTypeChecker {
 		this.schema = new LinkedHashMap<String, Set<String>>();
 	}
 
-	private boolean isSchemaTypeTree(LappingObject node, String parenttag) {
+	private boolean isSchemaTypeTree(WrapperObject node, String parenttag) {
 		return !node.isTerminal() && !this.schema.containsKey(parenttag);
 	}
 
-	private void collectColumnSet(LappingObject node, String parenttag) {
+	private void collectColumnSet(WrapperObject node, String parenttag) {
 		Set<String> schemaset = new LinkedHashSet<String>();
 		schemaset.add("OBJECTID");
 		for(int i = 0; i < node.size(); i++) {
@@ -25,14 +25,14 @@ public class TreeTypeChecker {
 		this.schema.put(parenttag, schemaset);
 	}
 
-	private void setSchemaMap(LappingObject node) {
+	private void setSchemaMap(WrapperObject node) {
 		String parenttag = node.getTag().toString();
 		if(this.isSchemaTypeTree(node, parenttag)) {
 			this.collectColumnSet(node, parenttag);
 		}
 	}
 
-	private void checking(LappingObject node) {
+	private void checking(WrapperObject node) {
 		if(node == null) {
 			return;
 		}
@@ -42,7 +42,7 @@ public class TreeTypeChecker {
 		}
 	}
 	
-	public Map<String, Set<String>> check(LappingObject lappingrootnode) {
+	public Map<String, Set<String>> check(WrapperObject lappingrootnode) {
 		this.checking(lappingrootnode);
 		return this.schema;
 	}

@@ -8,9 +8,9 @@ import java.util.Set;
 public class SchemaDecider{
 	private SchemaNominator   nominatedschema   = null;
 	private SchemaTypeChecker schematypechecker = null;
-	private LappingObject     root              = null;
+	private WrapperObject     root              = null;
 
-	public SchemaDecider(SchemaNominator nominatedschema, LappingObject root) {
+	public SchemaDecider(SchemaNominator nominatedschema, WrapperObject root) {
 		this.nominatedschema   = nominatedschema;
 		this.schematypechecker = new SchemaTypeChecker();
 		this.root              = root;

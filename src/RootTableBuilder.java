@@ -19,13 +19,13 @@ public class RootTableBuilder {
 		this.schema.add("VALUE");
 	}
 
-	private void insertDelimiter(LappingObject node, StringBuffer sbuf, int index) {
+	private void insertDelimiter(WrapperObject node, StringBuffer sbuf, int index) {
 		if (index != node.size() - 1) {
 			sbuf.append("|");
 		}
 	}
 
-	private void getListData(LappingObject sibling, StringBuffer sbuf) {
+	private void getListData(WrapperObject sibling, StringBuffer sbuf) {
 		for(int i = 0; i < sibling.size(); i++) {
 			if(sibling.get(i).isTerminal()) {
 				sibling.get(i).visited();
@@ -40,13 +40,13 @@ public class RootTableBuilder {
 		}
 	}
 
-	private void getTerminalData(LappingObject sibling, StringBuffer sbuf) {
+	private void getTerminalData(WrapperObject sibling, StringBuffer sbuf) {
 		sbuf.append(sibling.getText());
 		sibling.visited();
 	}
 
-	private void getNonTerminalData(LappingObject sibling, StringBuffer sbuf) {
-		LappingObject grandchild = sibling.get(0);
+	private void getNonTerminalData(WrapperObject sibling, StringBuffer sbuf) {
+		WrapperObject grandchild = sibling.get(0);
 		if(grandchild.isTerminal()) {
 			sbuf.append(grandchild.getText());
 		}
@@ -57,9 +57,9 @@ public class RootTableBuilder {
 		sbuf.append(sibling.getObjectId());
 	}
 	
-	private void settingData(LappingObject parent, StringBuffer sbuf) {
+	private void settingData(WrapperObject parent, StringBuffer sbuf) {
 		for(int i = 1; i < parent.size(); i++) {
-			LappingObject sibling = parent.get(i);
+			WrapperObject sibling = parent.get(i);
 			if(sibling.isTerminal()) {
 				this.getTerminalData(sibling, sbuf);
 			}
@@ -73,8 +73,8 @@ public class RootTableBuilder {
 		}
 	}
 	
-	private void setTableData(LappingObject node) {
-		LappingObject parent = node.getParent();
+	private void setTableData(WrapperObject node) {
+		WrapperObject parent = node.getParent();
 		String        column = node.getText();
 		String        key    = String.valueOf(parent.getObjectId());
 		StringBuffer  sbuf   = new StringBuffer();
@@ -84,7 +84,7 @@ public class RootTableBuilder {
 		this.table.put(key, sbuf.toString());
 	}
 
-	private void buildRootTable(LappingObject node) {
+	private void buildRootTable(WrapperObject node) {
 		if(node == null) {
 			return;
 		}
@@ -106,7 +106,7 @@ public class RootTableBuilder {
 		System.out.println();
 	}
 
-	public void build(LappingObject node) {
+	public void build(WrapperObject node) {
 		this.generateRootColumns();
 		this.buildRootTable(node);
 		for(String key : this.table.keySet()) {
