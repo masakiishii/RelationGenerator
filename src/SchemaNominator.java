@@ -52,8 +52,13 @@ public class SchemaNominator {
 		return this.schema;
 	}
 
-	private boolean isTargetSet(Set<String> setX, Set<String> setY, String setXname, String setYname) {
-		return setXname.equals(setYname) && setX.size() > 0 && setY.size() > 0;
+	//private boolean isNominatableSet(Set<String> setX, Set<String> setY, String setXname, String setYname) {
+	private boolean isNominatableSet(SubNodeDataSet datasetX, SubNodeDataSet datasetY) {
+		Set<String> setX  = datasetX.getAssumedColumnSet();
+		Set<String> setY  = datasetY.getAssumedColumnSet();
+		String tablenameX = datasetX.getAssumedTableName();
+		String tablenameY = datasetY.getAssumedTableName();
+		return tablenameX.equals(tablenameY) && setX.size() > 0 && setY.size() > 0;
 	}
 
 	private boolean checkThreshhold(double coefficient) {
@@ -116,11 +121,7 @@ public class SchemaNominator {
 	private ArrayList<SubNodeDataSet> collectRemoveList(ArrayList<SubNodeDataSet> list, int i) {
 		ArrayList<SubNodeDataSet> removelist = new ArrayList<SubNodeDataSet>();
 		for(int j = i + 1; j < list.size(); j++) {
-			Set<String> setX = list.get(i).getAssumedColumnSet();
-			Set<String> setY = list.get(j).getAssumedColumnSet();
-			String setXname  = list.get(i).getAssumedTableName();
-			String setYname  = list.get(j).getAssumedTableName();
-			if (this.isTargetSet(setX, setY, setXname, setYname)) {
+			if (this.isNominatableSet(list.get(i), list.get(j))) {
 				this.calcSetRelation(list, i, j);
 				j = this.removeList(list, removelist, j);
 			}
