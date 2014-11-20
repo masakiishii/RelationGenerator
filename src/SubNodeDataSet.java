@@ -1,5 +1,6 @@
 package org.peg4d.data;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -13,6 +14,8 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 	private Set<String>   finalColumnSet     = null;
 	private int           assumedTableNodeId = -1;
 	private double        Coefficient        = -1;
+	public ArrayList<SubNodeDataSet> children = null;
+	public boolean removed = false;
 
 	public SubNodeDataSet(LappingObject subNode, String assumedTableName, int assumedTableId) {
 		this.subNode            = subNode;
@@ -20,6 +23,7 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 		this.assumedColumnSet   = new LinkedHashSet<String>();
 		this.finalColumnSet     = new LinkedHashSet<String>();
 		this.assumedTableNodeId = assumedTableId;
+		this.children = new ArrayList<SubNodeDataSet>();
 	}
 	public SubNodeDataSet() {
 		this.assumedColumnSet   = new LinkedHashSet<String>();
@@ -93,5 +97,19 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 
 	public Set<String> getFinalColumnSet() {
 		return this.finalColumnSet;
+	}
+	private boolean isSubNode(SubNodeDataSet that) {
+		Coordinate c1 = this.getSubNode().getCoord();
+		Coordinate c2 = that.getSubNode().getCoord();
+		return Coordinate.checkLtpos(c1, c2) && Coordinate.checkRtpos(c1, c2);
+	}
+
+	public void findChildren(ArrayList<SubNodeDataSet> list) {
+		for (int j = list.size() - 1; j >= 0; j--) {
+			SubNodeDataSet y = list.get(j);
+			if (isSubNode(y)) {
+				this.children.add(y);
+			}
+		}
 	}
 }

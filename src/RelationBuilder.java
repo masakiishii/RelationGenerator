@@ -1,5 +1,6 @@
 package org.peg4d.data;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,13 @@ public class RelationBuilder {
 		this.root = root;
 		this.segmentidpos++;
 		this.allsubnodesetlist = new ArrayList<SubNodeDataSet>();
+		System.out.println("wait");
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public ArrayList<SubNodeDataSet> getSubNodeDataSetList() {
