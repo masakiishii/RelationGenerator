@@ -94,7 +94,7 @@ public class RelationBuilder {
 
 	private void buildInferSchema(WrapperObject lappingrootnode) {
 		SchemaNominator preschema = new SchemaNominator(this);
-		preschema.nominating();
+		preschema.nominate();
 		SchemaDecider defineschema = new SchemaDecider(preschema, lappingrootnode);
 		Map<String, SubNodeDataSet> definedschema = defineschema.define();
 		Matcher matcher = new SchemaMatcher(definedschema);
