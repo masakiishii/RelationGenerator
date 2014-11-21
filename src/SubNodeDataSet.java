@@ -14,8 +14,9 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 	private Set<String>   finalColumnSet     = null;
 	private int           assumedTableNodeId = -1;
 	private double        Coefficient        = -1;
+	
 	public ArrayList<SubNodeDataSet> children = null;
-	public boolean removed = false;
+	public boolean        removed            = false;
 
 	public SubNodeDataSet(LappingObject subNode, String assumedTableName, int assumedTableId) {
 		this.subNode            = subNode;
@@ -25,10 +26,20 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 		this.assumedTableNodeId = assumedTableId;
 		this.children = new ArrayList<SubNodeDataSet>();
 	}
+	
+	public SubNodeDataSet(LappingObject subNode) {
+		this.subNode            = subNode;
+		this.assumedColumnSet   = new LinkedHashSet<String>();
+		this.finalColumnSet     = new LinkedHashSet<String>();
+		this.children = new ArrayList<SubNodeDataSet>();
+	}
+
 	public SubNodeDataSet() {
 		this.assumedColumnSet   = new LinkedHashSet<String>();
 		this.finalColumnSet     = new LinkedHashSet<String>();
+		this.children = new ArrayList<SubNodeDataSet>();
 	}
+	
 
 	@Override
 	public int compare(SubNodeDataSet o1, SubNodeDataSet o2) {
@@ -109,6 +120,14 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 			SubNodeDataSet y = list.get(j);
 			if (isSubNode(y)) {
 				this.children.add(y);
+			}
+		}
+	}
+
+	public void softRemoveChild() {
+		for (SubNodeDataSet child : this.children) {
+			if(child != null) {
+				child.removed = true;
 			}
 		}
 	}

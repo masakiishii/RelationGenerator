@@ -15,13 +15,15 @@ public class RelationBuilder {
 		this.root = root;
 		this.segmentidpos++;
 		this.allsubnodesetlist = new ArrayList<SubNodeDataSet>();
-		System.out.println("wait");
-		try {
-			System.in.read();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		if (false) {
+//		System.out.println("wait");
+//		try {
+//			System.in.read();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		}
 	}
 
 	public ArrayList<SubNodeDataSet> getSubNodeDataSetList() {
@@ -40,6 +42,7 @@ public class RelationBuilder {
 	private void setAllSubNodeSetList(LappingObject node, String tablename, int id) {
 		SubNodeDataSet subnodeset = new SubNodeDataSet(node, tablename, id);
 		subnodeset.buildAssumedColumnSet();
+		node.setSubNodeDataSet(subnodeset);
 		if (subnodeset.getAssumedColumnSet().size() > 1) {
 			this.allsubnodesetlist.add(subnodeset);
 		}
@@ -93,10 +96,27 @@ public class RelationBuilder {
 		lappingnode.getCoord().setRpos(this.segmentidpos++);
 	}
 
+	void linkAllSubNodeDataSet(LappingObject node) {
+		if(node == null) {
+			return;
+		}
+		SubNodeDataSet dataset = node.getSubNodeDataSet();
+		for(int i = 0; i < node.size(); i++) {
+			LappingObject obj = node.get(i);
+			SubNodeDataSet set = obj.getSubNodeDataSet();
+			if (set != null) {
+				dataset.children.add(set);
+			}
+			linkAllSubNodeDataSet(obj);
+		}
+	}
+	
+
 	private LappingObject preprocessing() {
 		LappingObject lappingrootnode = new LappingObject(this.root);
 		this.buildLappingTree(this.root, lappingrootnode);
 		this.collectAllSubNode(lappingrootnode);
+		this.linkAllSubNodeDataSet(lappingrootnode);
 		return lappingrootnode;
 	}
 

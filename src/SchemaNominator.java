@@ -79,31 +79,20 @@ public class SchemaNominator {
 		return Coordinate.checkLtpos(parentpoint, subnodepoint) && Coordinate.checkRtpos(parentpoint, subnodepoint);
 	}
 
-	private void removing(ArrayList<SubNodeDataSet> list, Coordinate parentpoint, Coordinate subnodepoint, int pos) {
+	private void removeIfNodeIsChild(ArrayList<SubNodeDataSet> list, Coordinate parentpoint, Coordinate subnodepoint, int pos) {
 		if (this.isSubNode(parentpoint, subnodepoint)) {
 			list.remove(pos);
 		}
 	}
 
-	private void removeSubNodeinRemoveList(ArrayList<SubNodeDataSet> list, ArrayList<SubNodeDataSet> removelist) {
-		for (int i = 0; i < removelist.size(); i++) {
-			Coordinate parentpoint = removelist.get(i).getSubNode().getCoord();
-			for (int j = list.size() - 1; j >= 0; j--) {
-				Coordinate subnodepoint = list.get(j).getSubNode().getCoord();
-				this.removing(list, parentpoint, subnodepoint, j);
-			}
-		}
-		removelist.clear();
-	}
+//	private void removeSubNodeinList(ArrayList<SubNodeDataSet> list, SubNodeDataSet x) {
+//		Coordinate parentpoint = x.getSubNode().getCoord();
+//		for (int i = list.size() - 1; i >= 0; i--) {
+//			Coordinate subnodepoint = list.get(i).getSubNode().getCoord();
+//			this.removing(list, parentpoint, subnodepoint, i);
+//		}
+//	}
 
-	private void removeSubNodeinList(ArrayList<SubNodeDataSet> list, SubNodeDataSet x) {
-		Coordinate parentpoint = x.getSubNode().getCoord();
-		for (int i = list.size() - 1; i >= 0; i--) {
-			Coordinate subnodepoint = list.get(i).getSubNode().getCoord();
-			this.removing(list, parentpoint, subnodepoint, i);
-		}
-	}
-	
 	private int removeList(ArrayList<SubNodeDataSet> list, ArrayList<SubNodeDataSet> removelist, int pos) {
 		removelist.add(list.get(pos));
 		list.remove(pos);
@@ -114,34 +103,36 @@ public class SchemaNominator {
 		double coefficient = this.calculatiingCoefficient(x, y);
 		if (this.isNominatable(coefficient)) {
 			this.nominateSchema(x, y, coefficient);
-			for (SubNodeDataSet child : x.children) {
-				child.removed = true;
-			}
+			x.softRemoveChild();
+			y.softRemoveChild();
 			//this.removeSubNodeinList(list, x);
 		}
 	}
 
-	private void filter(ArrayList<SubNodeDataSet> list) {
-		ArrayList<SubNodeDataSet> removelist = new ArrayList<SubNodeDataSet>();
-		for(int i = 0; i < list.size(); i++) {
-			SubNodeDataSet x = list.get(i);
-			x.findChildren(list);
+	private void removeSubNodeinRemoveList(ArrayList<SubNodeDataSet> list, ArrayList<SubNodeDataSet> removelist, int current) {
+		for (int i = 0; i < removelist.size(); i++) {
+			Coordinate parentpoint = removelist.get(i).getSubNode().getCoord();
+			for (int j = list.size() - 1; j >= current; j--) {
+				Coordinate subnodepoint = list.get(j).getSubNode().getCoord();
+				this.removeIfNodeIsChild(list, parentpoint, subnodepoint, j);
+			}
 		}
+		//removelist.clear();
+	}
+
+	private void filter(ArrayList<SubNodeDataSet> list) {
 		for(int i = 0; i < list.size(); i++) {
 			SubNodeDataSet x = list.get(i);
+			ArrayList<SubNodeDataSet> removelist = new ArrayList<SubNodeDataSet>();
 			if (x.removed) {
-				for (SubNodeDataSet child : x.children) {
-					child.removed = true;
-				}
+				x.softRemoveChild();
 				list.remove(i); i -= 1;
 				continue;
 			}
 			for(int j = i + 1; j < list.size(); j++) {
 				SubNodeDataSet y = list.get(j);
 				if (y.removed) {
-					for (SubNodeDataSet child : y.children) {
-						child.removed = true;
-					}
+					y.softRemoveChild();
 					list.remove(j); j -= 1;
 					continue;
 				}
@@ -150,7 +141,14 @@ public class SchemaNominator {
 					j = this.removeList(list, removelist, j);
 				}
 			}
-			this.removeSubNodeinRemoveList(list, removelist);
+			for (int j = list.size() - 1; j > i; j--) {
+				SubNodeDataSet y = list.get(j);
+				if (y.removed) {
+					y.softRemoveChild();
+					list.remove(j);
+				}
+			}
+			this.removeSubNodeinRemoveList(list, removelist, i);
 		}
 	}
 //	private void calcSetRelation(ArrayList<SubNodeDataSet> list, SubNodeDataSet x, SubNodeDataSet y) {

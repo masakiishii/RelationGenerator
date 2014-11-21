@@ -1,5 +1,7 @@
 package org.peg4d.data;
 
+import java.util.Set;
+
 import org.peg4d.ParsingObject;
 import org.peg4d.ParsingTag;
 
@@ -13,12 +15,22 @@ public class LappingObject {
 	private LappingObject parent   = null;
 	private String        value    = null;
 	private int           size     = -1;
+	
+	private SubNodeDataSet dataset = null;
 
 	public LappingObject(ParsingObject node) {
 		this.objectId = idCount++;
 		this.node     = node;
 		this.coord    = new Coordinate();
 		this.size     = node.size();
+	}
+
+	public void setSubNodeDataSet(SubNodeDataSet dataset) {
+		this.dataset = dataset;
+	}
+
+	public SubNodeDataSet getSubNodeDataSet() {
+		return this.dataset;
 	}
 
 	public ParsingObject getParsingObject() {
