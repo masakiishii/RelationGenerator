@@ -59,7 +59,7 @@ public class RelationBuilder {
 		}
 		if (node.getTag().toString().equals("List")) {
 			this.collectListSubNode(node);
-		} else if (node.size() != 0 && node.get(0).size() == 0) {
+		} else if (!node.isTerminal() && node.get(0).isTerminal()) {
 			this.collectNormSubNode(node);
 		}
 		for (int i = 0; i < node.size(); i++) {
@@ -67,54 +67,54 @@ public class RelationBuilder {
 		}
 	}
 
-	private void buildLappingTree(ParsingObject node, WrapperObject lappingnode) {
+	private void buildLappingTree(ParsingObject node, WrapperObject wrappernode) {
 		if (node == null) {
 			return;
 		}
-		lappingnode.getCoord().setLpos(this.segmentidpos++);
+		wrappernode.getCoord().setLpos(this.segmentidpos++);
 		int size = node.size();
 		if (size > 0) {
 			WrapperObject[] AST = new WrapperObject[size];
 			for (int i = 0; i < node.size(); i++) {
 				AST[i] = new WrapperObject(node.get(i));
-				AST[i].setParent(lappingnode);
+				AST[i].setParent(wrappernode);
 				this.buildLappingTree(node.get(i), AST[i]);
 			}
-			lappingnode.setAST(AST);
+			wrappernode.setAST(AST);
 		}
-		lappingnode.getCoord().setRpos(this.segmentidpos++);
+		wrappernode.getCoord().setRpos(this.segmentidpos++);
 	}
 
 	private WrapperObject preprocessing() {
-		WrapperObject lappingrootnode = new WrapperObject(this.root);
-		this.buildLappingTree(this.root, lappingrootnode);
-		this.collectAllSubNode(lappingrootnode);
-		return lappingrootnode;
+		WrapperObject wrapperrootnode = new WrapperObject(this.root);
+		this.buildLappingTree(this.root, wrapperrootnode);
+		this.collectAllSubNode(wrapperrootnode);
+		return wrapperrootnode;
 	}
 
-	private void buildInferSchema(WrapperObject lappingrootnode) {
+	private void buildInferSchema(WrapperObject wrapperrootnode) {
 		SchemaNominator preschema = new SchemaNominator(this);
 		preschema.nominate();
-		SchemaDecider defineschema = new SchemaDecider(preschema, lappingrootnode);
+		SchemaDecider defineschema = new SchemaDecider(preschema, wrapperrootnode);
 		Map<String, SubNodeDataSet> definedschema = defineschema.define();
 		Matcher matcher = new SchemaMatcher(definedschema);
-		matcher.match(lappingrootnode);
+		matcher.match(wrapperrootnode);
 	}
 
-	private void buildFixedSchema(WrapperObject lappingrootnode) {
+	private void buildFixedSchema(WrapperObject wrapperrootnode) {
 		TreeTypeChecker checker = new TreeTypeChecker();
-		Map<String, Set<String>> definedschema = checker.check(lappingrootnode);
+		Map<String, Set<String>> definedschema = checker.check(wrapperrootnode);
 		Matcher matcher = new FixedSchemaMatcher(definedschema);
-		matcher.match(lappingrootnode);
+		matcher.match(wrapperrootnode);
 	}
 
 	public void build(Boolean infer) {
-		WrapperObject lappingrootnode = this.preprocessing();
+		WrapperObject wrapperrootnode = this.preprocessing();
 		if(infer) {
-			this.buildInferSchema(lappingrootnode);
+			this.buildInferSchema(wrapperrootnode);
 		}
 		else {
-			this.buildFixedSchema(lappingrootnode);
+			this.buildFixedSchema(wrapperrootnode);
 		}
 	}
 }

@@ -42,8 +42,8 @@ public class TreeTypeChecker {
 		}
 	}
 	
-	public Map<String, Set<String>> check(WrapperObject lappingrootnode) {
-		this.checking(lappingrootnode);
+	public Map<String, Set<String>> check(WrapperObject wrapperrootnode) {
+		this.checking(wrapperrootnode);
 		return this.schema;
 	}
 }
