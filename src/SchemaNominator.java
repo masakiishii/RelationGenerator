@@ -37,12 +37,9 @@ public class SchemaNominator {
 	private void nominateSchema(String tablename, SubNodeDataSet nodeX, SubNodeDataSet nodeY, double coefficient) {
 		Set<String> setX = nodeX.getAssumedColumnSet();
 		Set<String> setY = nodeY.getAssumedColumnSet();
-		nodeX.setCoefficient(coefficient);
-		nodeY.setCoefficient(coefficient);
 		if(this.schema.containsKey(tablename)) {
 			this.schema.get(tablename).getAssumedColumnSet().addAll(setX);
 			this.schema.get(tablename).getAssumedColumnSet().addAll(setY);
-			return;
 		}
 		else {
 			nodeX.getAssumedColumnSet().addAll(setY);
