@@ -86,7 +86,7 @@ public class SchemaNominator {
 
 	private void removeSubNodeinList(ArrayList<SubNodeDataSet> list, int pos) {
 		Coordinate parentcoord = list.get(pos).getSubNode().getCoord();
-		for (int i = list.size() - 1; i >= 0; i--) {
+		for (int i = list.size() - 1; i >= pos; i--) {
 			Coordinate subnodecoord = list.get(i).getSubNode().getCoord();
 			this.removing(list, parentcoord, subnodecoord, i);
 		}
