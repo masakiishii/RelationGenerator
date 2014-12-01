@@ -32,6 +32,7 @@ public class RelationBuilder {
 	private void setAllSubNodeSetList(WrapperObject node, String tablename, int id) {
 		final SubNodeDataSet subnodeset = new SubNodeDataSet(node, tablename, id);
 		subnodeset.buildAssumedColumnSet();
+		node.setSubNodeDataSet(subnodeset);
 		if (subnodeset.getAssumedColumnSet().size() > 1) {
 			this.allsubnodesetlist.add(subnodeset);
 		}
@@ -67,7 +68,7 @@ public class RelationBuilder {
 		}
 	}
 
-	private void buildLappingTree(ParsingObject node, WrapperObject wrappernode) {
+	private void buildWrappingTree(ParsingObject node, WrapperObject wrappernode) {
 		if (node == null) {
 			return;
 		}
@@ -78,17 +79,33 @@ public class RelationBuilder {
 			for (int i = 0; i < node.size(); i++) {
 				AST[i] = new WrapperObject(node.get(i));
 				AST[i].setParent(wrappernode);
-				this.buildLappingTree(node.get(i), AST[i]);
+				this.buildWrappingTree(node.get(i), AST[i]);
 			}
 			wrappernode.setAST(AST);
 		}
 		wrappernode.getCoord().setRpos(this.segmentidpos++);
 	}
 
+	void linkAllSubNodeDataSet(WrapperObject node) {
+		if (node == null) {
+			return;
+		}
+		final SubNodeDataSet dataset = node.getSubNodeDataSet();
+		for (int i = 0; i < node.size(); i++) {
+			final WrapperObject  obj = node.get(i);
+			final SubNodeDataSet set = obj.getSubNodeDataSet();
+			if (set != null) {
+				dataset.getChildren().add(set);
+			}
+			this.linkAllSubNodeDataSet(obj);
+		}
+	}
+
 	private WrapperObject preprocessing() {
 		final WrapperObject wrapperrootnode = new WrapperObject(this.root);
-		this.buildLappingTree(this.root, wrapperrootnode);
+		this.buildWrappingTree(this.root, wrapperrootnode);
 		this.collectAllSubNode(wrapperrootnode);
+		this.linkAllSubNodeDataSet(wrapperrootnode);
 		return wrapperrootnode;
 	}
 

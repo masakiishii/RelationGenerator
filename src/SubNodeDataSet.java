@@ -1,5 +1,6 @@
 package org.peg4d.data;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -7,12 +8,13 @@ import java.util.Queue;
 import java.util.Set;
 
 public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
-	private WrapperObject subNode            = null;
-	private String        assumedTableName   = null;
-	private Set<String>   assumedColumnSet   = null;
-	private Set<String>   finalColumnSet     = null;
-	private int           assumedTableNodeId = -1;
-	private double        Coefficient        = -1;
+	private WrapperObject             subNode            = null;
+	private String                    assumedTableName   = null;
+	private Set<String>               assumedColumnSet   = null;
+	private Set<String>               finalColumnSet     = null;
+	private int                       assumedTableNodeId = -1;
+	private ArrayList<SubNodeDataSet> children           = null;
+	private boolean                   removed            = false;
 
 	public SubNodeDataSet(WrapperObject subNode, String assumedTableName, int assumedTableId) {
 		this.subNode            = subNode;
@@ -20,10 +22,18 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 		this.assumedColumnSet   = new LinkedHashSet<String>();
 		this.finalColumnSet     = new LinkedHashSet<String>();
 		this.assumedTableNodeId = assumedTableId;
+		this.children           = new ArrayList<SubNodeDataSet>();
+	}
+	public SubNodeDataSet(WrapperObject subNode) {
+		this.subNode            = subNode;
+		this.assumedColumnSet   = new LinkedHashSet<String>();
+		this.finalColumnSet     = new LinkedHashSet<String>();
+		this.children           = new ArrayList<SubNodeDataSet>();
 	}
 	public SubNodeDataSet() {
 		this.assumedColumnSet   = new LinkedHashSet<String>();
 		this.finalColumnSet     = new LinkedHashSet<String>();
+		this.children           = new ArrayList<SubNodeDataSet>();
 	}
 
 	@Override
@@ -75,14 +85,6 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 		return this.assumedColumnSet;
 	}
 
-	public void setCoefficient(double coefficient) {
-		this.Coefficient = coefficient;
-	}
-
-	public double getCoefficient() {
-		return this.Coefficient;
-	}
-
 	public void setFinalColumnSet(String headcolumn) {
 		this.finalColumnSet.add(headcolumn);
 	}
@@ -93,5 +95,9 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 
 	public Set<String> getFinalColumnSet() {
 		return this.finalColumnSet;
+	}
+
+	public ArrayList<SubNodeDataSet> getChildren() {
+		return this.children;
 	}
 }

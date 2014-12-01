@@ -11,6 +11,7 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 public class SchemaNominator {
 	private RelationBuilder relationbuilder    = null;
 	private Map<String, SubNodeDataSet> schema = null;
+
 	public SchemaNominator(RelationBuilder relationbuilder) {
 		this.relationbuilder = relationbuilder;
 		this.schema = new LinkedHashMap<String, SubNodeDataSet>();
@@ -36,7 +37,7 @@ public class SchemaNominator {
 		return (double) intersection.size() / union.size(); // coefficient
 	}
 
-	private void nominateSchema(String tablename, SubNodeDataSet nodeX, SubNodeDataSet nodeY, double coefficient) {
+	private void nominateSchema(String tablename, SubNodeDataSet nodeX, SubNodeDataSet nodeY) {
 		final Set<String> setX = nodeX.getAssumedColumnSet();
 		final Set<String> setY = nodeY.getAssumedColumnSet();
 		if(this.schema.containsKey(tablename)) {
@@ -53,7 +54,7 @@ public class SchemaNominator {
 		return this.schema;
 	}
 
-	private boolean isNominatableSet(SubNodeDataSet datasetX, SubNodeDataSet datasetY) {
+	private boolean isTargetSet(SubNodeDataSet datasetX, SubNodeDataSet datasetY) {
 		final Set<String> setX  = datasetX.getAssumedColumnSet();
 		final Set<String> setY  = datasetY.getAssumedColumnSet();
 		final String tablenameX = datasetX.getAssumedTableName();
@@ -107,7 +108,7 @@ public class SchemaNominator {
 		final String setXname  = datasetX.getAssumedTableName();
 		final double coefficient = this.calculatingCoefficient(datasetX, datasetY);
 		if (this.checkThreshhold(coefficient)) {
-			this.nominateSchema(setXname, datasetX, datasetY, coefficient);
+			this.nominateSchema(setXname, datasetX, datasetY);
 			this.removeSubNodeinList(list, pos);
 		}
 	}
@@ -117,7 +118,7 @@ public class SchemaNominator {
 		for(int j = i + 1; j < list.size(); j++) {
 			final SubNodeDataSet datasetX = list.get(i);
 			final SubNodeDataSet datasetY = list.get(j);
-			if (this.isNominatableSet(datasetX, datasetY) ) {
+			if (this.isTargetSet(datasetX, datasetY) ) {
 				this.calcSetRelation(list, datasetX, datasetY, i);
 				j = this.removeList(list, removelist, j);
 			}

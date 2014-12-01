@@ -7,9 +7,9 @@ import java.util.Set;
 
 public abstract class Matcher {
 
-	public void insertDelimiter(WrapperObject node, StringBuilder sbuf, int index) {
+	public void insertDelimiter(WrapperObject node, StringBuilder builder, int index) {
 		if (index != node.size() - 1) {
-			sbuf.append("|");
+			builder.append("|");
 		}
 	}
 

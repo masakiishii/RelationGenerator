@@ -4,21 +4,31 @@ import org.peg4d.ParsingObject;
 import org.peg4d.ParsingTag;
 
 public class WrapperObject {
-	private ParsingObject node     = null;
-	private static int    idCount  = 0;
-	private int           objectId = -1;
-	private Coordinate    coord    = null;
-	private boolean       visited  = false;
-	private WrapperObject AST[]    = null;
-	private WrapperObject parent   = null;
-	private String        value    = null;
-	private int           size     = -1;
+	private ParsingObject  node     = null;
+	private static int     idCount  = 0;
+	private int            objectId = -1;
+	private Coordinate     coord    = null;
+	private boolean        visited  = false;
+	private WrapperObject  AST[]    = null;
+	private WrapperObject  parent   = null;
+	private String         value    = null;
+	private int            size     = -1;
+    private SubNodeDataSet dataset  = null;
+
 
 	public WrapperObject(ParsingObject node) {
 		this.objectId = idCount++;
 		this.node     = node;
 		this.coord    = new Coordinate();
 		this.size     = node.size();
+	}
+
+	public void setSubNodeDataSet(SubNodeDataSet dataset) {
+		this.dataset = dataset;
+	}
+
+	public SubNodeDataSet getSubNodeDataSet() {
+		return this.dataset;
 	}
 
 	public ParsingObject getParsingObject() {
