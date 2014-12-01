@@ -43,12 +43,12 @@ public class FixedSchemaMatcher extends Matcher {
 	}
 
 	public String getColumnData(WrapperObject subnode, String column) {
-		final StringBuilder sbuf = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < subnode.size(); i++) {
 			final WrapperObject child = subnode.get(i);
 			if (!child.isTerminal() && child.getTag().toString().equals(column)) {
-				this.insertDelimiter(child, sbuf, i);
-				sbuf.append(child.getTag().toString() + ":" + child.getObjectId());
+				this.insertDelimiter(child, builder, i);
+				builder.append(child.getTag().toString() + ":" + child.getObjectId());
 				continue;
 			}
 			if (child.getTag().toString().equals(column)) {
@@ -56,7 +56,7 @@ public class FixedSchemaMatcher extends Matcher {
 				return child.getText();
 			}
 		}
-		return sbuf.length() > 0 ? sbuf.toString() : null;
+		return builder.length() > 0 ? builder.toString() : null;
 	}
 
 	public void getTupleData(WrapperObject subnode, String tablename) {

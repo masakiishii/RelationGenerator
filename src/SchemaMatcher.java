@@ -38,105 +38,105 @@ public class SchemaMatcher extends Matcher {
 		return data.replace("\n", "\\n").replace("\t", "\\t");
 	}
 
-	private void appendNonTermnialData(WrapperObject node, int index, StringBuilder sbuf) {
-		sbuf.append(this.escapeData(node.get(index).getText()));
-		sbuf.append(":");
-		sbuf.append(node.getObjectId());
+	private void appendNonTermnialData(WrapperObject node, int index, StringBuilder buffer) {
+		buffer.append(this.escapeData(node.get(index).getText()));
+		buffer.append(":");
+		buffer.append(node.getObjectId());
 	}
 
-	private void appendNonTerminalListData(WrapperObject node, StringBuilder sbuf) {
+	private void appendNonTerminalListData(WrapperObject node, StringBuilder buffer) {
 		WrapperObject child = node.get(0);
 		for(int i = 0; i < child.size(); i++) {
-			this.appendNonTermnialData(child.get(i), 0, sbuf);
+			this.appendNonTermnialData(child.get(i), 0, buffer);
 		}
 	}
 
-	private void getListData(WrapperObject node, StringBuilder sbuf) {
+	private void getListData(WrapperObject node, StringBuilder buffer) {
 		for (int i = 0; i < node.size(); i++) {
 			node.get(i).visited();
 			if(node.get(i).isTerminal()) {
-				sbuf.append(node.get(i).getText().toString());
+				buffer.append(node.get(i).getText().toString());
 			}
 			else {
-				this.appendNonTerminalListData(node, sbuf);
+				this.appendNonTerminalListData(node, buffer);
 			}
-			this.insertDelimiter(node, sbuf, i);
+			this.insertDelimiter(node, buffer, i);
 		}
 	}
 
-	private void getSiblListData(WrapperObject node, StringBuilder sbuf) {
+	private void getSiblListData(WrapperObject node, StringBuilder buffer) {
 		for (int i = 0; i < node.size(); i++) {
 			WrapperObject child = node.get(i);
 			if (child.get(0).isTerminal()) {
-				this.appendNonTermnialData(child, 0, sbuf);
+				this.appendNonTermnialData(child, 0, buffer);
 			}
-			this.insertDelimiter(node, sbuf, i);
+			this.insertDelimiter(node, buffer, i);
 		}
 	}
 
-	private void getSiblData(WrapperObject node, StringBuilder sbuf) {
+	private void getSiblData(WrapperObject node, StringBuilder buffer) {
 		node.get(0).visited();
 		if (node.get(0).isTerminal()) {
-			this.appendNonTermnialData(node, 0, sbuf);
+			this.appendNonTermnialData(node, 0, buffer);
 		} else {
-			this.getSiblListData(node, sbuf);
+			this.getSiblListData(node, buffer);
 		}
 	}
 
-	private void travaseSubTree(WrapperObject node, StringBuilder sbuf) {
+	private void travaseSubTree(WrapperObject node, StringBuilder buffer) {
 		if(node.getTag().toString().equals("List")) { //FIXME
-			this.getListData(node, sbuf);
+			this.getListData(node, buffer);
 		}
 		else {
-			this.getSiblData(node, sbuf);
+			this.getSiblData(node, buffer);
 		}
 	}
 
-	private void checkingSubNodeType(WrapperObject node, StringBuilder sbuf) {
+	private void checkingSubNodeType(WrapperObject node, StringBuilder buffer) {
 		node.visited();
 		if(node.isTerminal()) {
-			sbuf.append(this.escapeData(node.getText()));
+			buffer.append(this.escapeData(node.getText()));
 		}
 		else {
-			this.travaseSubTree(node, sbuf);
+			this.travaseSubTree(node, buffer);
 		}
 	}
 
-	private void matchingSubNode(WrapperObject node, StringBuilder sbuf) {
+	private void matchingSubNode(WrapperObject node, StringBuilder buffer) {
 		node.visited();
 		WrapperObject parent = node.getParent();
 		for(int i = 1; i < parent.size(); i++) {
 			WrapperObject sibling = parent.get(i);
-			this.checkingSubNodeType(sibling, sbuf);
-			this.insertDelimiter(parent, sbuf, i);
+			this.checkingSubNodeType(sibling, buffer);
+			this.insertDelimiter(parent, buffer, i);
 		}
 	}
 
-	private String getColumnString(StringBuilder sbuf) {
-		return sbuf.length() > 0 ? sbuf.toString() : null;
+	private String getColumnString(StringBuilder buffer) {
+		return buffer.length() > 0 ? buffer.toString() : null;
 	}
 
-	private void checkMatchingSubNode(WrapperObject node, String column, StringBuilder sbuf) {
+	private void checkMatchingSubNode(WrapperObject node, String column, StringBuilder buffer) {
 		if(node.getText().equals(column)) {
-			this.matchingSubNode(node, sbuf);
+			this.matchingSubNode(node, buffer);
 		}
 	}
 
 	@Override
 	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column) {
-		StringBuilder sbuf = new StringBuilder();
+		StringBuilder buffer = new StringBuilder();
 		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(subnode);
 		while(!queue.isEmpty()) {
 			WrapperObject node = queue.poll();
-			this.checkMatchingSubNode(node, column, sbuf);
+			this.checkMatchingSubNode(node, column, buffer);
 			for(int index = 0; index < node.size(); index++) {
 				if(!node.equals(tablenode)) {
 					queue.offer(node.get(index));
 				}
 			}
 		}
-		return this.getColumnString(sbuf);
+		return this.getColumnString(buffer);
 	}
 
 	private void getFieldData(String column, ArrayList<String> columndata, WrapperObject subnode, WrapperObject tablenode) {
