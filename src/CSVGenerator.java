@@ -10,10 +10,10 @@ public class CSVGenerator {
 	}
 
 	private void generateData(String tablename, Matcher matcher) {
-		ArrayList<ArrayList<String>> datalist = matcher.getTable().get(tablename);
-		StringBuffer buffer = new StringBuffer();
+		final ArrayList<ArrayList<String>> datalist = matcher.getTable().get(tablename);
+		final StringBuffer buffer = new StringBuffer();
 		for(int i = 0; i < datalist.size(); i++) {
-			ArrayList<String> line = datalist.get(i);
+			final ArrayList<String> line = datalist.get(i);
 			for(int j = 0; j < line.size(); j++) {
 				buffer.append(line.get(j));
 				buffer.append("\t");
@@ -25,9 +25,9 @@ public class CSVGenerator {
 	}
 
 	private void generateColumns(String tablename, Matcher matcher) {
-		Set<String>  columns = matcher.getSchema(tablename);
-		StringBuffer buffer  = new StringBuffer();
-		for(String column : columns) {
+		final Set<String>  columns = matcher.getSchema(tablename);
+		final StringBuffer buffer  = new StringBuffer();
+		for(final String column : columns) {
 			buffer.append(column);
 			buffer.append("\t");
 		}
@@ -36,8 +36,8 @@ public class CSVGenerator {
 	}
 
 	public void generate(Matcher matcher) {
-		Map<String, ArrayList<ArrayList<String>>> table = matcher.getTable();
-		for(String tablename : table.keySet()) {
+		final Map<String, ArrayList<ArrayList<String>>> table = matcher.getTable();
+		for(final String tablename : table.keySet()) {
 			System.out.println("tablename: " + tablename);
 			System.out.println("-------------------------------");
 			this.generateColumns(tablename, matcher);
