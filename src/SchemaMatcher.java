@@ -21,7 +21,7 @@ public class SchemaMatcher extends Matcher {
 
 	private void initTable() {
 		this.table = new HashMap<String, ArrayList<ArrayList<String>>>();
-		for(String column : this.schema.keySet()) {
+		for(final String column : this.schema.keySet()) {
 			this.table.put(column, new ArrayList<ArrayList<String>>());
 		}
 	}
@@ -45,7 +45,7 @@ public class SchemaMatcher extends Matcher {
 	}
 
 	private void appendNonTerminalListData(WrapperObject node, StringBuilder buffer) {
-		WrapperObject child = node.get(0);
+		final WrapperObject child = node.get(0);
 		for(int i = 0; i < child.size(); i++) {
 			this.appendNonTermnialData(child.get(i), 0, buffer);
 		}
@@ -66,7 +66,7 @@ public class SchemaMatcher extends Matcher {
 
 	private void getSiblListData(WrapperObject node, StringBuilder buffer) {
 		for (int i = 0; i < node.size(); i++) {
-			WrapperObject child = node.get(i);
+			final WrapperObject child = node.get(i);
 			if (child.get(0).isTerminal()) {
 				this.appendNonTermnialData(child, 0, buffer);
 			}
@@ -104,9 +104,9 @@ public class SchemaMatcher extends Matcher {
 
 	private void matchingSubNode(WrapperObject node, StringBuilder buffer) {
 		node.visited();
-		WrapperObject parent = node.getParent();
+		final WrapperObject parent = node.getParent();
 		for(int i = 1; i < parent.size(); i++) {
-			WrapperObject sibling = parent.get(i);
+			final WrapperObject sibling = parent.get(i);
 			this.checkingSubNodeType(sibling, buffer);
 			this.insertDelimiter(parent, buffer, i);
 		}
@@ -124,11 +124,11 @@ public class SchemaMatcher extends Matcher {
 
 	@Override
 	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column) {
-		StringBuilder buffer = new StringBuilder();
+		final StringBuilder buffer = new StringBuilder();
 		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(subnode);
 		while(!queue.isEmpty()) {
-			WrapperObject node = queue.poll();
+			final WrapperObject node = queue.poll();
 			this.checkMatchingSubNode(node, column, buffer);
 			for(int index = 0; index < node.size(); index++) {
 				if(!node.equals(tablenode)) {
@@ -144,16 +144,16 @@ public class SchemaMatcher extends Matcher {
 			columndata.add(String.valueOf(subnode.getObjectId()));
 		}
 		else {
-			String data = this.getColumnData(subnode, tablenode, column);
+			final String data = this.getColumnData(subnode, tablenode, column);
 			columndata.add(data);
 		}
 	}
 
 	@Override
 	public void getTupleData(WrapperObject subnode, WrapperObject tablenode, String tablename, SubNodeDataSet columns) {
-		ArrayList<ArrayList<String>> tabledata = this.table.get(tablename);
-		ArrayList<String> columndata = new ArrayList<String>();
-		for(String column : columns.getFinalColumnSet()) {
+		final ArrayList<ArrayList<String>> tabledata = this.table.get(tablename);
+		final ArrayList<String> columndata = new ArrayList<String>();
+		for(final String column : columns.getFinalColumnSet()) {
 			this.getFieldData(column, columndata, subnode, tablenode);
 		}
 		tabledata.add(columndata);
@@ -161,7 +161,7 @@ public class SchemaMatcher extends Matcher {
 
 	@Override
 	public void getTupleListData(WrapperObject subnode, WrapperObject tablenode, String tablename, SubNodeDataSet columns) {
-		WrapperObject listnode = subnode.get(1);
+		final WrapperObject listnode = subnode.get(1);
 		for (int i = 0; i < listnode.size(); i++) {
 			this.getTupleData(listnode.get(i), tablenode, tablename, columns);
 		}
@@ -175,7 +175,7 @@ public class SchemaMatcher extends Matcher {
 	private void checkTreeType(WrapperObject parent, WrapperObject child) {
 		child.visited();
 		parent.visited();
-		String tablename = child.getText();
+		final String tablename = child.getText();
 		if (parent.get(1).getTag().toString().equals("List")) {
 			this.getTupleListData(parent, child, tablename, this.schema.get(tablename));
 		} else {
@@ -188,11 +188,11 @@ public class SchemaMatcher extends Matcher {
 		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(root);
 		while(!queue.isEmpty()) {
-			WrapperObject parent = queue.poll();
+			final WrapperObject parent = queue.poll();
 			if(parent.isTerminal()) {
 				continue;
 			}
-			WrapperObject child = parent.get(0);
+			final WrapperObject child = parent.get(0);
 			if(child.isTerminal() && this.isTableName(child.getText())) {
 				this.checkTreeType(parent, child);
 				continue;
