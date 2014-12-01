@@ -19,7 +19,7 @@ public class FixedSchemaMatcher extends Matcher {
 
 	private void initTable() {
 		this.table = new HashMap<String, ArrayList<ArrayList<String>>>();
-		for(String column : this.schema.keySet()) {
+		for(final String column : this.schema.keySet()) {
 			this.table.put(column, new ArrayList<ArrayList<String>>());
 		}
 	}
@@ -36,22 +36,22 @@ public class FixedSchemaMatcher extends Matcher {
 	}
 
 	@Override
-	public void insertDelimiter(WrapperObject node, StringBuffer sbuf, int index) {
+	public void insertDelimiter(WrapperObject node, StringBuilder sbuf, int index) {
 		if (sbuf.length() > 0) {
 			sbuf.append("|");
 		}
 	}
 
 	public String getColumnData(WrapperObject subnode, String column) {
-		StringBuffer sbuf = new StringBuffer();
-		for(int i = 0; i < subnode.size(); i++) {
-			WrapperObject child = subnode.get(i);
-			if(!child.isTerminal() && child.getTag().toString().equals(column)) {
+		final StringBuilder sbuf = new StringBuilder();
+		for (int i = 0; i < subnode.size(); i++) {
+			final WrapperObject child = subnode.get(i);
+			if (!child.isTerminal() && child.getTag().toString().equals(column)) {
 				this.insertDelimiter(child, sbuf, i);
 				sbuf.append(child.getTag().toString() + ":" + child.getObjectId());
 				continue;
 			}
-			if(child.getTag().toString().equals(column)) {
+			if (child.getTag().toString().equals(column)) {
 				child.visited();
 				return child.getText();
 			}
@@ -60,16 +60,16 @@ public class FixedSchemaMatcher extends Matcher {
 	}
 
 	public void getTupleData(WrapperObject subnode, String tablename) {
-		ArrayList<ArrayList<String>> tabledata = this.table.get(tablename);
-		ArrayList<String> columndata = new ArrayList<String>();
-		Set<String> columns = this.schema.get(tablename);
-		for(String column : columns) {
-			if(column.equals("OBJECTID")) {
+		final ArrayList<ArrayList<String>> tabledata = this.table.get(tablename);
+		final ArrayList<String> columndata = new ArrayList<String>();
+		final Set<String> columns = this.schema.get(tablename);
+		for (final String column : columns) {
+			if (column.equals("OBJECTID")) {
 				columndata.add(String.valueOf(subnode.getObjectId()));
 				continue;
 			}
 			else {
-				String data = this.getColumnData(subnode, column);
+				final String data = this.getColumnData(subnode, column);
 				columndata.add(data);
 			}
 		}
@@ -82,19 +82,19 @@ public class FixedSchemaMatcher extends Matcher {
 	}
 
 	private void checkTargetNode(WrapperObject node) {
-		String tablename = node.getTag().toString();
-		if(this.table.containsKey(tablename)) {
+		final String tablename = node.getTag().toString();
+		if (this.table.containsKey(tablename)) {
 			this.getTupleData(node, tablename);
 		}
 	}
 
 	@Override
 	public void matching(WrapperObject node) {
-		if(node == null) {
+		if (node == null) {
 			return;
 		}
 		this.checkTargetNode(node);
-		for(int i = 0; i < node.size(); i++) {
+		for (int i = 0; i < node.size(); i++) {
 			this.matching(node.get(i));
 		}
 	}

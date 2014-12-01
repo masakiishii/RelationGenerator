@@ -38,20 +38,20 @@ public class SchemaMatcher extends Matcher {
 		return data.replace("\n", "\\n").replace("\t", "\\t");
 	}
 
-	private void appendNonTermnialData(WrapperObject node, int index, StringBuffer sbuf) {
+	private void appendNonTermnialData(WrapperObject node, int index, StringBuilder sbuf) {
 		sbuf.append(this.escapeData(node.get(index).getText()));
 		sbuf.append(":");
 		sbuf.append(node.getObjectId());
 	}
 
-	private void appendNonTerminalListData(WrapperObject node, StringBuffer sbuf) {
+	private void appendNonTerminalListData(WrapperObject node, StringBuilder sbuf) {
 		WrapperObject child = node.get(0);
 		for(int i = 0; i < child.size(); i++) {
 			this.appendNonTermnialData(child.get(i), 0, sbuf);
 		}
 	}
 
-	private void getListData(WrapperObject node, StringBuffer sbuf) {
+	private void getListData(WrapperObject node, StringBuilder sbuf) {
 		for (int i = 0; i < node.size(); i++) {
 			node.get(i).visited();
 			if(node.get(i).isTerminal()) {
@@ -64,7 +64,7 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private void getSiblListData(WrapperObject node, StringBuffer sbuf) {
+	private void getSiblListData(WrapperObject node, StringBuilder sbuf) {
 		for (int i = 0; i < node.size(); i++) {
 			WrapperObject child = node.get(i);
 			if (child.get(0).isTerminal()) {
@@ -74,7 +74,7 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private void getSiblData(WrapperObject node, StringBuffer sbuf) {
+	private void getSiblData(WrapperObject node, StringBuilder sbuf) {
 		node.get(0).visited();
 		if (node.get(0).isTerminal()) {
 			this.appendNonTermnialData(node, 0, sbuf);
@@ -83,7 +83,7 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private void travaseSubTree(WrapperObject node, StringBuffer sbuf) {
+	private void travaseSubTree(WrapperObject node, StringBuilder sbuf) {
 		if(node.getTag().toString().equals("List")) { //FIXME
 			this.getListData(node, sbuf);
 		}
@@ -92,7 +92,7 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private void checkingSubNodeType(WrapperObject node, StringBuffer sbuf) {
+	private void checkingSubNodeType(WrapperObject node, StringBuilder sbuf) {
 		node.visited();
 		if(node.isTerminal()) {
 			sbuf.append(this.escapeData(node.getText()));
@@ -102,7 +102,7 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private void matchingSubNode(WrapperObject node, StringBuffer sbuf) {
+	private void matchingSubNode(WrapperObject node, StringBuilder sbuf) {
 		node.visited();
 		WrapperObject parent = node.getParent();
 		for(int i = 1; i < parent.size(); i++) {
@@ -112,11 +112,11 @@ public class SchemaMatcher extends Matcher {
 		}
 	}
 
-	private String getColumnString(StringBuffer sbuf) {
+	private String getColumnString(StringBuilder sbuf) {
 		return sbuf.length() > 0 ? sbuf.toString() : null;
 	}
 
-	private void checkMatchingSubNode(WrapperObject node, String column, StringBuffer sbuf) {
+	private void checkMatchingSubNode(WrapperObject node, String column, StringBuilder sbuf) {
 		if(node.getText().equals(column)) {
 			this.matchingSubNode(node, sbuf);
 		}
@@ -124,7 +124,7 @@ public class SchemaMatcher extends Matcher {
 
 	@Override
 	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column) {
-		StringBuffer sbuf = new StringBuffer();
+		StringBuilder sbuf = new StringBuilder();
 		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(subnode);
 		while(!queue.isEmpty()) {
