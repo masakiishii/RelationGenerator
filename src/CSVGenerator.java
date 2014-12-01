@@ -11,7 +11,7 @@ public class CSVGenerator {
 
 	private void generateData(String tablename, Matcher matcher) {
 		final ArrayList<ArrayList<String>> datalist = matcher.getTable().get(tablename);
-		final StringBuffer buffer = new StringBuffer();
+		final StringBuilder buffer = new StringBuilder();
 		for(int i = 0; i < datalist.size(); i++) {
 			final ArrayList<String> line = datalist.get(i);
 			for(int j = 0; j < line.size(); j++) {
@@ -26,7 +26,7 @@ public class CSVGenerator {
 
 	private void generateColumns(String tablename, Matcher matcher) {
 		final Set<String>  columns = matcher.getSchema(tablename);
-		final StringBuffer buffer  = new StringBuffer();
+		final StringBuilder buffer  = new StringBuilder();
 		for(final String column : columns) {
 			buffer.append(column);
 			buffer.append("\t");
