@@ -28,8 +28,8 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 
 	@Override
 	public int compare(SubNodeDataSet o1, SubNodeDataSet o2) {
-		Coordinate p1 = o1.subNode.getCoord();
-		Coordinate p2 = o2.subNode.getCoord();
+		final Coordinate p1 = o1.subNode.getCoord();
+		final Coordinate p2 = o2.subNode.getCoord();
 		return p2.getRange() - p1.getRange();
 	}
 
@@ -52,10 +52,10 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 	}
 
 	public void buildAssumedColumnSet() {
-		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
+		final Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(this.subNode);
 		while(!queue.isEmpty()) {
-			WrapperObject node = queue.poll();
+			final WrapperObject node = queue.poll();
 			this.setAssumedColumnSet(node);
 			for(int index = 0; index < node.size(); index++) {
 				queue.offer(node.get(index));

@@ -15,14 +15,14 @@ public class SchemaTypeChecker {
 	}
 
 	private ArrayList<int[]> getParsingObjectDomainList(WrapperObject root, SubNodeDataSet subnodedatasetX) {
-		ArrayList<int[]> domainlist = new ArrayList<int[]>();
-		String tablename = subnodedatasetX.getAssumedTableName();
-		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
+		final ArrayList<int[]> domainlist = new ArrayList<int[]>();
+		final String tablename = subnodedatasetX.getAssumedTableName();
+		final Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(root);
 		while(!queue.isEmpty()) {
-			WrapperObject node = queue.poll();
+			final WrapperObject node = queue.poll();
 			if(node.size() == 0 && node.getText().toString().equals(tablename)) {
-				WrapperObject target = node.getParent();
+				final WrapperObject target = node.getParent();
 				int[] domain = new int[2];
 				domain[this.ltdomain] = target.getCoord().getLtpos();
 				domain[this.rtdomain] = target.getCoord().getRtpos();
@@ -36,8 +36,8 @@ public class SchemaTypeChecker {
 	}
 
 	public boolean inList(ArrayList<int[]> list, SubNodeDataSet subnodedatasetY) {
-		int lpos = subnodedatasetY.getSubNode().getCoord().getLtpos();
-		int rpos = subnodedatasetY.getSubNode().getCoord().getRtpos();
+		final int lpos = subnodedatasetY.getSubNode().getCoord().getLtpos();
+		final int rpos = subnodedatasetY.getSubNode().getCoord().getRtpos();
 		for(int i = 0; i < list.size(); i++) {
 			if(list.get(i)[0] < lpos && rpos < list.get(i)[1]) {
 				return true;
@@ -47,7 +47,7 @@ public class SchemaTypeChecker {
 	}
 
 	public boolean check(WrapperObject root, SubNodeDataSet subnodedatasetX, SubNodeDataSet subnodedatasetY) {
-		ArrayList<int[]> list = this.getParsingObjectDomainList(root, subnodedatasetX);
+		final ArrayList<int[]> list = this.getParsingObjectDomainList(root, subnodedatasetX);
 		return this.inList(list, subnodedatasetY);
 	}
 }

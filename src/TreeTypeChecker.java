@@ -17,7 +17,7 @@ public class TreeTypeChecker {
 	}
 
 	private void collectColumnSet(WrapperObject node, String parenttag) {
-		Set<String> schemaset = new LinkedHashSet<String>();
+		final Set<String> schemaset = new LinkedHashSet<String>();
 		schemaset.add("OBJECTID");
 		for(int i = 0; i < node.size(); i++) {
 			schemaset.add(node.get(i).getTag().toString());
@@ -26,7 +26,7 @@ public class TreeTypeChecker {
 	}
 
 	private void setSchemaMap(WrapperObject node) {
-		String parenttag = node.getTag().toString();
+		final String parenttag = node.getTag().toString();
 		if(this.isSchemaTypeTree(node, parenttag)) {
 			this.collectColumnSet(node, parenttag);
 		}

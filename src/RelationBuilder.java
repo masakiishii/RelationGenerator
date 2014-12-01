@@ -30,7 +30,7 @@ public class RelationBuilder {
 	}
 
 	private void setAllSubNodeSetList(WrapperObject node, String tablename, int id) {
-		SubNodeDataSet subnodeset = new SubNodeDataSet(node, tablename, id);
+		final SubNodeDataSet subnodeset = new SubNodeDataSet(node, tablename, id);
 		subnodeset.buildAssumedColumnSet();
 		if (subnodeset.getAssumedColumnSet().size() > 1) {
 			this.allsubnodesetlist.add(subnodeset);

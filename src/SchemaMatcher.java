@@ -125,7 +125,7 @@ public class SchemaMatcher extends Matcher {
 	@Override
 	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column) {
 		final StringBuilder buffer = new StringBuilder();
-		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
+		final Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(subnode);
 		while(!queue.isEmpty()) {
 			final WrapperObject node = queue.poll();
@@ -185,7 +185,7 @@ public class SchemaMatcher extends Matcher {
 
 	@Override
 	public void matching(WrapperObject root) {
-		Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
+		final Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(root);
 		while(!queue.isEmpty()) {
 			final WrapperObject parent = queue.poll();
