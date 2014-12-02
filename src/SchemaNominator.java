@@ -80,27 +80,33 @@ public class SchemaNominator {
 		return false;
 	}
 
+	private boolean checkRemoveSet(ArrayList<SubNodeDataSet> list, int pos) {
+		final SubNodeDataSet dataset = list.get(pos);
+		if (dataset.isRemoveSet()) {
+			dataset.softRemoveChild();
+			list.remove(pos);
+			return true;
+		}
+		return false;
+	}
+
 	private void filter(ArrayList<SubNodeDataSet> list) {
 		for (int i = 0; i < list.size(); i++) {
-			final SubNodeDataSet x = list.get(i);
-			if (x.removed) {
-				x.softRemoveChild();
-				list.remove(i);
+			if (this.checkRemoveSet(list, i)) {
 				i -= 1;
 				continue;
 			}
 			for (int j = i + 1; j < list.size(); j++) {
-				final SubNodeDataSet y = list.get(j);
-				if (y.removed) {
-					y.softRemoveChild();
-					list.remove(j);
+				if (this.checkRemoveSet(list, j)) {
 					j -= 1;
 					continue;
 				}
-				if (this.isTargetSet(x, y)) {
-					if (this.calcSetRelation(list, x, y)) {
-						x.softRemoveChild();
-						y.softRemoveChild();
+				final SubNodeDataSet datasetX = list.get(i);
+				final SubNodeDataSet datasetY = list.get(j);
+				if (this.isTargetSet(datasetX, datasetY)) {
+					if (this.calcSetRelation(list, datasetX, datasetY)) {
+						datasetX.softRemoveChild();
+						datasetY.softRemoveChild();
 						list.remove(j);
 						j -= 1;
 					}
