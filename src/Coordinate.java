@@ -9,31 +9,27 @@ public class Coordinate {
 
 	}
 
-	public void setLpos(int ltpos) {
+	public final void setLpos(int ltpos) {
 		this.ltpos = ltpos;
 	}
 
-	public void setRpos(int rtpos) {
+	public final void setRpos(int rtpos) {
 		this.rtpos = rtpos;
 	}
 
-	public int getLtpos() {
+	public final int getLtpos() {
 		return this.ltpos;
 	}
 
-	public int getRtpos() {
+	public final int getRtpos() {
 		return this.rtpos;
 	}
 
-	public int getRange() {
+	public final int getRange() {
 		return this.rtpos - this.ltpos;
 	}
 
-	static public boolean checkLtpos(Coordinate parentpoint, Coordinate subnodepoint) {
-		return parentpoint.getLtpos() < subnodepoint.getLtpos();
-	}
-
-	static public boolean checkRtpos(Coordinate parentpoint, Coordinate subnodepoint) {
-		return subnodepoint.getRtpos() < parentpoint.getRtpos();
+	public final boolean isChildNode(Coordinate other) {
+		return this.getLtpos() < other.getLtpos() && other.getRtpos() < this.getRtpos();
 	}
 }

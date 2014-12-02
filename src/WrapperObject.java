@@ -3,11 +3,10 @@ package org.peg4d.data;
 import org.peg4d.ParsingObject;
 import org.peg4d.ParsingTag;
 
-public class WrapperObject {
+public class WrapperObject extends Coordinate {
 	private ParsingObject  node     = null;
 	private static int     idCount  = 0;
 	private int            objectId = -1;
-	private Coordinate     coord    = null;
 	private boolean        visited  = false;
 	private WrapperObject  AST[]    = null;
 	private WrapperObject  parent   = null;
@@ -17,9 +16,9 @@ public class WrapperObject {
 
 
 	public WrapperObject(ParsingObject node) {
+		super();
 		this.objectId = idCount++;
 		this.node     = node;
-		this.coord    = new Coordinate();
 		this.size     = node.size();
 	}
 
@@ -37,10 +36,6 @@ public class WrapperObject {
 
 	public int getObjectId() {
 		return this.objectId;
-	}
-
-	public Coordinate getCoord() {
-		return this.coord;
 	}
 
 	public void setParent(WrapperObject parent) {

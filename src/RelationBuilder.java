@@ -72,7 +72,7 @@ public class RelationBuilder {
 		if (node == null) {
 			return;
 		}
-		wrappernode.getCoord().setLpos(this.segmentidpos++);
+		wrappernode.setLpos(this.segmentidpos++);
 		int size = node.size();
 		if (size > 0) {
 			final WrapperObject[] AST = new WrapperObject[size];
@@ -83,7 +83,7 @@ public class RelationBuilder {
 			}
 			wrappernode.setAST(AST);
 		}
-		wrappernode.getCoord().setRpos(this.segmentidpos++);
+		wrappernode.setRpos(this.segmentidpos++);
 	}
 
 	void linkAllSubNodeDataSet(WrapperObject node) {

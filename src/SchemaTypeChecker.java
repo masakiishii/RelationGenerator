@@ -24,8 +24,8 @@ public class SchemaTypeChecker {
 			if(node.size() == 0 && node.getText().toString().equals(tablename)) {
 				final WrapperObject target = node.getParent();
 				int[] domain = new int[2];
-				domain[this.ltdomain] = target.getCoord().getLtpos();
-				domain[this.rtdomain] = target.getCoord().getRtpos();
+				domain[this.ltdomain] = target.getLtpos();
+				domain[this.rtdomain] = target.getRtpos();
 				domainlist.add(domain);
 			}
 			for(int index = 0; index < node.size(); index++) {
@@ -36,8 +36,8 @@ public class SchemaTypeChecker {
 	}
 
 	public boolean inList(ArrayList<int[]> list, SubNodeDataSet subnodedatasetY) {
-		final int lpos = subnodedatasetY.getSubNode().getCoord().getLtpos();
-		final int rpos = subnodedatasetY.getSubNode().getCoord().getRtpos();
+		final int lpos = subnodedatasetY.getSubNode().getLtpos();
+		final int rpos = subnodedatasetY.getSubNode().getRtpos();
 		for(int i = 0; i < list.size(); i++) {
 			if(list.get(i)[0] < lpos && rpos < list.get(i)[1]) {
 				return true;

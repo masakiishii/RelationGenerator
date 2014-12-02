@@ -6,7 +6,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
 
 public class SchemaNominator {
 	private RelationBuilder relationbuilder    = null;
@@ -65,10 +64,6 @@ public class SchemaNominator {
 
 	private boolean checkThreshhold(double coefficient) {
 		return coefficient > 0.5 && coefficient <= 1.0;
-	}
-
-	private boolean isSubNode(Coordinate parentcoord, Coordinate subnodecoord) {
-		return Coordinate.checkLtpos(parentcoord, subnodecoord) && Coordinate.checkRtpos(parentcoord, subnodecoord);
 	}
 
 	private boolean calcSetRelation(ArrayList<SubNodeDataSet> list, SubNodeDataSet datasetX, SubNodeDataSet datasetY) {

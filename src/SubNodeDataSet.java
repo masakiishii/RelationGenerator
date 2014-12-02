@@ -38,8 +38,8 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 
 	@Override
 	public int compare(SubNodeDataSet o1, SubNodeDataSet o2) {
-		final Coordinate p1 = o1.subNode.getCoord();
-		final Coordinate p2 = o2.subNode.getCoord();
+		final Coordinate p1 = o1.getSubNode();
+		final Coordinate p2 = o2.getSubNode();
 		return p2.getRange() - p1.getRange();
 	}
 
@@ -103,6 +103,10 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 
 	public boolean isRemoveSet() {
 		return this.removed ? true : false;
+	}
+
+	public boolean isSubNode(SubNodeDataSet other) {
+		return this.getSubNode().isChildNode(other.getSubNode());
 	}
 
 	public void softRemoveChild() {
