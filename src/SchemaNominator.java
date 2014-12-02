@@ -90,6 +90,18 @@ public class SchemaNominator {
 		return false;
 	}
 
+	private boolean isNominatableSet(ArrayList<SubNodeDataSet>list, int i, int j) {
+		final SubNodeDataSet datasetX = list.get(i);
+		final SubNodeDataSet datasetY = list.get(j);
+		if (this.isTargetSet(datasetX, datasetY) && this.calcSetRelation(list, datasetX, datasetY)) {
+			datasetX.softRemoveChild();
+			datasetY.softRemoveChild();
+			list.remove(j);
+			return true;
+		}
+		return false;
+	}
+
 	private void filter(ArrayList<SubNodeDataSet> list) {
 		for (int i = 0; i < list.size(); i++) {
 			if (this.checkRemoveSet(list, i)) {
@@ -101,16 +113,7 @@ public class SchemaNominator {
 					j -= 1;
 					continue;
 				}
-				final SubNodeDataSet datasetX = list.get(i);
-				final SubNodeDataSet datasetY = list.get(j);
-				if (this.isTargetSet(datasetX, datasetY)) {
-					if (this.calcSetRelation(list, datasetX, datasetY)) {
-						datasetX.softRemoveChild();
-						datasetY.softRemoveChild();
-						list.remove(j);
-						j -= 1;
-					}
-				}
+				j -= this.isNominatableSet(list, i, j) ? 1 : 0;
 			}
 		}
 	}
