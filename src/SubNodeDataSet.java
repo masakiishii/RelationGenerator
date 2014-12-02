@@ -14,7 +14,7 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 	private Set<String>               finalColumnSet     = null;
 	private int                       assumedTableNodeId = -1;
 	private ArrayList<SubNodeDataSet> children           = null;
-	private boolean                   removed            = false;
+	public  boolean                   removed            = false;
 
 	public SubNodeDataSet(WrapperObject subNode, String assumedTableName, int assumedTableId) {
 		this.subNode            = subNode;
@@ -99,5 +99,13 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 
 	public ArrayList<SubNodeDataSet> getChildren() {
 		return this.children;
+	}
+
+	public void softRemoveChild() {
+		for (final SubNodeDataSet child : this.children) {
+			if (child != null) {
+				child.removed = true;
+			}
+		}
 	}
 }

@@ -29,7 +29,7 @@ public class SchemaNominator {
 		return union;
 	}
 
-	private double calculatingCoefficient(SubNodeDataSet datasetX, SubNodeDataSet datasetY) {
+	private double calcCoefficient(SubNodeDataSet datasetX, SubNodeDataSet datasetY) {
 		final Set<String> setX         = datasetX.getAssumedColumnSet();
 		final Set<String> setY         = datasetY.getAssumedColumnSet();
 		final Set<String> intersection = this.calcIntersection(setX, setY);
@@ -37,7 +37,8 @@ public class SchemaNominator {
 		return (double) intersection.size() / union.size(); // coefficient
 	}
 
-	private void nominateSchema(String tablename, SubNodeDataSet nodeX, SubNodeDataSet nodeY) {
+	private void nominateSchema(SubNodeDataSet nodeX, SubNodeDataSet nodeY) {
+		final String tablename = nodeX.getAssumedTableName();
 		final Set<String> setX = nodeX.getAssumedColumnSet();
 		final Set<String> setY = nodeY.getAssumedColumnSet();
 		if(this.schema.containsKey(tablename)) {
@@ -104,14 +105,23 @@ public class SchemaNominator {
 		return pos;
 	}
 
-	private void calcSetRelation(ArrayList<SubNodeDataSet> list, SubNodeDataSet datasetX, SubNodeDataSet datasetY, int pos) {
-		final String setXname  = datasetX.getAssumedTableName();
-		final double coefficient = this.calculatingCoefficient(datasetX, datasetY);
+	private boolean calcSetRelation(ArrayList<SubNodeDataSet> list, SubNodeDataSet datasetX, SubNodeDataSet datasetY) {
+		final double coefficient = this.calcCoefficient(datasetX, datasetY);
 		if (this.checkThreshhold(coefficient)) {
-			this.nominateSchema(setXname, datasetX, datasetY);
-			this.removeSubNodeinList(list, pos);
+			this.nominateSchema(datasetX, datasetY);
+			return true;
 		}
+		return false;
 	}
+
+//	private void calcSetRelation(ArrayList<SubNodeDataSet> list, SubNodeDataSet datasetX, SubNodeDataSet datasetY, int pos) {
+//		final String setXname  = datasetX.getAssumedTableName();
+//		final double coefficient = this.calculatingCoefficient(datasetX, datasetY);
+//		if (this.checkThreshhold(coefficient)) {
+//			this.nominateSchema(setXname, datasetX, datasetY);
+//			this.removeSubNodeinList(list, pos);
+//		}
+//	}
 
 	private ArrayList<SubNodeDataSet> collectRemoveList(ArrayList<SubNodeDataSet> list, int i) {
 		final ArrayList<SubNodeDataSet> removelist = new ArrayList<SubNodeDataSet>();
@@ -119,7 +129,7 @@ public class SchemaNominator {
 			final SubNodeDataSet datasetX = list.get(i);
 			final SubNodeDataSet datasetY = list.get(j);
 			if (this.isTargetSet(datasetX, datasetY) ) {
-				this.calcSetRelation(list, datasetX, datasetY, i);
+				//this.calcSetRelation(list, datasetX, datasetY, i);
 				j = this.removeList(list, removelist, j);
 			}
 		}
@@ -127,11 +137,40 @@ public class SchemaNominator {
 	}
 
 	private void filter(ArrayList<SubNodeDataSet> list) {
-		for(int i = 0; i < list.size(); i++) {
-			final ArrayList<SubNodeDataSet> removelist = this.collectRemoveList(list, i);
-			this.removeSubNodeinRemoveList(list, removelist);
+		for (int i = 0; i < list.size(); i++) {
+			final SubNodeDataSet x = list.get(i);
+			if (x.removed) {
+				x.softRemoveChild();
+				list.remove(i);
+				i -= 1;
+				continue;
+			}
+			for (int j = i + 1; j < list.size(); j++) {
+				final SubNodeDataSet y = list.get(j);
+				if (y.removed) {
+					y.softRemoveChild();
+					list.remove(j);
+					j -= 1;
+					continue;
+				}
+				if (this.isTargetSet(x, y)) {
+					if (this.calcSetRelation(list, x, y)) {
+						x.softRemoveChild();
+						y.softRemoveChild();
+						list.remove(j);
+						j -= 1;
+					}
+				}
+			}
 		}
 	}
+	
+	//	private void filter(ArrayList<SubNodeDataSet> list) {
+//		for(int i = 0; i < list.size(); i++) {
+//			final ArrayList<SubNodeDataSet> removelist = this.collectRemoveList(list, i);
+//			this.removeSubNodeinRemoveList(list, removelist);
+//		}
+//	}
 
 	public void nominate() {
 		final ArrayList<SubNodeDataSet> list = this.relationbuilder.getSubNodeDataSetList();
