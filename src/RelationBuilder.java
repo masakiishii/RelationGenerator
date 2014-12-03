@@ -125,13 +125,25 @@ public class RelationBuilder {
 		matcher.match(wrapperrootnode);
 	}
 
-	public void build(Boolean infer) {
+	private void buildDTD(WrapperObject wrapperrootnode) {
+		final SchemaNominator preschema = new SchemaNominator(this);
+		preschema.nominate();
+		final SchemaDecider defineschema = new SchemaDecider(preschema, wrapperrootnode);
+		final Map<String, SubNodeDataSet> definedschema = defineschema.define();
+		DTDGenerator generator = new DTDGenerator(definedschema);
+		generator.generate(wrapperrootnode);
+	}
+
+	public void build(String reltype) {
 		final WrapperObject wrapperrootnode = this.preprocessing();
-		if(infer) {
+		if(reltype.equals("--infer")) {
 			this.buildInferSchema(wrapperrootnode);
 		}
-		else {
+		else if(reltype.equals("--fixed")) {
 			this.buildFixedSchema(wrapperrootnode);
+		}
+		else { //build DTD --dtdgen
+			this.buildDTD(wrapperrootnode);
 		}
 	}
 }
