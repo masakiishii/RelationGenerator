@@ -4,16 +4,15 @@ import org.peg4d.ParsingObject;
 import org.peg4d.ParsingTag;
 
 public class WrapperObject extends Coordinate {
-	private ParsingObject  node     = null;
 	private static int     idCount  = 0;
+
+	private ParsingObject  node     = null;
 	private int            objectId = -1;
+	private int            size     = -1;
 	private boolean        visited  = false;
 	private WrapperObject  AST[]    = null;
 	private WrapperObject  parent   = null;
-	private String         value    = null;
-	private int            size     = -1;
-    private SubNodeDataSet dataset  = null;
-
+	private SubNodeDataSet dataset  = null;
 
 	public WrapperObject(ParsingObject node) {
 		super();
@@ -76,10 +75,7 @@ public class WrapperObject extends Coordinate {
 	}
 
 	public String getText() {
-		if(this.value == null) {
-			this.value = this.node.getText();
-		}
-		return this.value;
+		return this.node.getText();
 	}
 
 	public boolean isTerminal() {

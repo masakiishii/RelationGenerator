@@ -21,11 +21,15 @@ public class RelationBuilder {
 	}
 
 	static public boolean isNumber(String value) {
-		try {
-			Double.parseDouble(value);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
+		if (Utils.UseFastParseNumber) {
+			return Utils.isNumber(value);
+		} else {
+			try {
+				Double.parseDouble(value);
+				return true;
+			} catch (final NumberFormatException e) {
+				return false;
+			}
 		}
 	}
 
