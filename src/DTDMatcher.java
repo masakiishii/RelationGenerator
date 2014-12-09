@@ -11,11 +11,11 @@ public class DTDMatcher extends Matcher {
 	private Map<String, SubNodeDataSet>               schema    = null;
 	private Map<String, ArrayList<ArrayList<String>>> table     = null;
 	private Generator                                 generator = null;
-	private RootTableBuilder                          builder   = null;
+	private TableBuilder                              builder   = null;
 	public DTDMatcher(Map<String, SubNodeDataSet> schema) {
 		this.schema    = schema;
 		this.generator = new DTDGenerator();
-		this.builder   = new RootTableBuilder();
+		this.builder   = new DTDRootBuilder();
 		this.initTable();
 	}
 
@@ -40,28 +40,6 @@ public class DTDMatcher extends Matcher {
 
 	private void appendNonTermnialData(WrapperObject node, int index, StringBuilder buffer) {
 		buffer.append(this.escapeData(node.get(index).getText()));
-		buffer.append(":");
-		buffer.append(node.getObjectId());
-	}
-
-	private void appendNonTerminalListData(WrapperObject node, StringBuilder buffer) {
-		final WrapperObject child = node.get(0);
-		for(int i = 0; i < child.size(); i++) {
-			this.appendNonTermnialData(child.get(i), 0, buffer);
-		}
-	}
-
-	private void getListData(WrapperObject node, StringBuilder buffer) {
-		for (int i = 0; i < node.size(); i++) {
-			node.get(i).visited();
-			if(node.get(i).isTerminal()) {
-				buffer.append(node.get(i).getText().toString());
-			}
-			else {
-				this.appendNonTerminalListData(node, buffer);
-			}
-			this.insertDelimiter(node, buffer, i);
-		}
 	}
 
 	private void getSiblListData(WrapperObject node, StringBuilder buffer) {
@@ -84,18 +62,13 @@ public class DTDMatcher extends Matcher {
 	}
 
 	private void travaseSubTree(WrapperObject node, StringBuilder buffer) {
-		if(node.getTag().toString().equals("List")) { //FIXME
-			this.getListData(node, buffer);
-		}
-		else {
-			this.getSiblData(node, buffer);
-		}
+		this.getSiblData(node, buffer);
 	}
 
 	private void checkingSubNodeType(WrapperObject node, StringBuilder buffer) {
 		node.visited();
 		if(node.isTerminal()) {
-			buffer.append(this.escapeData(node.getText()));
+			buffer.append(node.getTag());
 		}
 		else {
 			this.travaseSubTree(node, buffer);
@@ -112,7 +85,7 @@ public class DTDMatcher extends Matcher {
 		}
 	}
 
-	private String getColumnString(StringBuilder buffer) {
+	private String getTerminalString(StringBuilder buffer) {
 		return buffer.length() > 0 ? buffer.toString() : null;
 	}
 
@@ -136,7 +109,7 @@ public class DTDMatcher extends Matcher {
 				}
 			}
 		}
-		return this.getColumnString(buffer);
+		return this.getTerminalString(buffer);
 	}
 
 	private void getFieldData(String column, ArrayList<String> columndata, WrapperObject subnode, WrapperObject tablenode) {
@@ -160,27 +133,15 @@ public class DTDMatcher extends Matcher {
 	}
 
 	@Override
-	public void getTupleListData(WrapperObject subnode, WrapperObject tablenode, String tablename, SubNodeDataSet columns) {
-		final WrapperObject listnode = subnode.get(1);
-		for (int i = 0; i < listnode.size(); i++) {
-			this.getTupleData(listnode.get(i), tablenode, tablename, columns);
-		}
-	}
-
-	@Override
 	public boolean isTableName(String value) {
 		return this.schema.containsKey(value) ? true : false;
 	}
 
-	private void checkTreeType(WrapperObject parent, WrapperObject child) {
+	private void getData(WrapperObject parent, WrapperObject child) {
 		child.visited();
 		parent.visited();
 		final String tablename = child.getText();
-		if (parent.get(1).getTag().toString().equals("List")) {
-			this.getTupleListData(parent, child, tablename, this.schema.get(tablename));
-		} else {
-			this.getTupleData(parent, child, tablename, this.schema.get(tablename));
-		}
+		this.getTupleData(parent, child, tablename, this.schema.get(tablename));
 	}
 
 	@Override
@@ -194,7 +155,7 @@ public class DTDMatcher extends Matcher {
 			}
 			final WrapperObject child = parent.get(0);
 			if(child.isTerminal() && this.isTableName(child.getText())) {
-				this.checkTreeType(parent, child);
+				this.getData(parent, child);
 				continue;
 			}
 			for(int index = 0; index < parent.size(); index++) {

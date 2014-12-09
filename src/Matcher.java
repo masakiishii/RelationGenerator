@@ -8,9 +8,7 @@ import java.util.Set;
 public abstract class Matcher {
 
 	public void insertDelimiter(WrapperObject node, StringBuilder builder, int index) {
-		if (index != node.size() - 1) {
-			builder.append("|");
-		}
+		builder.append(",");
 	}
 
 	abstract public Set<String> getSchema(String tablename);

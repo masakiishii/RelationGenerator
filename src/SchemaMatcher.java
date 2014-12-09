@@ -11,11 +11,11 @@ public class SchemaMatcher extends Matcher {
 	private Map<String, SubNodeDataSet>               schema    = null;
 	private Map<String, ArrayList<ArrayList<String>>> table     = null;
 	private Generator                                 generator = null;
-	private RootTableBuilder                          builder   = null;
+	private TableBuilder                              builder   = null;
 	public SchemaMatcher(Map<String, SubNodeDataSet> schema) {
 		this.schema    = schema;
 		this.generator = new CSVGenerator();
-		this.builder   = new RootTableBuilder();
+		this.builder   = new SchemaRootBuilder();
 		this.initTable();
 	}
 

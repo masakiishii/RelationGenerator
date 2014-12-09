@@ -9,11 +9,11 @@ public class FixedSchemaMatcher extends Matcher {
 	private Map<String, Set<String>>                  schema    = null;
 	private Map<String, ArrayList<ArrayList<String>>> table     = null;
 	private CSVGenerator                              generator = null;
-	private RootTableBuilder                          builder   = null;
+	private SchemaRootBuilder                          builder   = null;
 	public FixedSchemaMatcher(Map<String, Set<String>> schema) {
 		this.schema    = schema;
 		this.generator = new CSVGenerator();
-		this.builder   = new RootTableBuilder();
+		this.builder   = new SchemaRootBuilder();
 		this.initTable();
 	}
 

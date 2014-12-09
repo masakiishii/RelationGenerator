@@ -4,28 +4,31 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RootTableBuilder {
-	private ArrayList<String>   schema = null;
-	private Map<String, String> table  = null;
-	public RootTableBuilder() {
+public class SchemaRootBuilder extends TableBuilder {
+	public ArrayList<String>   schema = null;
+	public Map<String, String> table  = null;
+	public SchemaRootBuilder() {
 		this.schema = new ArrayList<String>();
 		this.table  = new LinkedHashMap<String, String>();
 		this.initSchema();
 	}
 
-	private void initSchema() {
+	@Override
+	public void initSchema() {
 		this.schema.add("OBJECTID");
 		this.schema.add("COLUMN");
 		this.schema.add("VALUE");
 	}
 
-	private void insertDelimiter(WrapperObject node, StringBuilder builder, int index) {
+	@Override
+	public void insertDelimiter(WrapperObject node, StringBuilder builder, int index) {
 		if (index != node.size() - 1) {
 			builder.append("|");
 		}
 	}
 
-	private void getListData(WrapperObject sibling, StringBuilder builder) {
+	@Override
+	public void getListData(WrapperObject sibling, StringBuilder builder) {
 		for(int i = 0; i < sibling.size(); i++) {
 			if(sibling.get(i).isTerminal()) {
 				sibling.get(i).visited();
@@ -40,12 +43,14 @@ public class RootTableBuilder {
 		}
 	}
 
-	private void getTerminalData(WrapperObject sibling, StringBuilder builder) {
+	@Override
+	public void getTerminalData(WrapperObject sibling, StringBuilder builder) {
 		builder.append(sibling.getText());
 		sibling.visited();
 	}
 
-	private void getNonTerminalData(WrapperObject sibling, StringBuilder builder) {
+	@Override
+	public void getNonTerminalData(WrapperObject sibling, StringBuilder builder) {
 		final WrapperObject grandchild = sibling.get(0);
 		if(grandchild.isTerminal()) {
 			builder.append(grandchild.getText());
@@ -56,8 +61,9 @@ public class RootTableBuilder {
 		builder.append(":");
 		builder.append(sibling.getObjectId());
 	}
-	
-	private void settingData(WrapperObject parent, StringBuilder builder) {
+
+	@Override
+	public void settingData(WrapperObject parent, StringBuilder builder) {
 		for(int i = 1; i < parent.size(); i++) {
 			final WrapperObject sibling = parent.get(i);
 			if(sibling.isTerminal()) {
@@ -72,8 +78,9 @@ public class RootTableBuilder {
 			this.insertDelimiter(parent, builder, i);
 		}
 	}
-	
-	private void setTableData(WrapperObject node) {
+
+	@Override
+	public void setTableData(WrapperObject node) {
 		final WrapperObject parent  = node.getParent();
 		final String        column  = node.getText();
 		final String        key     = String.valueOf(parent.getObjectId());
@@ -84,7 +91,8 @@ public class RootTableBuilder {
 		this.table.put(key, builder.toString());
 	}
 
-	private void buildRootTable(WrapperObject node) {
+	@Override
+	public void buildRootTable(WrapperObject node) {
 		if(node == null) {
 			return;
 		}
@@ -99,13 +107,15 @@ public class RootTableBuilder {
 		}
 	}
 
-	private void generateRootColumns() {
+	@Override
+	public void generateRootColumns() {
 		for(int i = 0; i < this.schema.size(); i++) {
 			System.out.print(this.schema.get(i) + "\t");
 		}
 		System.out.println();
 	}
 
+	@Override
 	public void build(WrapperObject node) {
 		this.generateRootColumns();
 		this.buildRootTable(node);
