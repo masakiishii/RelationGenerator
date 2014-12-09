@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-public class CSVGenerator {
+public class CSVGenerator extends Generator {
 	public CSVGenerator() {
 
 	}
@@ -34,7 +34,7 @@ public class CSVGenerator {
 		System.out.println(buffer.toString());
 		System.out.println("---------------------------------------");
 	}
-
+	
 	public void generate(Matcher matcher) {
 		final Map<String, ArrayList<ArrayList<String>>> table = matcher.getTable();
 		for(final String tablename : table.keySet()) {

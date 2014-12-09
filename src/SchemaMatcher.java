@@ -10,7 +10,7 @@ import java.util.Set;
 public class SchemaMatcher extends Matcher {
 	private Map<String, SubNodeDataSet>               schema    = null;
 	private Map<String, ArrayList<ArrayList<String>>> table     = null;
-	private CSVGenerator                              generator = null;
+	private Generator                                 generator = null;
 	private RootTableBuilder                          builder   = null;
 	public SchemaMatcher(Map<String, SubNodeDataSet> schema) {
 		this.schema    = schema;

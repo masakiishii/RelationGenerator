@@ -134,8 +134,10 @@ public class RelationBuilder {
 		preschema.nominate();
 		final SchemaDecider defineschema = new SchemaDecider(preschema, wrapperrootnode);
 		final Map<String, SubNodeDataSet> definedschema = defineschema.define();
-		DTDGenerator generator = new DTDGenerator(definedschema);
-		generator.generate(wrapperrootnode);
+		final Matcher matcher = new DTDMatcher(definedschema);
+		matcher.match(wrapperrootnode);
+		//DTDGenerator generator = new DTDGenerator(definedschema);
+		//generator.generate(wrapperrootnode);
 	}
 
 	public void build(String reltype) {
