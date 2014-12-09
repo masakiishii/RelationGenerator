@@ -1,0 +1,29 @@
+package org.peg4d.data;
+
+
+public abstract class TableBuilder {
+
+	abstract public void initSchema();
+
+	public void insertDelimiter(WrapperObject node, StringBuilder builder, int index) {
+		builder.append(",");
+	}
+
+	public void getListData(WrapperObject sibling, StringBuilder builder) {
+		
+	}
+	
+	abstract public void getTerminalData(WrapperObject sibling, StringBuilder builder);
+
+	abstract public void getNonTerminalData(WrapperObject sibling, StringBuilder builder);
+	
+	abstract public void settingData(WrapperObject parent, StringBuilder builder);
+	
+	abstract public void setTableData(WrapperObject node);
+
+	abstract public void buildRootTable(WrapperObject node);
+
+	abstract public void generateRootColumns();
+
+	abstract public void build(WrapperObject node);
+}
