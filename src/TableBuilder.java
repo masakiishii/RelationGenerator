@@ -6,7 +6,9 @@ public abstract class TableBuilder {
 	abstract public void initSchema();
 
 	public void insertDelimiter(WrapperObject node, StringBuilder builder, int index) {
-		builder.append(",");
+		if(node.size() - 1 != 0) {
+			builder.append(",");
+		}
 	}
 
 	public void getListData(WrapperObject sibling, StringBuilder builder) {
