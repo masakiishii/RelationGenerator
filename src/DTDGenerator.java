@@ -66,21 +66,56 @@ public class DTDGenerator extends Generator {
 		//System.out.println("---------------------------------------");
 	}
 
-	public void generate(Matcher matcher) {
-		final Map<String, ArrayList<ArrayList<String>>> table = matcher.getTable();
-		int index = -1;
-		for(final String tablename : table.keySet()) {
-			if(tablename.equals("category")) {
-				System.out.println("tablename: " + tablename);
-				System.out.println("-------------------------------");
-				index = this.generateColumns(tablename, matcher);
-				this.generateData(tablename, matcher, index);
-				
+	private void emitAttribute(WrapperObject node) {
+		for(int i = 0; i < node.size(); i++) {
+			WrapperObject child = node.get(i);
+			if(child.getTag().toString().equals("Attr")) {
+				int index = i;
+				WrapperObject sibling = child.getParent().get(index - 1);
+				System.out.println("<!ATTLIST " + sibling.getText() + " " + child.get(0).getText() + " CDATA #REQUIRED>");
 			}
+			if(child.getTag().toString().equals("Element")) {
+				System.out.println("<!Element " + child.get(0).getText() + " ");
+			}
+		}
+	}
+
+	public void generate(WrapperObject node) {
+		if(node == null) {
+			return;
+		}
+		if(node.isTerminal() && node.getText().equals("categories")) {
+			WrapperObject parent = node.getParent();
+			for(int i = 0; i < parent.size(); i++) {
+				WrapperObject child = parent.get(i);
+				if(child.getTag().toString().equals("Element")) {
+					this.emitAttribute(child);
+				}
+			}
+		}
+		for(int i = 0; i < node.size(); i++) {
+			this.generate(node.get(i));;
+		}
+	}
+
+	@Override
+	public void generate(Matcher Matcher) {
+	}
+
+//	public void generate(Matcher matcher) {
+//		final Map<String, ArrayList<ArrayList<String>>> table = matcher.getTable();
+//		int index = -1;
+//		for(final String tablename : table.keySet()) {
+//			if(tablename.equals("category")) {
+//				System.out.println("tablename: " + tablename);
+//				System.out.println("-------------------------------");
+//				index = this.generateColumns(tablename, matcher);
+//				this.generateData(tablename, matcher, index);
+//			}
 //			System.out.println("tablename: " + tablename);
 //			System.out.println("-------------------------------");
 //			this.generateColumns(tablename, matcher);
 //			this.generateData(tablename, matcher);
-		}
-	}
+//		}
+//	}
 }
