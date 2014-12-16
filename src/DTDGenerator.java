@@ -42,12 +42,49 @@ public class DTDGenerator extends Generator {
 			final ArrayList<String> line = datalist.get(i);
 			String[] linedata = line.get(index).split(",");
 			for(int j = 0; j < linedata.length; j++) {
-				System.out.print(linedata[j] + " ");
+//				System.out.print(linedata[j] + " ");
 				columnset.add(linedata[j]);
 			}
-			System.out.println();
+//			System.out.println();
 		}
 		return columnset;
+	}
+
+	private void setMetaSymbol(boolean zero, boolean one, boolean more) {
+		if(zero && more) {
+			System.out.println("---<< more >>---");
+		}
+		else if(zero && one && !more) {
+			System.out.println("---<< optional >>---");
+		}
+		else if(!zero && (one || more)) {
+			System.out.println("---<< require >>---");
+		}
+		else {
+			System.out.println("error");
+		}
+	}
+
+	private void typeCheck(DTDObject dtdobject) {
+		boolean zero = false;
+		boolean one  = false;
+		boolean more = false;
+		int number;
+		for(int i = 0; i < dtdobject.getCountList().length; i++) {
+			number = dtdobject.getCountList()[i];
+			switch (number) {
+			case 0:
+				zero = true;
+				break;
+			case 1:
+				one = true;
+				break;
+			default:
+				more = true;
+				break;
+			}
+		}
+		this.setMetaSymbol(zero, one, more);
 	}
 
 	private void countColumnElement(String tablename, Matcher matcher, int index) {
@@ -64,6 +101,8 @@ public class DTDGenerator extends Generator {
 		}
 		System.out.println("-------------------------------");
 		System.out.println();
+		//System.out.println("column: text");
+		System.out.println("column: description");
 		for(String key : this.dtdobjectmap.keySet()) {
 			DTDObject dtdobject = this.dtdobjectmap.get(key);
 			System.out.println(dtdobject.getElement());
@@ -71,6 +110,7 @@ public class DTDGenerator extends Generator {
 				System.out.print(dtdobject.getCountList()[i] + ", ");;
 			}
 			System.out.println();
+			this.typeCheck(dtdobject);
 		}
 	}
 
@@ -86,12 +126,8 @@ public class DTDGenerator extends Generator {
 		final StringBuilder buffer  = new StringBuilder();
 		int index = 0;
 		for(final String column : columns) {
-			if(column.equals("text")) {
-				System.out.println(index);
-				buffer.append(column);
-				buffer.append("\t");
-				System.out.println(buffer.toString());
-				System.out.println("---------------------------------------");
+//			if(column.equals("text")) {
+			if(column.equals("description")) {
 				return index;
 			}
 			index++;
@@ -99,42 +135,13 @@ public class DTDGenerator extends Generator {
 		return -1;
 	}
 
-//	private void emitAttribute(WrapperObject node) {
-//		for(int i = 0; i < node.size(); i++) {
-//			WrapperObject child = node.get(i);
-//			if(child.getTag().toString().equals("Attr")) {
-//				int index = i;
-//				WrapperObject sibling = child.getParent().get(index - 1);
-//				System.out.println("<!ATTLIST " + sibling.getText() + " " + child.get(0).getText() + " CDATA #REQUIRED>");
-//			}
-//			if(child.getTag().toString().equals("Element")) {
-//				System.out.println("<!Element " + child.get(0).getText() + " ");
-//			}
-//		}
-//	}
-
-//	public void generate(WrapperObject node) {
-//		if(node == null) {
-//			return;
-//		}
-//		if(node.isTerminal() && node.getText().equals("categories")) {
-//			WrapperObject parent = node.getParent();
-//			for(int i = 0; i < parent.size(); i++) {
-//				WrapperObject child = parent.get(i);
-//				
-//			}
-//		}
-//		for(int i = 0; i < node.size(); i++) {
-//			this.generate(node.get(i));;
-//		}
-//	}
-
 	@Override
 	public void generate(Matcher matcher) {
 		final Map<String, ArrayList<ArrayList<String>>> table = matcher.getTable();
 		int index = -1;
 		for(final String tablename : table.keySet()) {
-			if(tablename.equals("category")) {
+//			if(tablename.equals("category")) {
+			if(tablename.equals("open_auction")) {
 				System.out.println("tablename: " + tablename);
 				System.out.println("-------------------------------");
 				index = this.generateColumns(tablename, matcher);
