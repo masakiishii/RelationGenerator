@@ -1,6 +1,7 @@
 package org.peg4d.data;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
@@ -20,22 +21,22 @@ public class DTDGenerator extends Generator {
 	
 	public DTDGenerator() {
 		this.rootlist = new ArrayList<String>();
-		this.dtdobjectlist = new ArrayList<DTDObject>();
+		this.dtdobjectmap  = new LinkedHashMap<String, DTDObject>();
 	}
 
 	private void initializeDTDObject(Set<String> columnset, int tuplesize) {
 		for(String element : columnset) {
 			DTDObject dtdobject = new DTDObject(element, tuplesize);
-			this.dtdobjectlist.add(dtdobject);
+			this.dtdobjectmap.put(element, dtdobject);
 		}
-		for(int i = 0; i < this.dtdobjectlist.size(); i++) {
-			System.out.println(this.dtdobjectlist.get(i).getElement());
+		for(String key : this.dtdobjectmap.keySet()) {
+			System.out.println(this.dtdobjectmap.get(key).getElement());
 		}
 	}
 
-	private void generateData(String tablename, Matcher matcher, int index) {
-		final ArrayList<ArrayList<String>> datalist = matcher.getTable().get(tablename);
+	private Set<String> getColumnElementSet(String tablename, Matcher matcher, int index) {
 		final Set<String> columnset = new LinkedHashSet<String>();
+		final ArrayList<ArrayList<String>> datalist = matcher.getTable().get(tablename);
 		final int tuplesize = datalist.size();
 		for(int i = 0; i < tuplesize; i++) {
 			final ArrayList<String> line = datalist.get(i);
@@ -46,7 +47,38 @@ public class DTDGenerator extends Generator {
 			}
 			System.out.println();
 		}
+		return columnset;
+	}
+
+	private void countColumnElement(String tablename, Matcher matcher, int index) {
+		final ArrayList<ArrayList<String>> datalist = matcher.getTable().get(tablename);
+		final int tuplesize = datalist.size();
+		DTDObject obj;
+		for(int i = 0; i < tuplesize; i++) {
+			final ArrayList<String> line = datalist.get(i);
+			String[] linedata = line.get(index).split(",");
+			for(int j = 0; j < linedata.length; j++) {
+				obj = this.dtdobjectmap.get(linedata[j]);
+				obj.getCountList()[i]++;
+			}
+		}
+		System.out.println("-------------------------------");
+		System.out.println();
+		for(String key : this.dtdobjectmap.keySet()) {
+			DTDObject dtdobject = this.dtdobjectmap.get(key);
+			System.out.println(dtdobject.getElement());
+			for(int i = 0; i < dtdobject.getCountList().length; i++) {
+				System.out.print(dtdobject.getCountList()[i] + ", ");;
+			}
+			System.out.println();
+		}
+	}
+
+	private void generateData(String tablename, Matcher matcher, int index) {
+		final int tuplesize = matcher.getTable().get(tablename).size();
+		final Set<String> columnset = this.getColumnElementSet(tablename, matcher, index);
 		this.initializeDTDObject(columnset, tuplesize);
+		this.countColumnElement(tablename, matcher, index);
 	}
 
 	private int generateColumns(String tablename, Matcher matcher) {
