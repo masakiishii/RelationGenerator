@@ -3,10 +3,9 @@ package org.peg4d.data;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
+
 
 public class DTDGenerator extends Generator {
 	private Map<String, SubNodeDataSet> definedschema = null;
@@ -50,18 +49,22 @@ public class DTDGenerator extends Generator {
 		return columnset;
 	}
 
-	private void setMetaSymbol(boolean zero, boolean one, boolean more) {
+	private ElementType fixMetaSymbol(boolean zero, boolean one, boolean more) {
 		if(zero && more) {
 			System.out.println("---<< more >>---");
+			return ElementType.More;
 		}
 		else if(zero && one && !more) {
 			System.out.println("---<< optional >>---");
+			return ElementType.Optional;
 		}
 		else if(!zero && (one || more)) {
-			System.out.println("---<< require >>---");
+			System.out.println("---<< oneOrmore >>---");
+			return ElementType.OneOrMore;
 		}
 		else {
 			System.out.println("error");
+			return null;
 		}
 	}
 
@@ -74,17 +77,15 @@ public class DTDGenerator extends Generator {
 			number = dtdobject.getCountList()[i];
 			switch (number) {
 			case 0:
-				zero = true;
-				break;
+				zero = true; break;
 			case 1:
-				one = true;
-				break;
+				one  = true; break;
 			default:
-				more = true;
-				break;
+				more = true; break;
 			}
 		}
-		this.setMetaSymbol(zero, one, more);
+		ElementType eletype = this.fixMetaSymbol(zero, one, more);
+		dtdobject.setElementType(eletype);
 	}
 
 	private void countColumnElement(String tablename, Matcher matcher, int index) {
@@ -119,6 +120,7 @@ public class DTDGenerator extends Generator {
 		final Set<String> columnset = this.getColumnElementSet(tablename, matcher, index);
 		this.initializeDTDObject(columnset, tuplesize);
 		this.countColumnElement(tablename, matcher, index);
+		
 	}
 
 	private int generateColumns(String tablename, Matcher matcher) {
