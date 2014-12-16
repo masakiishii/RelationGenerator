@@ -36,10 +36,23 @@ public class DTDObject {
 	public ElementType getElementType() {
 		return this.eletype;
 	}
+
+	public String getElementFormat() {
+		switch (this.eletype) {
+		case More:
+			return "(" + this.element + "*" + ")";
+		case Optional:
+			return "(" + this.element + "?" + ")";
+		case Required:
+			return "(" + this.element + "+" + ")";
+		default:
+			return null;
+		}
+	}
 }
 
 enum ElementType {
 	More,
 	Optional,
-	OneOrMore
+	Required
 }

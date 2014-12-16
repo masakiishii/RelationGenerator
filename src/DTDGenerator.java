@@ -59,8 +59,8 @@ public class DTDGenerator extends Generator {
 			return ElementType.Optional;
 		}
 		else if(!zero && (one || more)) {
-			System.out.println("---<< oneOrmore >>---");
-			return ElementType.OneOrMore;
+			System.out.println("---<< Requried >>---");
+			return ElementType.Required;
 		}
 		else {
 			System.out.println("error");
@@ -112,6 +112,10 @@ public class DTDGenerator extends Generator {
 			}
 			System.out.println();
 			this.typeCheck(dtdobject);
+		}
+		for(String key : this.dtdobjectmap.keySet()) {
+			DTDObject dtdobject = this.dtdobjectmap.get(key);
+			System.out.print(dtdobject.getElementFormat() + " ");
 		}
 	}
 
