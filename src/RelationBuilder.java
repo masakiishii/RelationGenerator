@@ -130,15 +130,16 @@ public class RelationBuilder {
 	}
 
 	private void buildDTD(WrapperObject wrapperrootnode) {
-//		final SchemaNominator preschema = new SchemaNominator(this);
-//		preschema.nominate();
-//		final SchemaDecider defineschema = new SchemaDecider(preschema, wrapperrootnode);
-//		final Map<String, SubNodeDataSet> definedschema = defineschema.define();
-//		final Matcher matcher = new DTDMatcher(definedschema);
-//		matcher.match(wrapperrootnode);
+		final SchemaNominator preschema = new SchemaNominator(this);
+		preschema.nominate();
+		final SchemaDecider defineschema = new SchemaDecider(preschema, wrapperrootnode);
+		final Map<String, SubNodeDataSet> definedschema = defineschema.define();
+		final Matcher matcher = new DTDMatcher(definedschema);
+		matcher.match(wrapperrootnode);
 //		DTDGenerator generator = new DTDGenerator(definedschema);
-		DTDGenerator generator = new DTDGenerator();
-		generator.generate(wrapperrootnode);
+//		DTDGenerator generator = new DTDGenerator();
+//		generator.generate(wrapperrootnode);
+//		generator.generate(matcher);
 	}
 
 	public void build(String reltype) {
