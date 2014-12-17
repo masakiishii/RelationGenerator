@@ -117,16 +117,19 @@ public class DTDGenerator extends Generator {
 		return dtdobjectmap;
 	}
 
-	private void generateColumns(String tablename, Matcher matcher) {
+	private DTDLineList getDTDLineList(String tablename, Matcher matcher) {
 		final Set<String> columns = matcher.getSchema(tablename);
+		final DTDLineList dtdlinelist = new DTDLineList(tablename, columns.size());
 		int index = 0;
 		for(String column : columns) {
 			if(index != 0) {
 				Map<String, DTDObject> dtdobjectmap = this.getDTDObjectMap(tablename, matcher, index);
 				DTDLine dtdline = new DTDLine(column, dtdobjectmap);
+				dtdlinelist.setDTDLine(dtdline, index - 1);
 			}
 			index++;
 		}
+		return dtdlinelist;
 	}
 
 	@Override
@@ -136,7 +139,7 @@ public class DTDGenerator extends Generator {
 			if(tablename.equals("open_auction")) {
 				System.out.println("tablename: " + tablename);
 				System.out.println("-------------------------------");
-				this.generateColumns(tablename, matcher);
+				DTDLineList dtdlinelist = this.getDTDLineList(tablename, matcher);
 			}
 		}
 	}

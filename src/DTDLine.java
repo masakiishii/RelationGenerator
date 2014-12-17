@@ -20,5 +20,7 @@ public class DTDLine {
 		return this.dtdobjectmap;
 	}
 
-	
+	public void emitDTDFormat() {
+		
+	}
 }
