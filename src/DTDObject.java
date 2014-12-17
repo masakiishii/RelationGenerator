@@ -39,6 +39,8 @@ public class DTDObject {
 
 	public String getElementFormat() {
 		switch (this.eletype) {
+		case One:
+			return "(" + this.element + ")";
 		case More:
 			return "(" + this.element + "*" + ")";
 		case Optional:
@@ -52,6 +54,7 @@ public class DTDObject {
 }
 
 enum ElementType {
+	One,
 	More,
 	Optional,
 	Required
