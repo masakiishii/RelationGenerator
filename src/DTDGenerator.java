@@ -105,19 +105,16 @@ public class DTDGenerator extends Generator {
 		}
 		for(String key : dtdobjectmap.keySet()) {
 			DTDObject dtdobject = dtdobjectmap.get(key);
-			System.out.print(dtdobject.getElementFormat() + " ");
 		}
-		System.out.println();
-		System.out.println();
-		System.out.println();
 	}
 
-	private void getDTDLineData(String tablename, Matcher matcher, int index) {
+	private Map<String, DTDObject> getDTDObjectMap(String tablename, Matcher matcher, int index) {
 		final int tuplesize = matcher.getTable().get(tablename).size();
 		final Map<String, DTDObject> dtdobjectmap  = new LinkedHashMap<String, DTDObject>();
 		final Set<String> columnset = this.getColumnElementSet(tablename, matcher, index);
 		this.initializeDTDObject(columnset, tuplesize, dtdobjectmap);
 		this.countColumnElement(tablename, matcher, index, dtdobjectmap);
+		return dtdobjectmap;
 	}
 
 	private void generateColumns(String tablename, Matcher matcher) {
@@ -125,8 +122,8 @@ public class DTDGenerator extends Generator {
 		int index = 0;
 		for(String column : columns) {
 			if(index != 0) {
-				System.out.println("column: " + column);
-				this.getDTDLineData(tablename, matcher, index);
+				Map<String, DTDObject> dtdobjectmap = this.getDTDObjectMap(tablename, matcher, index);
+				DTDLine dtdline = new DTDLine(column, dtdobjectmap);
 			}
 			index++;
 		}
