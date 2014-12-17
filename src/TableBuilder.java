@@ -1,5 +1,7 @@
 package org.peg4d.data;
 
+import java.util.Map;
+
 
 public abstract class TableBuilder {
 
@@ -28,4 +30,8 @@ public abstract class TableBuilder {
 	abstract public void generateRootColumns();
 
 	abstract public void build(WrapperObject node);
+
+	public Map<String, String> getRootTable(WrapperObject node) {
+		return null;
+	}
 }

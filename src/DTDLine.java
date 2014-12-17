@@ -20,7 +20,19 @@ public class DTDLine {
 		return this.dtdobjectmap;
 	}
 
+	private String emitDTDPrefix() {
+		return "\t<!Element ";
+	}
+
+	private String emitDTDPostfix() {
+		return ">";
+	}
+	
 	public void emitDTDFormat() {
-		
+		System.out.print(this.emitDTDPrefix() + this.column + " ");
+		for(String data : this.dtdobjectmap.keySet()) {
+			System.out.print(this.dtdobjectmap.get(data).getElementFormat() + " ");
+		}
+		System.out.println(this.emitDTDPostfix());
 	}
 }

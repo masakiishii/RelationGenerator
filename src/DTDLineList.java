@@ -19,4 +19,14 @@ public class DTDLineList {
 	public DTDLine[] getDTDLine() {
 		return this.dtdlinelist;
 	}
+	
+	public void emitDTDFormat() {
+		System.out.println("\t<!-- tablename: " + this.tablename + "   -->");
+		System.out.println();
+		for(int i = 0; i < this.listsize; i++) {
+			this.dtdlinelist[i].emitDTDFormat();
+		}
+		System.out.println();
+		System.out.println();
+	}
 }

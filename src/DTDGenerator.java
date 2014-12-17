@@ -6,6 +6,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.sound.sampled.LineUnavailableException;
+
 
 public class DTDGenerator extends Generator {
 	private Map<String, SubNodeDataSet> definedschema = null;
@@ -107,6 +109,30 @@ public class DTDGenerator extends Generator {
 			DTDObject dtdobject = dtdobjectmap.get(key);
 		}
 	}
+	
+	private void countRootColumnElement(String[] datalist, Map<String, DTDObject> dtdobjectmap) {
+		for(int i = 0; i < datalist.length; i++) {
+			dtdobjectmap.get(datalist[i]).incrementCount();
+		}
+		DTDObject dtdobject;
+		for(String data : dtdobjectmap.keySet()) {
+			dtdobject = dtdobjectmap.get(data);
+			if(dtdobject.getCounterforRoot() == 1) {
+				dtdobject.setElementType(ElementType.One);
+			}
+			else{
+				dtdobject.setElementType(ElementType.Required);
+			}
+		}
+	}
+
+	private Set<String> getRootColumnElementSet(String[] datalist) {
+		Set<String> dataset = new LinkedHashSet<String>();
+		for(int i = 0; i < datalist.length; i++) {
+			dataset.add(datalist[i]);
+		}
+		return dataset;
+	}
 
 	private Map<String, DTDObject> getDTDObjectMap(String tablename, Matcher matcher, int index) {
 		final int tuplesize = matcher.getTable().get(tablename).size();
@@ -117,9 +143,17 @@ public class DTDGenerator extends Generator {
 		return dtdobjectmap;
 	}
 
+	private Map<String, DTDObject> getRootDTDObjectMap(String[] datalist) {
+		final Map<String, DTDObject> dtdobjectmap  = new LinkedHashMap<String, DTDObject>();
+		final Set<String> columnset = this.getRootColumnElementSet(datalist);
+		this.initializeDTDObject(columnset, 1, dtdobjectmap);
+		this.countRootColumnElement(datalist, dtdobjectmap);
+		return dtdobjectmap;
+	}
+
 	private DTDLineList getDTDLineList(String tablename, Matcher matcher) {
 		final Set<String> columns = matcher.getSchema(tablename);
-		final DTDLineList dtdlinelist = new DTDLineList(tablename, columns.size());
+		final DTDLineList dtdlinelist = new DTDLineList(tablename, columns.size() - 1);
 		int index = 0;
 		for(String column : columns) {
 			if(index != 0) {
@@ -132,15 +166,39 @@ public class DTDGenerator extends Generator {
 		return dtdlinelist;
 	}
 
+	private DTDLineList getRootDTDLineList(Map<String, String> roottable) {
+		final DTDLineList rootdtdlinelist = new DTDLineList("root", roottable.size());
+		int index = 0;
+		for(String id : roottable.keySet()) {
+			final String   line     = roottable.get(id);
+			final String   column   = line.split("\t")[0];
+			final String   data     = line.split("\t")[1];
+			final String[] datalist = data.split(",");
+			Map<String, DTDObject> rootdtdobjectmap = this.getRootDTDObjectMap(datalist);
+			DTDLine rootdtdline = new DTDLine(column, rootdtdobjectmap);
+			rootdtdlinelist.setDTDLine(rootdtdline, index);
+			index++;
+		}
+		return rootdtdlinelist;
+	}
+	
 	@Override
 	public void generate(Matcher matcher) {
+	}
+
+	@Override
+	public void generate(Matcher matcher, Map<String, String> roottable) {
+		final DTDLineList rootdtdlinelist = this.getRootDTDLineList(roottable);
 		final Map<String, ArrayList<ArrayList<String>>> table = matcher.getTable();
+		final DTDAllList dtdall = new DTDAllList(table.size() + 1/*for Root Table*/);
+		int index = 0;
+		dtdall.setDTDAllList(rootdtdlinelist, index);
+		index++;
 		for(final String tablename : table.keySet()) {
-			if(tablename.equals("open_auction")) {
-				System.out.println("tablename: " + tablename);
-				System.out.println("-------------------------------");
-				DTDLineList dtdlinelist = this.getDTDLineList(tablename, matcher);
-			}
+			DTDLineList dtdlinelist = this.getDTDLineList(tablename, matcher);
+			dtdall.setDTDAllList(dtdlinelist, index);
+			index++;
 		}
+		dtdall.emitDTDFormat();
 	}
 }

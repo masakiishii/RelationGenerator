@@ -88,15 +88,17 @@ public class DTDRootBuilder extends TableBuilder {
 	}
 
 	@Override
+	public Map<String, String> getRootTable(WrapperObject node) {
+		this.buildRootTable(node);
+		return this.table;
+	}
+
+	@Override
 	public void build(WrapperObject node) {
 		this.generateRootColumns();
 		this.buildRootTable(node);
 		for(final String key : this.table.keySet()) {
 			System.out.println(key + "\t" + this.table.get(key));
 		}
-		System.out.println("----------------------------------");
-		System.out.println();
-		System.out.println();
-		System.out.println();
 	}
 }

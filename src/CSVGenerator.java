@@ -44,4 +44,8 @@ public class CSVGenerator extends Generator {
 			this.generateData(tablename, matcher);
 		}
 	}
+
+	@Override
+	public void generate(Matcher matcher, Map<String, String> table) {
+	}
 }
