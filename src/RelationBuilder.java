@@ -136,10 +136,6 @@ public class RelationBuilder {
 		final Map<String, SubNodeDataSet> definedschema = defineschema.define();
 		final Matcher matcher = new DTDMatcher(definedschema);
 		matcher.match(wrapperrootnode);
-//		DTDGenerator generator = new DTDGenerator(definedschema);
-//		DTDGenerator generator = new DTDGenerator();
-//		generator.generate(wrapperrootnode);
-//		generator.generate(matcher);
 	}
 
 	public void build(String reltype) {

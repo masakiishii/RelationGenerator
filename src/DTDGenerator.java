@@ -171,8 +171,9 @@ public class DTDGenerator extends Generator {
 		int index = 0;
 		for(String id : roottable.keySet()) {
 			final String   line     = roottable.get(id);
-			final String   column   = line.split("\t")[0];
-			final String   data     = line.split("\t")[1];
+			final String[] lines    = line.split("\t");
+			final String   column   = lines[0];
+			final String   data     = lines[1];
 			final String[] datalist = data.split(",");
 			Map<String, DTDObject> rootdtdobjectmap = this.getRootDTDObjectMap(datalist);
 			DTDLine rootdtdline = new DTDLine(column, rootdtdobjectmap);

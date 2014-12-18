@@ -167,8 +167,6 @@ public class DTDMatcher extends Matcher {
 	@Override
 	public void match(WrapperObject root) {
 		this.matching(root);
-		//this.builder.build(root);
-		//this.generator.generate(this);
 		this.generator.generate(this, this.builder.getRootTable(root));
 	}
 }
