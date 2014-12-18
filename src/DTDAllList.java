@@ -27,7 +27,7 @@ public class DTDAllList {
 		System.out.println("]>");
 	}
 
-	public void emitDTDFormat(Map<String, Map<String, String>> elementtypemap) {
+	public void emitDTDFormat(Map<String, Map<String, WrapperObject>> elementtypemap) {
 		this.emitPreDocType();
 		for(int i = 0; i < this.tablenumber; i++) {
 			dtdall[i].emitDTDFormat(elementtypemap);

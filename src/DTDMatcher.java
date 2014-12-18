@@ -8,20 +8,19 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class DTDMatcher extends Matcher {
 	private Map<String, SubNodeDataSet>               schema         = null;
 	private Map<String, ArrayList<ArrayList<String>>> table          = null;
 	private Generator                                 generator      = null;
 	private TableBuilder                              builder        = null;
-	private Map<String, Map<String, String>>          elementtypemap = null;
+	private Map<String, Map<String, WrapperObject>>   elementtypemap = null;
 
 	public DTDMatcher(Map<String, SubNodeDataSet> schema) {
 		this.schema         = schema;
 		this.generator      = new DTDGenerator();
 		this.builder        = new DTDRootBuilder();
-		this.elementtypemap = new LinkedHashMap<String, Map<String,String>>();
+		this.elementtypemap = new LinkedHashMap<String, Map<String,WrapperObject>>();
 		this.initTable();
 	}
 
@@ -32,7 +31,7 @@ public class DTDMatcher extends Matcher {
 		}
 	}
 
-	public Map<String, Map<String, String>> getElementTypeMap() {
+	public Map<String, Map<String, WrapperObject>> getElementTypeMap() {
 		return this.elementtypemap;
 	}
 
@@ -99,9 +98,9 @@ public class DTDMatcher extends Matcher {
 		return buffer.length() > 0 ? buffer.toString() : null;
 	}
 
-	private void checkMatchingSubNode(WrapperObject node, String column, StringBuilder buffer, Map<String, String> columntypemap) {
+	private void checkMatchingSubNode(WrapperObject node, String column, StringBuilder buffer, Map<String, WrapperObject> columntypemap) {
 		if(node.getText().equals(column)) {
-			columntypemap.put(column, node.getParent().getTag().toString());
+			columntypemap.put(column, node);
 			this.matchingSubNode(node, buffer);
 		}
 	}
@@ -112,7 +111,7 @@ public class DTDMatcher extends Matcher {
 	}
 
 
-	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column, Map<String, String> columntypemap) {
+	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column, Map<String, WrapperObject> columntypemap) {
 		final StringBuilder buffer = new StringBuilder();
 		final Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(subnode);
@@ -128,7 +127,7 @@ public class DTDMatcher extends Matcher {
 		return this.getTerminalString(buffer);
 	}
 
-	private void getFieldData(String column, ArrayList<String> columndata, WrapperObject subnode, WrapperObject tablenode, Map<String, String> columntypemap) {
+	private void getFieldData(String column, ArrayList<String> columndata, WrapperObject subnode, WrapperObject tablenode, Map<String, WrapperObject> columntypemap) {
 		if(column.equals("OBJECTID")) {
 			columndata.add(String.valueOf(subnode.getObjectId()));
 		}
@@ -142,7 +141,7 @@ public class DTDMatcher extends Matcher {
 	public void getTupleData(WrapperObject subnode, WrapperObject tablenode, String tablename, SubNodeDataSet columns) {
 		final ArrayList<ArrayList<String>> tabledata = this.table.get(tablename);
 		final ArrayList<String> columndata = new ArrayList<String>();
-		final Map<String, String> columntypemap = new LinkedHashMap<String, String>();
+		final Map<String, WrapperObject> columntypemap = new LinkedHashMap<String, WrapperObject>();
 		for(final String column : columns.getFinalColumnSet()) {
 			this.getFieldData(column, columndata, subnode, tablenode, columntypemap);
 			this.elementtypemap.put(tablename, columntypemap);

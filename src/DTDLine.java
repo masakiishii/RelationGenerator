@@ -20,30 +20,52 @@ public class DTDLine {
 		return this.dtdobjectmap;
 	}
 
-	private String emitDTDPrefix(String type) {
-		if(type == null || type.equals("Element")) {
-			return "\t<!ELEMENT ";
+	private String emitDTDPrefix(WrapperObject node) {
+		if(node == null) {
+			return "\t<!ELEMENT " + this.column;
 		}
-		else if(type.equals("Attr")) {
-			return "\t<!ATTLIST ";
+		String parenttag = node.getParent().getTag().toString();
+		if(parenttag.equals("Element")) {
+			return "\t<!ELEMENT " + this.column;
+		}
+		else if(parenttag.equals("Attr")) {
+			return "\t<!ATTLIST " + node.getParent().getParent().get(0).getText() + " " + this.column;
 		}
 		return null;
 	}
 
-	private String emitDTDPostfix() {
-		return ">";
+	private String emitDTDPostfix(WrapperObject node) {
+		if(node == null) {
+			return ">";
+		}
+		String parenttag = node.getParent().getTag().toString();
+		if(parenttag.equals("Element")) {
+			return ">";
+		}
+		else if(parenttag.equals("Attr")) {
+			return " #REQUIRED >";
+		}
+		return null;
 	}
 	
-	public void emitDTDFormat(Map<String, String> typemap) {
+	public void emitDTDFormat(Map<String, WrapperObject> typemap) {
 		if(typemap == null) {
-			System.out.print(this.emitDTDPrefix(null) + this.column + " ");
+			System.out.print(this.emitDTDPrefix(null) + " ");
 		}
 		else {
-			System.out.print(this.emitDTDPrefix(typemap.get(this.column)) + this.column + " ");
+			System.out.print(this.emitDTDPrefix(typemap.get(this.column)) + " ");
 		}
 		for(String data : this.dtdobjectmap.keySet()) {
+			if(typemap != null && typemap.containsKey(data) && typemap.get(data).getParent().getTag().toString().equals("Attr")) {
+				continue;
+			}
 			System.out.print(this.dtdobjectmap.get(data).getElementFormat() + " ");
 		}
-		System.out.println(this.emitDTDPostfix());
+		if(typemap != null) {
+			System.out.println(this.emitDTDPostfix(typemap.get(this.column)));
+		}
+		else {
+			System.out.println(this.emitDTDPostfix(null));
+		}
 	}
 }
