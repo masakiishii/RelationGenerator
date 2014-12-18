@@ -24,12 +24,14 @@ public class SubNodeDataSet implements Comparator<SubNodeDataSet> {
 		this.assumedTableNodeId = assumedTableId;
 		this.children           = new ArrayList<SubNodeDataSet>();
 	}
+
 	public SubNodeDataSet(WrapperObject subNode) {
 		this.subNode            = subNode;
 		this.assumedColumnSet   = new LinkedHashSet<String>();
 		this.finalColumnSet     = new LinkedHashSet<String>();
 		this.children           = new ArrayList<SubNodeDataSet>();
 	}
+
 	public SubNodeDataSet() {
 		this.assumedColumnSet   = new LinkedHashSet<String>();
 		this.finalColumnSet     = new LinkedHashSet<String>();

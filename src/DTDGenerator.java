@@ -200,6 +200,6 @@ public class DTDGenerator extends Generator {
 			dtdall.setDTDAllList(dtdlinelist, index);
 			index++;
 		}
-		dtdall.emitDTDFormat();
+		dtdall.emitDTDFormat(((DTDMatcher)matcher).getElementTypeMap());
 	}
 }

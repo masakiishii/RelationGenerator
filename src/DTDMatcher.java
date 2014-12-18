@@ -2,20 +2,26 @@ package org.peg4d.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 public class DTDMatcher extends Matcher {
-	private Map<String, SubNodeDataSet>               schema    = null;
-	private Map<String, ArrayList<ArrayList<String>>> table     = null;
-	private Generator                                 generator = null;
-	private TableBuilder                              builder   = null;
+	private Map<String, SubNodeDataSet>               schema         = null;
+	private Map<String, ArrayList<ArrayList<String>>> table          = null;
+	private Generator                                 generator      = null;
+	private TableBuilder                              builder        = null;
+	private Map<String, Map<String, String>>          elementtypemap = null;
+
 	public DTDMatcher(Map<String, SubNodeDataSet> schema) {
-		this.schema    = schema;
-		this.generator = new DTDGenerator();
-		this.builder   = new DTDRootBuilder();
+		this.schema         = schema;
+		this.generator      = new DTDGenerator();
+		this.builder        = new DTDRootBuilder();
+		this.elementtypemap = new LinkedHashMap<String, Map<String,String>>();
 		this.initTable();
 	}
 
@@ -24,6 +30,10 @@ public class DTDMatcher extends Matcher {
 		for(final String column : this.schema.keySet()) {
 			this.table.put(column, new ArrayList<ArrayList<String>>());
 		}
+	}
+
+	public Map<String, Map<String, String>> getElementTypeMap() {
+		return this.elementtypemap;
 	}
 
 	public Map<String, ArrayList<ArrayList<String>>> getTable() {
@@ -89,20 +99,26 @@ public class DTDMatcher extends Matcher {
 		return buffer.length() > 0 ? buffer.toString() : null;
 	}
 
-	private void checkMatchingSubNode(WrapperObject node, String column, StringBuilder buffer) {
+	private void checkMatchingSubNode(WrapperObject node, String column, StringBuilder buffer, Map<String, String> columntypemap) {
 		if(node.getText().equals(column)) {
+			columntypemap.put(column, node.getParent().getTag().toString());
 			this.matchingSubNode(node, buffer);
 		}
 	}
 
 	@Override
 	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column) {
+		return null;
+	}
+
+
+	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column, Map<String, String> columntypemap) {
 		final StringBuilder buffer = new StringBuilder();
 		final Queue<WrapperObject> queue = new LinkedList<WrapperObject>();
 		queue.offer(subnode);
 		while(!queue.isEmpty()) {
 			final WrapperObject node = queue.poll();
-			this.checkMatchingSubNode(node, column, buffer);
+			this.checkMatchingSubNode(node, column, buffer, columntypemap);
 			for(int index = 0; index < node.size(); index++) {
 				if(!node.equals(tablenode)) {
 					queue.offer(node.get(index));
@@ -112,12 +128,12 @@ public class DTDMatcher extends Matcher {
 		return this.getTerminalString(buffer);
 	}
 
-	private void getFieldData(String column, ArrayList<String> columndata, WrapperObject subnode, WrapperObject tablenode) {
+	private void getFieldData(String column, ArrayList<String> columndata, WrapperObject subnode, WrapperObject tablenode, Map<String, String> columntypemap) {
 		if(column.equals("OBJECTID")) {
 			columndata.add(String.valueOf(subnode.getObjectId()));
 		}
 		else {
-			final String data = this.getColumnData(subnode, tablenode, column);
+			final String data = this.getColumnData(subnode, tablenode, column, columntypemap);
 			columndata.add(data);
 		}
 	}
@@ -126,9 +142,12 @@ public class DTDMatcher extends Matcher {
 	public void getTupleData(WrapperObject subnode, WrapperObject tablenode, String tablename, SubNodeDataSet columns) {
 		final ArrayList<ArrayList<String>> tabledata = this.table.get(tablename);
 		final ArrayList<String> columndata = new ArrayList<String>();
+		final Map<String, String> columntypemap = new LinkedHashMap<String, String>();
 		for(final String column : columns.getFinalColumnSet()) {
-			this.getFieldData(column, columndata, subnode, tablenode);
+			this.getFieldData(column, columndata, subnode, tablenode, columntypemap);
+			this.elementtypemap.put(tablename, columntypemap);
 		}
+		this.elementtypemap.put("root", null);
 		tabledata.add(columndata);
 	}
 

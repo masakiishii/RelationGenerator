@@ -1,5 +1,7 @@
 package org.peg4d.data;
 
+import java.util.Map;
+
 public class DTDAllList {
 	private DTDLineList[] dtdall      = null;
 	private int           tablenumber = -1;
@@ -25,10 +27,10 @@ public class DTDAllList {
 		System.out.println("]>");
 	}
 
-	public void emitDTDFormat() {
+	public void emitDTDFormat(Map<String, Map<String, String>> elementtypemap) {
 		this.emitPreDocType();
 		for(int i = 0; i < this.tablenumber; i++) {
-			dtdall[i].emitDTDFormat();
+			dtdall[i].emitDTDFormat(elementtypemap);
 		}
 		this.emitPostDocType();
 	}

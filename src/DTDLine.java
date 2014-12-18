@@ -20,16 +20,27 @@ public class DTDLine {
 		return this.dtdobjectmap;
 	}
 
-	private String emitDTDPrefix() {
-		return "\t<!Element ";
+	private String emitDTDPrefix(String type) {
+		if(type == null || type.equals("Element")) {
+			return "\t<!ELEMENT ";
+		}
+		else if(type.equals("Attr")) {
+			return "\t<!ATTLIST ";
+		}
+		return null;
 	}
 
 	private String emitDTDPostfix() {
 		return ">";
 	}
 	
-	public void emitDTDFormat() {
-		System.out.print(this.emitDTDPrefix() + this.column + " ");
+	public void emitDTDFormat(Map<String, String> typemap) {
+		if(typemap == null) {
+			System.out.print(this.emitDTDPrefix(null) + this.column + " ");
+		}
+		else {
+			System.out.print(this.emitDTDPrefix(typemap.get(this.column)) + this.column + " ");
+		}
 		for(String data : this.dtdobjectmap.keySet()) {
 			System.out.print(this.dtdobjectmap.get(data).getElementFormat() + " ");
 		}

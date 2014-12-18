@@ -1,5 +1,7 @@
 package org.peg4d.data;
 
+import java.util.Map;
+
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 public class DTDLineList {
@@ -20,11 +22,11 @@ public class DTDLineList {
 		return this.dtdlinelist;
 	}
 	
-	public void emitDTDFormat() {
+	public void emitDTDFormat(Map<String, Map<String, String>> elementtypemap) {
 		System.out.println("\t<!-- tablename: " + this.tablename + "   -->");
 		System.out.println();
 		for(int i = 0; i < this.listsize; i++) {
-			this.dtdlinelist[i].emitDTDFormat();
+			this.dtdlinelist[i].emitDTDFormat(elementtypemap.get(tablename));
 		}
 		System.out.println();
 		System.out.println();
