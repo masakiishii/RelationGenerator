@@ -37,10 +37,11 @@ public class SchemaDecider{
 			final String tablename = set.getAssumedTableName();
 			map.put(tablename, set);
 		}
-		for(final String key : map.keySet()) {
-			final SubNodeDataSet subnodeset = map.get(key);
+		for(final String tablename : map.keySet()) {
+			final SubNodeDataSet subnodeset = map.get(tablename);
 			final Set<String> preset = subnodeset.getAssumedColumnSet();
 			subnodeset.setFinalColumnSet("OBJECTID");
+			subnodeset.setFinalColumnSet(tablename); /* for table */
 			subnodeset.setFinalColumnSet(preset);
 		}
 		return map;
