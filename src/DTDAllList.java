@@ -24,6 +24,8 @@ public class DTDAllList {
 	}
 
 	private void emitPostDocType() {
+		System.out.println("\t<!ELEMENT Text  (#PCDATA) >");
+		System.out.println("\t<!ELEMENT Value (#PCDATA) >");
 		System.out.println("]>");
 	}
 
