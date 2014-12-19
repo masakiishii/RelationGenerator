@@ -18778,7 +18778,7 @@
      {#Name 'watch'}
      {#Attr
       {#Name 'open_auction'}
-      {#Value 'open_auction63'}
+      {#Value 'ope__auction63'}
      }
     }
     {#Element
