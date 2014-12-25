@@ -48,13 +48,16 @@ public class DTDObject {
 	}
 
 	private String getStringType() {
-		if(this.element.equals("Value") || this.element.equals("Text")) {
+		if(this.element.equals("Text")) {
 			return "#PCDATA";
 		}
 		return this.element;
 	}
 
 	public String getElementFormat() {
+		if(this.element.equals("Value")) {
+			return "IDREF";
+		}
 		switch (this.eletype) {
 		case One:
 			return "(" + this.getStringType() + ")";
