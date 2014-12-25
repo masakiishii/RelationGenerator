@@ -47,16 +47,23 @@ public class DTDObject {
 		return this.eletype;
 	}
 
+	private String getStringType() {
+		if(this.element.equals("Value") || this.element.equals("Text")) {
+			return "#PCDATA";
+		}
+		return this.element;
+	}
+
 	public String getElementFormat() {
 		switch (this.eletype) {
 		case One:
-			return "(" + this.element + ")";
+			return "(" + this.getStringType() + ")";
 		case More:
-			return "(" + this.element + "*" + ")";
+			return "(" + this.getStringType() + "*" + ")";
 		case Optional:
-			return "(" + this.element + "?" + ")";
+			return "(" + this.getStringType() + "?" + ")";
 		case Required:
-			return "(" + this.element + "+" + ")";
+			return "(" + this.getStringType() + "+" + ")";
 		default:
 			return null;
 		}

@@ -57,6 +57,7 @@ public class DTDLine {
 		}
 		for(String data : this.dtdobjectmap.keySet()) {
 			if(typemap != null && typemap.containsKey(data) && typemap.get(data).getParent().getTag().toString().equals("Attr")) {
+				System.out.print("Empty ");
 				continue;
 			}
 			System.out.print(this.dtdobjectmap.get(data).getElementFormat() + " ");
