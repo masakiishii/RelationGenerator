@@ -34,6 +34,15 @@ public class DTDLine {
 		return null;
 	}
 
+	private void emitPrefix(Map<String, WrapperObject> typemap) {
+		if(typemap == null) {
+			System.out.print(this.emitDTDPrefix(null) + " ");
+		}
+		else {
+			System.out.print(this.emitDTDPrefix(typemap.get(this.column)) + " ");
+		}
+	}
+
 	private String emitDTDPostfix(WrapperObject node) {
 		if(node == null) {
 			return ">";
@@ -47,26 +56,47 @@ public class DTDLine {
 		}
 		return null;
 	}
-	
-	public void emitDTDFormat(Map<String, WrapperObject> typemap) {
-		if(typemap == null) {
-			System.out.print(this.emitDTDPrefix(null) + " ");
-		}
-		else {
-			System.out.print(this.emitDTDPrefix(typemap.get(this.column)) + " ");
-		}
-		for(String data : this.dtdobjectmap.keySet()) {
-			if(typemap != null && typemap.containsKey(data) && typemap.get(data).getParent().getTag().toString().equals("Attr")) {
-				System.out.print("Empty ");
-				continue;
-			}
-			System.out.print(this.dtdobjectmap.get(data).getElementFormat() + " ");
-		}
+
+	private void emitPostfix(Map<String, WrapperObject> typemap) {
 		if(typemap != null) {
 			System.out.println(this.emitDTDPostfix(typemap.get(this.column)));
 		}
 		else {
 			System.out.println(this.emitDTDPostfix(null));
 		}
+	}
+
+	private boolean parentIsAttr(Map<String, WrapperObject> typemap, String data) {
+		if(typemap == null) {
+			return false;
+		}
+		WrapperObject node = typemap.get(data);
+		if(node == null) {
+			return false;
+		}
+		return typemap.containsKey(data) && node.getParent().getTag().toString().equals("Attr");
+	}
+
+	private void checkAttrType(Map<String, WrapperObject> typemap) {
+		StringBuilder sbuilder = new StringBuilder();
+		for(String data : this.dtdobjectmap.keySet()) {
+			if(this.parentIsAttr(typemap, data)) {
+				continue;
+			}
+			sbuilder.append(this.dtdobjectmap.get(data).getElementFormat() + " ");
+		}
+		
+		if(sbuilder.length() == 0) {
+			System.out.print("Empty ");
+		}
+		else {
+			System.out.print(sbuilder.toString());
+		}
+	}
+
+	public void emitDTDFormat(Map<String, WrapperObject> typemap) {
+		this.emitPrefix(typemap);
+		this.checkAttrType(typemap);
+		this.emitPostfix(typemap);
 	}
 }
