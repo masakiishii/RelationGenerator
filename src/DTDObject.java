@@ -16,7 +16,7 @@ public class DTDObject {
 	}
 
 	public DTDObject() {
-		
+
 	}
 
 	public void incrementCount() {
@@ -26,7 +26,7 @@ public class DTDObject {
 	public int getCounterforRoot() {
 		return this.countforroot;
 	}
-	
+
 	public String getElement() {
 		return this.element;
 	}

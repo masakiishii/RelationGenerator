@@ -109,7 +109,7 @@ public class DTDGenerator extends Generator {
 			DTDObject dtdobject = dtdobjectmap.get(key);
 		}
 	}
-	
+
 	private void countRootColumnElement(String[] datalist, Map<String, DTDObject> dtdobjectmap) {
 		for(int i = 0; i < datalist.length; i++) {
 			dtdobjectmap.get(datalist[i]).incrementCount();
@@ -182,7 +182,7 @@ public class DTDGenerator extends Generator {
 		}
 		return rootdtdlinelist;
 	}
-	
+
 	@Override
 	public void generate(Matcher matcher) {
 	}

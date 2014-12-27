@@ -20,7 +20,7 @@ public class DTDLineList {
 	public DTDLine[] getDTDLine() {
 		return this.dtdlinelist;
 	}
-	
+
 	public void emitDTDFormat(Map<String, Map<String, WrapperObject>> elementtypemap) {
 		System.out.println("\t<!-- tablename: " + this.tablename + "   -->");
 		System.out.println();

@@ -16,13 +16,13 @@ public abstract class TableBuilder {
 	public void getListData(WrapperObject sibling, StringBuilder builder) {
 		
 	}
-	
+
 	abstract public void getTerminalData(WrapperObject sibling, StringBuilder builder);
 
 	abstract public void getNonTerminalData(WrapperObject sibling, StringBuilder builder);
-	
+
 	abstract public void settingData(WrapperObject parent, StringBuilder builder);
-	
+
 	abstract public void setTableData(WrapperObject node);
 
 	abstract public void buildRootTable(WrapperObject node);

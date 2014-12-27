@@ -110,7 +110,6 @@ public class DTDMatcher extends Matcher {
 		return null;
 	}
 
-
 	public String getColumnData(WrapperObject subnode, WrapperObject tablenode, String column, Map<String, WrapperObject> columntypemap) {
 		final StringBuilder buffer = new StringBuilder();
 		final Queue<WrapperObject> queue = new LinkedList<WrapperObject>();

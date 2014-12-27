@@ -34,7 +34,7 @@ public class CSVGenerator extends Generator {
 		System.out.println(buffer.toString());
 		System.out.println("---------------------------------------");
 	}
-	
+
 	public void generate(Matcher matcher) {
 		final Map<String, ArrayList<ArrayList<String>>> table = matcher.getTable();
 		for(final String tablename : table.keySet()) {

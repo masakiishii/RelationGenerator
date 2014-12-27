@@ -51,7 +51,6 @@ public class WrapperObject extends Coordinate {
 
 	public void setAST(WrapperObject[] AST) {
 		this.AST = AST;
-
 	}
 
 	public WrapperObject get(int index) {
