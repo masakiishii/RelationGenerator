@@ -194,8 +194,11 @@ public class SchemaMatcher extends Matcher {
 			}
 			final WrapperObject child = parent.get(0);
 			if(child.isTerminal() && this.isTableName(child.getText())) {
-				this.checkTreeType(parent, child);
-				continue;
+				final WrapperObject secondchild = parent.get(1);
+				if(!this.isTableName(secondchild.get(0).getText())) {
+					this.checkTreeType(parent, child);
+					continue;
+				}
 			}
 			for(int index = 0; index < parent.size(); index++) {
 				queue.offer(parent.get(index));

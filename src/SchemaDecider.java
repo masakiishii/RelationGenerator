@@ -41,7 +41,7 @@ public class SchemaDecider{
 			final SubNodeDataSet subnodeset = map.get(tablename);
 			final Set<String> preset = subnodeset.getAssumedColumnSet();
 			subnodeset.setFinalColumnSet("OBJECTID");
-			subnodeset.setFinalColumnSet(tablename); /* for table */
+			//subnodeset.setFinalColumnSet(tablename); /* for table */
 			subnodeset.setFinalColumnSet(preset);
 		}
 		return map;
