@@ -1,0 +1,39 @@
+<response>
+  <row>
+    <row _id="29622" _uuid="04C82442-B31E-431F-A0F5-CAA86BF1CDC5" _position="29622" _address="http://health.data.ny.gov/resource/jxy9-yhdk/29622">
+      <year>2012</year>
+      <first_name>DOMINIC</first_name>
+      <county>CAYUGA</county>
+      <sex>M</sex>
+      <count>6</count>
+    </row>
+    <row _id="32515" _uuid="6DE13D54-C254-462C-9ADB-E76EF0FFCA8E" _position="32515" _address="http://health.data.ny.gov/resource/jxy9-yhdk/32515">
+      <year>2012</year>
+      <first_name>ADDISON</first_name>
+      <county>ONONDAGA</county>
+      <sex>F</sex>
+      <count>14</count>
+    </row>
+    <row _id="32514" _uuid="3D3CAFFC-E1FC-4FC1-8FD4-5C40F701137E" _position="32514" _address="http://health.data.ny.gov/resource/jxy9-yhdk/32514">
+      <year>2012</year>
+      <first_name>JULIA</first_name>
+      <county>ONONDAGA</county>
+      <sex>F</sex>
+      <count>15</count>
+    </row>
+    <row _id="35046" _uuid="D959270A-67DE-49E4-BBD6-454492F2E7D8" _position="35046" _address="http://health.data.ny.gov/resource/jxy9-yhdk/35046">
+      <year>2012</year>
+      <first_name>WILLIAM</first_name>
+      <county>WESTCHESTER</county>
+      <sex>M</sex>
+      <count>41</count>
+    </row>
+    <row _id="32513" _uuid="2BAA9F6F-A642-40BA-ABCA-A58784E4A65C" _position="32513" _address="http://health.data.ny.gov/resource/jxy9-yhdk/32513">
+      <year>2012</year>
+      <first_name>AMELIA</first_name>
+      <county>ONONDAGA</county>
+      <sex>F</sex>
+      <count>15</count>
+    </row>
+  </row>
+</response>
