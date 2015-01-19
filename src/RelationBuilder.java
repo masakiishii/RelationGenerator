@@ -98,7 +98,7 @@ public class RelationBuilder {
 		for (int i = 0; i < node.size(); i++) {
 			final WrapperObject  obj = node.get(i);
 			final SubNodeDataSet set = obj.getSubNodeDataSet();
-			if (set != null) {
+			if (set != null && dataset != null) {
 				dataset.getChildren().add(set);
 			}
 			this.linkAllSubNodeDataSet(obj);
