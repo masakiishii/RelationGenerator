@@ -113,7 +113,8 @@ public class RelationBuilder {
 		return wrapperrootnode;
 	}
 
-	private void buildInferSchema(WrapperObject wrapperrootnode) {
+	public void buildInferSchema() {
+		final WrapperObject wrapperrootnode = this.preprocessing();
 		final SchemaNominator preschema = new SchemaNominator(this);
 		preschema.nominate();
 		final SchemaDecider defineschema = new SchemaDecider(preschema, wrapperrootnode);
@@ -122,14 +123,16 @@ public class RelationBuilder {
 		matcher.match(wrapperrootnode);
 	}
 
-	private void buildFixedSchema(WrapperObject wrapperrootnode) {
+	public void buildFixedSchema() {
+		final WrapperObject wrapperrootnode = this.preprocessing();
 		final TreeTypeChecker checker = new TreeTypeChecker();
 		final Map<String, Set<String>> definedschema = checker.check(wrapperrootnode);
 		final Matcher matcher = new FixedSchemaMatcher(definedschema);
 		matcher.match(wrapperrootnode);
 	}
 
-	private void buildDTD(WrapperObject wrapperrootnode) {
+	public void buildDTD() {
+		final WrapperObject wrapperrootnode = this.preprocessing();
 		final SchemaNominator preschema = new SchemaNominator(this);
 		preschema.nominate();
 		final SchemaDecider defineschema = new SchemaDecider(preschema, wrapperrootnode);
@@ -138,16 +141,16 @@ public class RelationBuilder {
 		matcher.match(wrapperrootnode);
 	}
 
-	public void build(String reltype) {
-		final WrapperObject wrapperrootnode = this.preprocessing();
-		if(reltype.equals("--infer")) {
-			this.buildInferSchema(wrapperrootnode);
-		}
-		else if(reltype.equals("--fixed")) {
-			this.buildFixedSchema(wrapperrootnode);
-		}
-		else { //build DTD --dtdgen
-			this.buildDTD(wrapperrootnode);
-		}
-	}
+//	public void build(String reltype) {
+//		final WrapperObject wrapperrootnode = this.preprocessing();
+//		if(reltype.equals("--infer")) {
+//			this.buildInferSchema(wrapperrootnode);
+//		}
+//		else if(reltype.equals("--fixed")) {
+//			this.buildFixedSchema(wrapperrootnode);
+//		}
+//		else { //build DTD --dtdgen
+//			this.buildDTD(wrapperrootnode);
+//		}
+//	}
 }
