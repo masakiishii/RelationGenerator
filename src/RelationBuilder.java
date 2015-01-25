@@ -58,13 +58,27 @@ public class RelationBuilder {
 		}
 	}
 
+	private boolean checkListType(WrapperObject node) {
+		WrapperObject child = node.get(0);
+		if(!child.isTerminal()) {
+			WrapperObject grandchild = child.get(0);
+			if(!grandchild.isTerminal()) {
+				WrapperObject greatgrandchild = grandchild.get(0);
+				return greatgrandchild.isTerminal() ? true : false;
+			}
+		}
+		return false;
+	}
+
 	private void collectAllSubNode(WrapperObject node) {
 		if (node == null) {
 			return;
 		}
-		if (node.getTag().toString().equals("List")) {
+		if(!node.isTerminal() && this.checkListType(node)) {
+			node.setListType();
 			this.collectListSubNode(node);
-		} else if (!node.isTerminal() && node.get(0).isTerminal()) {
+		}
+		else if (!node.isTerminal() && node.get(0).isTerminal()) {
 			this.collectNormSubNode(node);
 		}
 		for (int i = 0; i < node.size(); i++) {
@@ -140,17 +154,4 @@ public class RelationBuilder {
 		final Matcher matcher = new DTDMatcher(definedschema);
 		matcher.match(wrapperrootnode);
 	}
-
-//	public void build(String reltype) {
-//		final WrapperObject wrapperrootnode = this.preprocessing();
-//		if(reltype.equals("--infer")) {
-//			this.buildInferSchema(wrapperrootnode);
-//		}
-//		else if(reltype.equals("--fixed")) {
-//			this.buildFixedSchema(wrapperrootnode);
-//		}
-//		else { //build DTD --dtdgen
-//			this.buildDTD(wrapperrootnode);
-//		}
-//	}
 }

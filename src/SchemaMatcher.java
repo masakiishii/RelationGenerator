@@ -84,7 +84,7 @@ public class SchemaMatcher extends Matcher {
 	}
 
 	private void travaseSubTree(WrapperObject node, StringBuilder buffer) {
-		if(node.getTag().toString().equals("List")) { //FIXME
+		if(node.isListType()) {
 			this.getListData(node, buffer);
 		}
 		else {
@@ -176,9 +176,10 @@ public class SchemaMatcher extends Matcher {
 		child.visited();
 		parent.visited();
 		final String tablename = child.getText();
-		if (parent.get(1).getTag().toString().equals("List")) {
+		if(parent.get(1).isListType()) {
 			this.getTupleListData(parent, child, tablename, this.schema.get(tablename));
-		} else {
+		}
+		else {
 			this.getTupleData(parent, child, tablename, this.schema.get(tablename));
 		}
 	}

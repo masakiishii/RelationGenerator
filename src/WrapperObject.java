@@ -6,13 +6,14 @@ import org.peg4d.ParsingTag;
 public class WrapperObject extends Coordinate {
 	private static int     idCount  = 0;
 
-	private ParsingObject  node     = null;
-	private int            objectId = -1;
-	private int            size     = -1;
-	private boolean        visited  = false;
-	private WrapperObject  AST[]    = null;
-	private WrapperObject  parent   = null;
-	private SubNodeDataSet dataset  = null;
+	private ParsingObject  node      = null;
+	private int            objectId  = -1;
+	private int            size      = -1;
+	private boolean        visited   = false;
+	private WrapperObject  AST[]     = null;
+	private WrapperObject  parent    = null;
+	private SubNodeDataSet dataset   = null;
+	private boolean        isListObj = false;
 
 	public WrapperObject(ParsingObject node) {
 		super();
@@ -79,5 +80,13 @@ public class WrapperObject extends Coordinate {
 
 	public boolean isTerminal() {
 		return this.size == 0;
+	}
+
+	public void setListType() {
+		this.isListObj = true;
+	}
+
+	public boolean isListType() {
+		return this.isListObj;
 	}
 }

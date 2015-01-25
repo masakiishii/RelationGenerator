@@ -69,7 +69,7 @@ public class SchemaRootBuilder extends TableBuilder {
 			if(sibling.isTerminal()) {
 				this.getTerminalData(sibling, builder);
 			}
-			else if(sibling.getTag().toString().equals("List")) {
+			else if(sibling.isListType()) {
 				this.getListData(sibling, builder);
 			}
 			else {
