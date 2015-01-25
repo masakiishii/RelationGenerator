@@ -6,7 +6,9 @@
 #--- Output File
 TMPFILE=tmp.txt
 OUTPUTFILE=benchtime.txt
-OUTPUTCSV=benchtime.csv
+#OUTPUTCSV=benchtime_old.csv
+#OUTPUTCSV=benchtime_peg4d.csv
+OUTPUTCSV=benchtime_new.csv
 
 #--- Input  File
 #array_for_10=("xmark_1M.xml")
@@ -18,7 +20,7 @@ array_for_10=("xmark_1M.xml" "xmark_2M.xml" "xmark_5M.xml" "xmark_10M.xml" "xmar
 array_only_1=("xmark_50M.xml")
 
 #--- Reference Directory
-XMARKDIR=../../RelationGenerator/test/xml/src/xmark/
+XMARKDIR=xmark-bench/
 
 
 #-------------- Generate CSV Data
@@ -31,6 +33,8 @@ do
     : > ${TMPFILE}
     for i in {0..10}
     do
+#	(time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d --relation:infer ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
+#	(time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d  ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
 	(time -p java -jar nez-0.9.jar rel --infer -p src/org/peg4d/lib/xml.p4d -i ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
     done
     echo ${file} >> ${TMPFILE}
@@ -42,6 +46,8 @@ for file in ${array_only_1}
 do
     : > ${OUTPUTFILE}
     : > ${TMPFILE}
+#    (time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d --relation:infer ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
+#    (time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d  ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
     (time -p java -jar nez-0.9.jar rel --infer -p src/org/peg4d/lib/xml.p4d -i ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
     echo ${file} >> ${TMPFILE}
     grep "real" ${OUTPUTFILE} | awk '{print $2}' >>  ${TMPFILE}

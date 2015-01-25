@@ -16,6 +16,5 @@ public class RelInferWriter extends ParsingWriter {
 	protected void write(ParsingObject po) {
 		RelationBuilder rbuilder = new RelationBuilder(po);
 		rbuilder.buildInferSchema();
-		this.out.println("RelInferWriter");
 	}
 }
