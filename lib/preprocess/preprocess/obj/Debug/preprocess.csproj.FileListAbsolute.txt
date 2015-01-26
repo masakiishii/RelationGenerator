@@ -1,0 +1,6 @@
+\\vmware-host\Shared Folders\ダウンロード\Preprocessor\preprocess\preprocess\bin\Debug\preprocess.exe.config
+\\vmware-host\Shared Folders\ダウンロード\Preprocessor\preprocess\preprocess\obj\Debug\preprocess.csprojResolveAssemblyReference.cache
+\\vmware-host\Shared Folders\ダウンロード\Preprocessor\preprocess\preprocess\bin\Debug\preprocess.exe
+\\vmware-host\Shared Folders\ダウンロード\Preprocessor\preprocess\preprocess\bin\Debug\preprocess.pdb
+\\vmware-host\Shared Folders\ダウンロード\Preprocessor\preprocess\preprocess\obj\Debug\preprocess.exe
+\\vmware-host\Shared Folders\ダウンロード\Preprocessor\preprocess\preprocess\obj\Debug\preprocess.pdb

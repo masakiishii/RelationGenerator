@@ -1,0 +1,25 @@
+OBJECTID	ip	identd	usrid	time	access	status	size	refer	ua	
+1	10.0.0.1	-	-	time:5	access:13	200	1737	-	Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)	
+21	10.0.0.1	-	-	time:25	access:33	200	4554	-	Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)	
+41	10.0.0.1	-	-	time:45	access:53	200	903	-	Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)	
+61	10.0.0.1	-	-	time:65	access:73	200	2623	-	Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)	
+81	10.0.0.1	-	-	time:85	access:93	200	9257	-	Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)	
+101	10.0.0.1	-	-	time:105	access:113	200	59884	-	Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)	
+121	10.0.0.1	-	-	time:125	access:133	200	3115	-	Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)	
+141	10.0.0.1	-	-	time:145	access:153	200	7623	-	Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)	
+161	10.0.0.1	-	-	time:165	access:173	200	33456	-	Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)	
+181	10.0.0.1	-	-	time:185	access:193	200	685	-	Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)	
+201	10.0.0.1	-	-	time:205	access:213	200	1737	-	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+221	10.0.0.1	-	-	time:225	access:233	200	2226	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+241	10.0.0.1	-	-	time:245	access:253	200	430	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+261	10.0.0.1	-	-	time:265	access:273	200	17216	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+281	10.0.0.1	-	-	time:285	access:293	200	7623	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+301	10.0.0.1	-	-	time:305	access:313	200	3115	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+321	10.0.0.1	-	-	time:325	access:333	200	685	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+341	10.0.0.1	-	-	time:345	access:353	200	33456	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+361	10.0.0.1	-	-	time:365	access:373	200	59884	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+381	10.0.0.1	-	-	time:385	access:393	200	2623	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+401	10.0.0.1	-	-	time:405	access:413	200	9257	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+421	10.0.0.1	-	-	time:425	access:433	200	903	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+441	10.0.0.1	-	-	time:445	access:453	200	4554	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
+461	10.0.0.1	-	-	time:465	access:473	200	23556	http://www.ubicg.ynu.ac.jp/c-lang/	Mozilla/5.0 (iPod touch; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53	
