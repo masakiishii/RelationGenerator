@@ -63,7 +63,7 @@ public class SchemaNominator {
 	}
 
 	private boolean checkThreshhold(double coefficient) {
-		return 0.5 <= coefficient && coefficient <= 1.0;
+		return coefficient > 0.5;
 	}
 
 	private boolean calcSetRelation(ArrayList<SubNodeDataSet> list, SubNodeDataSet datasetX, SubNodeDataSet datasetY) {
