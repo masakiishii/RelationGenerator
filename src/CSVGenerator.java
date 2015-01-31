@@ -32,14 +32,12 @@ public class CSVGenerator extends Generator {
 			buffer.append("\t");
 		}
 		System.out.println(buffer.toString());
-		System.out.println("---------------------------------------");
 	}
 
 	public void generate(Matcher matcher) {
 		final Map<String, ArrayList<ArrayList<String>>> table = matcher.getTable();
 		for(final String tablename : table.keySet()) {
 			System.out.println("tablename: " + tablename);
-			System.out.println("-------------------------------");
 			this.generateColumns(tablename, matcher);
 			this.generateData(tablename, matcher);
 		}
