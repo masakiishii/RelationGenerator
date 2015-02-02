@@ -11,9 +11,12 @@ public class SchemaNominator {
 	private RelationBuilder relationbuilder    = null;
 	private Map<String, SubNodeDataSet> schema = null;
 
+	private ArrayList<Double> coefficientlist  = null;
+
 	public SchemaNominator(RelationBuilder relationbuilder) {
 		this.relationbuilder = relationbuilder;
 		this.schema = new LinkedHashMap<String, SubNodeDataSet>();
+		this.coefficientlist = new ArrayList<Double>();
 	}
 
 	private Set<String> calcIntersection(Set<String> setX, Set<String> setY) {
@@ -63,7 +66,8 @@ public class SchemaNominator {
 	}
 
 	private boolean checkThreshhold(double coefficient) {
-		return coefficient > 0.5;
+		this.coefficientlist.add(coefficient);
+		return coefficient > 0.8;
 	}
 
 	private boolean calcSetRelation(ArrayList<SubNodeDataSet> list, SubNodeDataSet datasetX, SubNodeDataSet datasetY) {
@@ -113,9 +117,22 @@ public class SchemaNominator {
 		}
 	}
 
+	public void emitHistGramData() {
+		int[] range = new int[11];
+		int coeff;
+		for(int i = 0; i < this.coefficientlist.size(); i++) {
+			coeff = (int)(this.coefficientlist.get(i) * 10);
+			range[coeff]++;
+		}
+		for(int i = 0; i < range.length; i++) {
+			System.out.println(i + "\t" + range[i]);
+		}
+	}
+
 	public void nominate() {
 		final ArrayList<SubNodeDataSet> list = this.relationbuilder.getSubNodeDataSetList();
 		list.sort(new SubNodeDataSet());
 		this.filter(list);
+		//this.emitHistGramData();
 	}
 }

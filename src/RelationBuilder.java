@@ -127,12 +127,27 @@ public class RelationBuilder {
 		return wrapperrootnode;
 	}
 
+	public void showSchemaSet(Map<String, SubNodeDataSet> definedschema) {
+		SubNodeDataSet dataset;
+		for(String key : definedschema.keySet()) {
+			dataset = definedschema.get(key);
+			Set<String> finalcolumnset = dataset.getFinalColumnSet();
+			System.out.println("tablename: " + key);
+			for(String column : finalcolumnset) {
+				System.out.print(column + ", ");
+			}
+			System.out.println();
+			System.out.println();
+		}
+	}
+
 	public void buildInferSchema() {
 		final WrapperObject wrapperrootnode = this.preprocessing();
 		final SchemaNominator preschema = new SchemaNominator(this);
 		preschema.nominate();
 		final SchemaDecider defineschema = new SchemaDecider(preschema, wrapperrootnode);
 		final Map<String, SubNodeDataSet> definedschema = defineschema.define();
+		this.showSchemaSet(definedschema);
 		final Matcher matcher = new SchemaMatcher(definedschema);
 		matcher.match(wrapperrootnode);
 	}
