@@ -10,6 +10,8 @@ public class RelationBuilder {
 	private ParsingObject root         = null;
 	private int           segmentidpos = 0;
 	private ArrayList<SubNodeDataSet> allsubnodesetlist = null;
+	private int           nodecounter      = 0;
+
 	public RelationBuilder(ParsingObject root) {
 		this.root = root;
 		this.segmentidpos++;
@@ -79,6 +81,7 @@ public class RelationBuilder {
 			this.collectListSubNode(node);
 		}
 		else if (!node.isTerminal() && node.get(0).isTerminal()) {
+			this.nodecounter++;
 			this.collectNormSubNode(node);
 		}
 		for (int i = 0; i < node.size(); i++) {
@@ -143,6 +146,7 @@ public class RelationBuilder {
 
 	public void buildInferSchema() {
 		final WrapperObject wrapperrootnode = this.preprocessing();
+		System.out.println("node num:" + this.nodecounter);
 		final SchemaNominator preschema = new SchemaNominator(this);
 		preschema.nominate();
 		final SchemaDecider defineschema = new SchemaDecider(preschema, wrapperrootnode);

@@ -67,7 +67,8 @@ public class SchemaNominator {
 
 	private boolean checkThreshhold(double coefficient) {
 		this.coefficientlist.add(coefficient);
-		return coefficient > 0.8;
+		System.out.println(coefficient);
+		return coefficient > 0.0;
 	}
 
 	private boolean calcSetRelation(ArrayList<SubNodeDataSet> list, SubNodeDataSet datasetX, SubNodeDataSet datasetY) {
