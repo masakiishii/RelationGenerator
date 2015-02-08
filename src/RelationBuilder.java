@@ -23,15 +23,11 @@ public class RelationBuilder {
 	}
 
 	static public boolean isNumber(String value) {
-		if (Utils.UseFastParseNumber) {
-			return Utils.isNumber(value);
-		} else {
-			try {
-				Double.parseDouble(value);
-				return true;
-			} catch (final NumberFormatException e) {
-				return false;
-			}
+		try {
+			Double.parseDouble(value);
+			return true;
+		} catch (final NumberFormatException e) {
+			return false;
 		}
 	}
 
@@ -146,12 +142,12 @@ public class RelationBuilder {
 
 	public void buildInferSchema() {
 		final WrapperObject wrapperrootnode = this.preprocessing();
-		System.out.println("node num:" + this.nodecounter);
+		//System.out.println("node num:" + this.nodecounter);
 		final SchemaNominator preschema = new SchemaNominator(this);
 		preschema.nominate();
 		final SchemaDecider defineschema = new SchemaDecider(preschema, wrapperrootnode);
 		final Map<String, SubNodeDataSet> definedschema = defineschema.define();
-		this.showSchemaSet(definedschema);
+		//this.showSchemaSet(definedschema);
 		final Matcher matcher = new SchemaMatcher(definedschema);
 		matcher.match(wrapperrootnode);
 	}

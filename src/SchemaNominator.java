@@ -67,7 +67,7 @@ public class SchemaNominator {
 
 	private boolean checkThreshhold(double coefficient) {
 		this.coefficientlist.add(coefficient);
-		System.out.println(coefficient);
+		//System.out.println(coefficient);
 		return coefficient > 0.0;
 	}
 
