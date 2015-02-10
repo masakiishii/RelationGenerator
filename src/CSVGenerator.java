@@ -13,11 +13,18 @@ public class CSVGenerator extends Generator {
 		final ArrayList<ArrayList<String>> datalist = matcher.getTable().get(tablename);
 		final StringBuilder buffer = new StringBuilder();
 		for(int i = 0; i < datalist.size(); i++) {
+			int count = 0;
+			double similarity = 0;
 			final ArrayList<String> line = datalist.get(i);
 			for(int j = 0; j < line.size(); j++) {
+				if(line.get(j) != null) {
+					count++;
+				}
 				buffer.append(line.get(j));
 				buffer.append("\t");
 			}
+			similarity = ((double)count / line.size());
+			buffer.append(similarity);
 			buffer.append("\n");
 		}
 		System.out.println(buffer.toString());

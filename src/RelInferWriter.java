@@ -1,5 +1,8 @@
 package org.peg4d.data;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import org.peg4d.ParsingObject;
 import org.peg4d.million.SourceGenerator;
 import org.peg4d.million.SweetJSGenerator;
@@ -14,7 +17,18 @@ public class RelInferWriter extends ParsingWriter {
 
 	@Override
 	protected void write(ParsingObject po) {
-		RelationBuilder rbuilder = new RelationBuilder(po);
-		rbuilder.buildInferSchema();
+		Queue<ParsingObject> queue = new LinkedList<ParsingObject>();
+		queue.add(po);
+		int nodecounter = 0;
+		while(!queue.isEmpty()) {
+			ParsingObject node = queue.poll();
+			nodecounter++;
+			for(int i = 0; i < node.size(); i++) {
+				queue.add(node.get(i));
+			}
+		}
+		System.out.println(nodecounter);
+		//RelationBuilder rbuilder = new RelationBuilder(po);
+		//rbuilder.buildInferSchema();
 	}
 }

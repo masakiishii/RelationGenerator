@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#--- Command OPTION
-#RELOPTION=--relation:infer
-
 #--- Output File
 TMPFILE=tmp.txt
 OUTPUTFILE=benchtime.txt
@@ -11,16 +8,41 @@ OUTPUTFILE=benchtime.txt
 OUTPUTCSV=benchtime_new.csv
 
 #--- Input  File
-#array_for_10=("xmark_1M.xml")
-
-array_for_10=("xmark_1M.xml" "xmark_2M.xml" "xmark_5M.xml" "xmark_10M.xml" "xmark_20M.xml")
-
-#array_only_1=("xmark_50M.xml")
-
-array_only_1=("xmark_50M.xml")
+array_for_10=(
+"BAH_O.xml"
+"BabyName.xml"
+"ChooseMaryland.xml"
+"CityOfSeattleWages.xml"
+"CommunitiesConnectNetwork.xml"
+"DataAnalysis_2014-8-26.xml"
+"Data_Gov_VHA_2010_Dataset2_Hospital_Facility_Services.xml"
+"Data_Gov_VHA_2010_Dataset4_Medical_Center_Staffing.xml"
+"EducationandYouth2010.xml"
+"FundingRatePI.xml"
+"Grand_loan.xml"
+"HPI_master.xml"
+"HealthCoalitions.xml"
+"Hospital-AcquiredInfections.xml"
+"HospitalReadMission.xml"
+"NEH_Grants2010s.xml"
+"NFSResearch.xml"
+"NSFBudgetHistory.xml"
+"NSFFundingRateHistory_co.xml"
+"NTIS_Catalog_2005_Current.xml"
+"PerformanceMetrics.xml"
+"ProfessionalMedicalConduct.xml"
+"SexOffender.xml"
+"StateAverage.xml"
+"StudentWeightStatus.xml"
+"Vaccination.xml"
+"fhlb_members.xml"
+"frus-latest.xml"
+"investigation.xml"
+"ssacardholdersroster_co.xml"
+)
 
 #--- Reference Directory
-XMARKDIR=xmark-bench/
+#XMARKDIR=xmark-bench/
 
 
 #-------------- Generate CSV Data
@@ -33,8 +55,6 @@ do
     : > ${TMPFILE}
     for i in {0..10}
     do
-#	(time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d --relation:infer ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
-#	(time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d  ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
 	(time -p java -jar nez-0.9.jar rel --infer -p src/org/peg4d/lib/xml.p4d -i ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
     done
     echo ${file} >> ${TMPFILE}
@@ -46,8 +66,6 @@ for file in ${array_only_1}
 do
     : > ${OUTPUTFILE}
     : > ${TMPFILE}
-#    (time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d --relation:infer ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
-#    (time -p java -jar peg4d.jar -p src/org/peg4d/lib/xml.p4d  ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
     (time -p java -jar nez-0.9.jar rel --infer -p src/org/peg4d/lib/xml.p4d -i ${XMARKDIR}${file} > /dev/null) 2>> ${OUTPUTFILE}
     echo ${file} >> ${TMPFILE}
     grep "real" ${OUTPUTFILE} | awk '{print $2}' >>  ${TMPFILE}
